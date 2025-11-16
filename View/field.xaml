@@ -1,0 +1,145 @@
+﻿<UserControl x:Class="LTTQ_DoAn.View.field"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+            xmlns:viewmodel="clr-namespace:LTTQ_DoAn.ViewModel"
+             xmlns:local="clr-namespace:LTTQ_DoAn.View"
+             mc:Ignorable="d" 
+              xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+             Background="Transparent"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+            xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+            d:DesignHeight="644" d:DesignWidth="1049">
+    <UserControl.DataContext>
+        <viewmodel:FieldViewModel></viewmodel:FieldViewModel>
+    </UserControl.DataContext>
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </UserControl.Resources>
+    <Border Background="White"
+            CornerRadius="20">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            <ScrollViewer VerticalScrollBarVisibility="Auto"
+                               HorizontalScrollBarVisibility="Disabled"
+                              CanContentScroll="True"
+                              PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
+                <ListView x:Name="FieldList" 
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                              ItemsSource="{Binding Khoa}"
+                              SelectedItem="{Binding Selectedkhoa}"
+                                >
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="IsSelected" Value="True"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel IsItemsHost="True" Orientation="Horizontal" HorizontalAlignment="Center"/>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Height="250" Width="200"
+                                        Background="White"
+                                        CornerRadius="5"
+                                        Margin="10">
+                                <Border.Effect>
+                                    <DropShadowEffect ShadowDepth="0" BlurRadius="10" Color="Black" Opacity="0.5"/>
+                                </Border.Effect>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="190"/>
+                                        <RowDefinition Height="60"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid>
+                                        <StackPanel>
+                                            <!--them comand xem-->
+                                            <Border Style="{StaticResource borderList}"
+                                                    Margin="5"
+                                                    ToolTip="Chi tiết">
+                                                <fa:IconImage Icon="Info" Height="20"/>
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="MouseLeftButtonDown">
+                                                        <i:InvokeCommandAction Command="{Binding DataContext.ViewFieldCommand, RelativeSource={RelativeSource AncestorType=ListView}}"/>
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </Border>
+
+                                            <Border Style="{StaticResource borderList}"
+                                                    Margin="5 0 5 5"
+                                                    ToolTip="Sửa"
+                                                    Visibility="{Binding DataContext.ChangeVisibility, Converter={StaticResource BoolToVisibilityConverter}, RelativeSource={RelativeSource AncestorType=ListView}}">
+                                                <fa:IconImage Icon="PenToSquare" Height="20"/>
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="MouseLeftButtonDown">
+                                                        <i:InvokeCommandAction Command="{Binding DataContext.ChangeFieldCommand, RelativeSource={RelativeSource AncestorType=ListView}}"/>
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </Border>
+
+                                            <!--nút xóa-->
+                                            <!--thêm command xóa vào đây-->
+                                            <Border Style="{StaticResource borderList}"
+                                                    Margin="5 0 5 5"
+                                                    ToolTip="Xóa"
+                                                    Visibility="{Binding DataContext.DeleteVisibility, Converter={StaticResource BoolToVisibilityConverter}, RelativeSource={RelativeSource AncestorType=ListView}}">
+                                                <fa:IconImage Icon="Trash" Height="20"
+                                                              Foreground="#ed2525"/>
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="MouseLeftButtonDown">
+                                                        <i:InvokeCommandAction Command="{Binding DataContext.DeleteFieldCommand, RelativeSource={RelativeSource AncestorType=ListView}}"/>
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </Border>
+                                        </StackPanel>
+                                        <!--binding ảnh-->
+                                        <Grid.Background>
+                                            <ImageBrush Stretch="Uniform" ImageSource="{Binding PICTURE}"/>
+                                        </Grid.Background>
+                                    </Grid>
+                                    <WrapPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <TextBlock Foreground="#3f3f3f"
+                                                    FontSize="20"
+                                                    FontWeight="Medium"
+                                                    Text="{Binding TENKHOA}"
+                                                    TextWrapping="Wrap"
+                                                    >
+                                        </TextBlock>
+                                    </WrapPanel>
+                                </Grid>
+                            </Border>
+
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </ScrollViewer>
+            <!--nút thêm bệnh nhân-->
+            <StackPanel Grid.Row="1" HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Margin="0 0 50 0"
+                        Background="Transparent">
+                <Button 
+                    Command="{Binding AddFieldCommand}"
+                    Style="{StaticResource BtnUserControl}"
+                    Visibility="{Binding AddVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock
+                     Style="{StaticResource UserControlText}"
+                     Text="Thêm khoa"
+                    >
+                    </TextBlock>
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

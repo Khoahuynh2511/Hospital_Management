@@ -1,0 +1,344 @@
+﻿<Window x:Class="LTTQ_DoAn.View.HealthRecordAndPrescription"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        
+        xmlns:viewmodel="clr-namespace:LTTQ_DoAn.ViewModel"
+        xmlns:local="clr-namespace:LTTQ_DoAn.View"
+        mc:Ignorable="d"
+        Background="Transparent"
+        xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+        xmlns:materialdesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        Title="MainWindow" Height="800" Width="1000" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True">
+    <Window.DataContext>
+        <viewmodel:HealthRecordAndPrescriptionViewModel></viewmodel:HealthRecordAndPrescriptionViewModel>
+    </Window.DataContext>
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </Window.Resources>
+    <Border Background="White"
+            BorderBrush="{StaticResource btnActivedText}"
+            BorderThickness="5"
+            CornerRadius="20">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Button
+                Command="{Binding ExitCommand}"
+                Style="{StaticResource controlButton}"
+                FontSize="16"
+                HorizontalAlignment="Right">
+                <fa:IconImage Icon="Xmark" Style="{StaticResource controlButtonIcon}"/>
+            </Button>
+            <TabControl Grid.Row="1" HorizontalContentAlignment="Left"  
+                        materialdesign:ColorZoneAssist.Mode="SecondaryMid"
+                        Style="{StaticResource MaterialDesignFilledTabControl}"
+                        materialdesign:ColorZoneAssist.Background="{StaticResource btnActivedGround}"
+                        materialdesign:ColorZoneAssist.Foreground="{StaticResource infoText}">
+                <!--mục bệnh án-->
+                <TabItem
+                    Header="Bệnh án"
+                    >
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="28*"/>
+                            <ColumnDefinition Width="137*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="60"/>
+                        </Grid.RowDefinitions>
+                        <ScrollViewer VerticalScrollBarVisibility="Auto"
+                                      HorizontalScrollBarVisibility="Disabled"
+                                      CanContentScroll="True"
+                                      PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" Grid.ColumnSpan="2">
+                            <ListView x:Name="listView1" HorizontalAlignment="Stretch" 
+                                      ItemsSource="{Binding Listbenhan}"
+                                      SelectedItem="{Binding Benhan}"
+                                      ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="IsSelected" Value="True"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Width="880">
+                                            <GridViewColumnHeader Visibility="Collapsed"/>
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Expander HorizontalAlignment="Stretch"
+                                                            Header="{Binding SUB_ID}"
+                                                            FontWeight="Bold"
+                                                            Width="880"
+                                                            FontSize="15">
+                                                        <Grid>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="40"/>
+                                                                <RowDefinition Height="150"/>
+                                                                <RowDefinition Height="50"/>
+                                                                <RowDefinition Height="40"/>
+                                                            </Grid.RowDefinitions>
+                                                            <!--ngày tháng khám và khoa điều trị-->
+                                                            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                                                <TextBlock Text="Ngày: "
+                                                                           FontWeight="Bold"
+                                                                           Style="{StaticResource InfoText}"/>
+                                                                <TextBlock Text="{Binding NGAYKHAM}"
+                                                                           Style="{StaticResource InfoText}"
+                                                                           Margin="0 0 200 0"
+                                                                          />
+                                                                <TextBlock Text="Khoa: "
+                                                                           FontWeight="Bold"
+                                                                         Style="{StaticResource InfoText}"/>
+                                                                <TextBlock Text="{Binding KHOA}"
+                                                                           Style="{StaticResource InfoText}"
+                                                                           />
+                                                            </StackPanel>
+                                                            <!--triệu chứng-->
+                                                            <StackPanel Grid.Row="1" Orientation="Horizontal"
+                                                                        VerticalAlignment="top">
+                                                                <TextBlock Text="Triệu chứng: " FontWeight="Bold"
+                                                                           VerticalAlignment="Top"
+                                                                           Style="{StaticResource InfoText}"/>
+                                                                <ScrollViewer VerticalScrollBarVisibility="Auto"
+                                                                              HorizontalScrollBarVisibility="Disabled">
+                                                                    <TextBlock Text="{Binding TRIEUCHUNG}"
+                                                                               Width="800"
+                                                                               TextWrapping="Wrap"
+                                                                            Style="{StaticResource InfoText}"/>
+                                                                </ScrollViewer>
+                                                            </StackPanel>
+                                                            <!--ghi chú-->
+                                                            <StackPanel Grid.Row="2" Orientation="Horizontal"
+                                                                        VerticalAlignment="top">
+                                                                <TextBlock Text="Kết luận: "
+                                                                           FontWeight="Bold"
+                                                                           Style="{StaticResource InfoText}"
+                                                                           VerticalAlignment="Top"/>
+                                                                <ScrollViewer VerticalScrollBarVisibility="Auto"
+                                                                              HorizontalScrollBarVisibility="Disabled">
+                                                                    <TextBlock Text="{Binding KETLUAN}"
+                                                                               TextWrapping="Wrap"
+                                                                               Width="800"
+                                                                            Style="{StaticResource InfoText}"/>
+                                                                </ScrollViewer>
+                                                            </StackPanel>
+                                                            <StackPanel Grid.Row="3" Orientation="Horizontal">
+                                                                <TextBlock Text="Bác sĩ: "
+                                                                           FontWeight="Bold"
+                                                                           Style="{StaticResource InfoText}"/>
+                                                                <!--tên bác sĩ khám-->
+                                                                <TextBlock Text="{Binding MAYSI}"
+                                                                           Style="{StaticResource InfoText}"
+                                                                           Margin="0 0 50 0"/>
+                                                                <TextBlock Text="Dịch vụ: "
+                                                                            FontWeight="Bold"
+                                                                            Style="{StaticResource InfoText}"/>
+                                                                <!--dich vu-->
+                                                                <TextBlock Text="{Binding DICHVU}"
+                                                                            Style="{StaticResource InfoText}"
+                                                                            Margin="0 0 50 0"/>
+                                                                <!--giá tiền khám-->
+                                                                <TextBlock Text="Chi Phí: "
+                                                                           FontWeight="Bold"
+                                                                            Style="{StaticResource InfoText}"/>
+                                                                <TextBlock Text="{Binding THANHTIEN}"
+                                                                           Style="{StaticResource InfoText}"/>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Expander>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <!--các nút thao tác như xóa, sửa-->
+                                        <GridViewColumn Width="100">
+                                            <GridViewColumnHeader Visibility="Collapsed"/>
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal" Margin="0 6 0 0">
+                                                        <!--thêm command sửa vào đây-->
+                                                        <Border Style="{StaticResource borderList}"
+                                                                Margin="5"
+                                                                Visibility="{Binding DataContext.ChangeVisibility, Converter={StaticResource BoolToVisibilityConverter}, RelativeSource={RelativeSource AncestorType=ListView}}">
+                                                            <fa:IconImage Icon="PenToSquare" Height="20"/>
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="MouseLeftButtonDown">
+                                                                    <i:InvokeCommandAction Command="{Binding DataContext.ChangeHRCommand, RelativeSource={RelativeSource AncestorType=ListView}}"/>
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                        </Border>
+                                                        <!--command xem lich su-->
+                                                        <Border Style="{StaticResource borderList}"
+                                                                Margin="5 5 0 5"
+                                                                Visibility="{Binding DataContext.ChangeVisibility, Converter={StaticResource BoolToVisibilityConverter}, RelativeSource={RelativeSource AncestorType=ListView}}">
+                                                            <fa:IconImage Icon="History" Height="20"/>
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="MouseLeftButtonDown">
+                                                                    <i:InvokeCommandAction Command="{Binding DataContext.ViewHistory, RelativeSource={RelativeSource AncestorType=ListView}}"/>
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                        </Border>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </ScrollViewer>
+                        <StackPanel Grid.Row="1" HorizontalAlignment="Right" Background="Transparent"
+                                    VerticalAlignment="Center" Grid.Column="1"
+                                    Orientation="Horizontal"
+                                    >
+                            <!--thao tác thêm bệnh án-->
+                            <Button
+                                    Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryButton}"
+                                    Margin="0 0 30 0"
+                                    Height="55"
+                                    Width="55"
+                                    BorderBrush="{StaticResource  btnActivedText}"
+                                    Command="{Binding AddHRCommand}"
+                                    Background="{StaticResource btnActivedText}"
+                                    Visibility="{Binding AddVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <fa:IconImage Icon="Add" Height="35" Width="35" />
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </TabItem>
+                <!--mục đơn thuốc-->
+                <TabItem
+                    Header="Đơn thuốc">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="60"/>
+                        </Grid.RowDefinitions>
+                        <ScrollViewer VerticalScrollBarVisibility="Auto"
+                                        HorizontalScrollBarVisibility="Disabled"
+                                      CanContentScroll="True"
+                                        PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
+                            <ListView HorizontalAlignment="Stretch"
+                            ItemsSource="{Binding Listdonthuoc}"
+                                      SelectedItem="{Binding Donthuoc}"
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="IsSelected" Value="True"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Width="900">
+                                            <GridViewColumnHeader Visibility="Collapsed"/>
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Expander HorizontalAlignment="Stretch"
+                                                            Header="{Binding SUB_IDDT}"
+                                                            Width="880"
+                                                            FontWeight="Bold"
+                                                            FontSize="15">
+                                                        <Grid>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="40"/>
+                                                                <RowDefinition Height="200"/>
+                                                                <RowDefinition Height="40"/>
+                                                            </Grid.RowDefinitions>
+                                                            <!--y si-->
+                                                            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                                                <TextBlock Text="Ngày: "
+                                                                           FontWeight="Bold"
+                                                                           Style="{StaticResource InfoText}"/>
+                                                                <TextBlock Text="{Binding NGAYLAPDONTHUOC}"
+                                                                           Style="{StaticResource InfoText}"
+                                                                           Margin="0 0 200 0"
+                                                                          />
+                                                                <TextBlock Text="Khoa: "
+                                                                           FontWeight="Bold"
+                                                                            Style="{StaticResource InfoText}"/>
+                                                                <TextBlock Text="{Binding KHOA}"
+                                                                           Style="{StaticResource InfoText}"
+                                                                           />
+                                                            </StackPanel>
+                                                            <!--ghi chú-->
+                                                            <StackPanel Grid.Row="1" Orientation="Horizontal"
+                                                                VerticalAlignment="top">
+                                                                <TextBlock Text="Ghi chú: "
+                                                                           FontWeight="Bold"
+                                                               Style="{StaticResource InfoText}"
+                                                               VerticalAlignment="Top"/>
+                                                                <TextBlock Text="{Binding GHICHU}"
+                                                                            Style="{StaticResource InfoText}"
+                                                                           />
+                                                            </StackPanel>
+                                                            <StackPanel Grid.Row="2" Orientation="Horizontal">
+                                                                <!--tên bác sĩ khám-->
+                                                                <TextBlock Text="Bác sĩ: "
+                                                                           FontWeight="Bold"
+                                                                         Style="{StaticResource InfoText}"/>
+                                                                <TextBlock Text="{Binding BACSI}"
+                                                                       Style="{StaticResource InfoText}"
+                                                                       Margin="0 0 200 0"/>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Expander>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <!--các nút thao tác như xóa, sửa-->
+                                        <GridViewColumn Width="100">
+                                            <GridViewColumnHeader Visibility="Collapsed"/>
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal" Margin="0 6 0 0">
+                                                        <Border Style="{StaticResource borderList}"
+                                                                Margin="5"
+                                                                Visibility="{Binding DataContext.ChangeVisibility, Converter={StaticResource BoolToVisibilityConverter}, RelativeSource={RelativeSource AncestorType=ListView}}">
+                                                            <fa:IconImage Icon="PenToSquare" Height="20"/>
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="MouseLeftButtonDown">
+                                                                    <!--them command sua vao day-->
+                                                                    <i:InvokeCommandAction Command="{Binding DataContext.ChangePCommand, RelativeSource={RelativeSource AncestorType=ListView}}"/>
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                        </Border>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </ScrollViewer>
+                        <StackPanel  Visibility="{Binding AddVisibility, Converter={StaticResource BoolToVisibilityConverter}}"
+                            Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center">
+                            <!--thao tác thêm đơn thuốc-->
+                            <Button Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryButton}"
+                                Margin="0 0 30 0"
+                                Height="55"
+                                Width="55"
+                                Command="{Binding AddPCommand}"
+                                BorderBrush="{StaticResource  btnActivedText}"
+                                Background="{StaticResource btnActivedText}"
+                                >
+                                <fa:IconImage Icon="Add" Height="35" Width="35" />
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </Border>
+</Window>

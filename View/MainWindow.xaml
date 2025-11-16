@@ -1,0 +1,243 @@
+﻿<Window x:Class="LTTQ_DoAn.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LTTQ_DoAn.View"
+        xmlns:viewmodel="clr-namespace:LTTQ_DoAn.ViewModel"
+        mc:Ignorable="d"
+        Background="Transparent"
+        xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+        Title="MainWindow" Height="768" Width="1366" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True">
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <DataTemplate DataType="{x:Type viewmodel:VictimViewModel}">
+            <local:Victim/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewmodel:HomeViewModel}">
+            <local:HomeView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewmodel:AppointmentViewModel}">
+            <local:appointment/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewmodel:DoctorAndNurseViewModel}">
+            <local:DoctorAndNurse/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewmodel:RoomViewModel}">
+            <local:room/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewmodel:ServicesViewModel}">
+            <local:Services/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewmodel:FieldViewModel}">
+            <local:field/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewmodel:MedicineViewModel}">
+            <local:Medicine/>
+        </DataTemplate>
+
+    </Window.Resources>
+    <Border
+        BorderBrush="DodgerBlue"
+        BorderThickness="2">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <!--form được chia làm 2 cột-->
+                <!--bảng nemu-->
+                <ColumnDefinition Width="213"/>
+                <!--màn hình hiển thị-->
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <!--menu-->
+            <Border
+                Background="White">
+                <Grid>
+                    <StackPanel>
+                        <!--logo-->
+                        <StackPanel Height="100">
+                            <StackPanel.Background>
+                                <ImageBrush ImageSource="/Photo/Logo.png"/>
+                            </StackPanel.Background>
+                        </StackPanel>
+                        <!--6 nút với các chức năng-->
+                        <!--dashboard-->
+                        <RadioButton 
+                            Command="{Binding ShowHomeViewCommand}"
+                            Style="{StaticResource menuButton}"
+                                    Tag="{StaticResource normalButton}"
+                                    >
+                            <StackPanel Orientation="Horizontal">
+                                <fa:IconImage Icon="Home" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock Text="Dashboard" Style="{StaticResource menuButtonText}"/>
+                            </StackPanel>
+                        </RadioButton>
+                        <!--Bệnh nhân-->
+                        <RadioButton 
+                            Visibility="{Binding VictimVisibility, Converter={StaticResource BoolToVisibilityConverter}}"
+                            Command="{Binding ShowVictimViewCommand}"
+                            Style="{StaticResource menuButton}"
+                                    Tag="{StaticResource normalButton}"
+                                    >
+                            <StackPanel Orientation="Horizontal">
+                                <fa:IconImage Icon="BedPulse" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock Text="Bệnh nhân" Style="{StaticResource menuButtonText}"/>
+                            </StackPanel>
+                        </RadioButton>
+                        <!--khoa-->
+                        <RadioButton Style="{StaticResource menuButton}"
+                            Visibility="{Binding FieldVisibility, Converter={StaticResource BoolToVisibilityConverter}}"
+                            Tag="{StaticResource normalButton}"
+                                     Command="{Binding ShowFieldViewCommand}">
+                            <StackPanel Orientation="Horizontal">
+                                <fa:IconImage Icon="Clone" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock Text="Khoa" Style="{StaticResource menuButtonText}"/>
+                            </StackPanel>
+                        </RadioButton>
+                        <!--Y sĩ-->
+                        <RadioButton Style="{StaticResource menuButton}"
+                                                                 Visibility="{Binding DoctorAndNurseVisibility, Converter={StaticResource BoolToVisibilityConverter}}"
+                                    Tag="{StaticResource normalButton}"
+                                     Command="{Binding ShowDoctorViewCommand}">
+                            <StackPanel Orientation="Horizontal">
+                                <fa:IconImage Icon="UserNurse" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock Text="Y sĩ" Style="{StaticResource menuButtonText}"/>
+                            </StackPanel>
+                        </RadioButton>
+                        <!--Phòng-->
+                        <RadioButton Style="{StaticResource menuButton}"
+                                     Tag="{StaticResource normalButton}"
+                                     Visibility="{Binding RoomVisibility, Converter={StaticResource BoolToVisibilityConverter}}"
+                                     Command="{Binding ShowRoomViewCommand}">
+                            <StackPanel Orientation="Horizontal">
+                                <fa:IconImage Icon="CirclePlus" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock Text="Phòng bệnh" Style="{StaticResource menuButtonText}"/>
+                            </StackPanel>
+                        </RadioButton>
+                        <!--Lịch khám-->
+                        <RadioButton Style="{StaticResource menuButton}"
+                                                                         Visibility="{Binding AppointmentVisibility, Converter={StaticResource BoolToVisibilityConverter}}"
+                                    Tag="{StaticResource normalButton}"
+                                     Command="{Binding ShowAppointmentViewCommand}">
+                            <StackPanel Orientation="Horizontal">
+                                <fa:IconImage Icon="CalendarDays" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock Text="Lịch khám" Style="{StaticResource menuButtonText}"/>
+                            </StackPanel>
+                        </RadioButton>
+                        <!--Dịch vụ-->
+                        <RadioButton Style="{StaticResource menuButton}"
+                                    Visibility="{Binding ServiceVisibility, Converter={StaticResource BoolToVisibilityConverter}}"
+                                    Tag="{StaticResource normalButton}"
+                                     Command="{Binding ShowServicesViewCommand}">
+                            <StackPanel Orientation="Horizontal">
+                                <fa:IconImage Icon="ArrowDownAZ" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock Text="Dịch vụ" Style="{StaticResource menuButtonText}"/>
+                            </StackPanel>
+                        </RadioButton>
+                        <!--Thuốc-->
+                        <RadioButton Style="{StaticResource menuButton}"
+                                Visibility="{Binding MedicineVisibility, Converter={StaticResource BoolToVisibilityConverter}}" 
+                                Tag="{StaticResource normalButton}"
+                                Command="{Binding ShowMedicineViewCommand}">
+                            <StackPanel Orientation="Horizontal">
+                                <fa:IconImage Icon="Pills" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock Text="Thuốc" Style="{StaticResource menuButtonText}"/>
+                            </StackPanel>
+                        </RadioButton>
+                    </StackPanel>
+                    <!--đăng xuất-->
+                    <RadioButton
+                                Style="{StaticResource menuButton}"
+                                Tag="{StaticResource normalButton}"
+                                Command="{Binding LogoutViewCommand}"
+                                    VerticalAlignment="Bottom">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:IconImage Icon="RightFromBracket" Style="{StaticResource menuButtonIcon}"/>
+                            <TextBlock Text="Đăng xuất" Style="{StaticResource menuButtonText}"/>
+                        </StackPanel>
+                    </RadioButton>
+                </Grid>
+            </Border>
+            <!--main section (màn hình hiển thị)-->
+            <Border
+                Grid.Column="1"
+                Background="#F1F8FF">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid>
+                        <StackPanel
+                            x:Name="controlBar"
+                            Grid.Row="0"
+                            Orientation="Horizontal"
+                            FlowDirection="RightToLeft"
+                            Background="Transparent"
+                            Margin="0 0 0 0 "
+                            MouseLeftButtonDown="pnlContolBar_MouseLeftButtonDown"
+                            MouseEnter="controlBar_MouseEnter">
+                            <Button x:Name="closeBtn"
+                                    Style="{StaticResource controlButton}"
+                                    Click="closeBtn_Click">
+                                <fa:IconImage Icon="Xmark" Style="{StaticResource controlButtonIcon}"/>
+                            </Button>
+                            <Button x:Name="maximumBtn"
+                                    Style="{StaticResource controlButton}"
+                                    Click="maximumBtn_Click">
+                                <fa:IconImage Icon="WindowMaximize" Style="{StaticResource controlButtonIcon}"/>
+                            </Button>
+                            <Button x:Name="minimizeBtn"
+                                    Style="{StaticResource controlButton}"
+                                    Click="minimizeBtn_Click">
+                                <fa:IconImage Icon="WindowMinimize" Style="{StaticResource controlButtonIcon}"/>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                    <!--chia làm 2 phần: 1 để chứa tên tài khoản, 2 để chứa các chức năng-->
+                    <!--phần chứa tài khoản-->
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <!--Phần hiển thị chức năng hiện tại-->
+                        <StackPanel Grid.Column="0"
+                                    Orientation="Horizontal"
+                                    VerticalAlignment="Center">
+                            <fa:IconImage
+                                Icon="{Binding Icon}"
+                                Height="20"
+                                Width="20"
+                                Foreground="{StaticResource btnActivedText}"  
+                                Margin="47 0 0 0"
+                                    />
+                            <TextBlock
+                                Text="{Binding Caption}"
+                                Margin="12 5 0 0"
+                                Foreground="{StaticResource btnActivedText}"
+                                FontFamily="Poppins"
+                                FontSize="20"
+                                FontWeight="Bold"/>
+                        </StackPanel>
+                    </Grid>
+                    <!--phần thứ 2 chứa các giao diện cho người dùng-->
+                    <ContentControl
+                        Content="{Binding CurrentChildView, UpdateSourceTrigger=PropertyChanged}"
+                        Margin="50 20 50 30"
+                        Grid.Row="2">
+                    </ContentControl>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

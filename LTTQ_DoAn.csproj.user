@@ -1,0 +1,229 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup />
+  <ItemGroup>
+    <ApplicationDefinition Update="App.xaml">
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="View\AddAppointment.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\AddField.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\AddHealthRecord.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\AddMedicine.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\AddService.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\ChangeAppointment.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\ChangeField.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\ChangeHealthRecord.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\ChangeMedicine.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\ChangePrescription.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\ChangeService.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\AddPrescription.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\BindablePasswordBox.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\Medicine.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\ViewAppointment.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\ViewDoctorAndNurse.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\AddNurseAndDoctor.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\AddVictim.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\appointment.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\ChangeDoctorAndNurse.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\ChangeVictim.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\DoctorAndNurse.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\field.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\HealthRecordAndPrescription.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\HomeView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\LoginWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\room.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\Services.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\Victim.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\ViewField.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\ViewHistoryPrescrip.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\ViewMedicine.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\ViewVictim.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\MessageBoxCustom.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\AddAppointment.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\AddField.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\AddHealthRecord.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\AddMedicine.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\AddService.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\ChangeAppointment.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\ChangeField.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\ChangeHealthRecord.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\ChangeMedicine.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\ChangePrescription.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\ChangeService.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\AddPrescription.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\BindablePasswordBox.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\Medicine.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\ViewAppointment.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\ViewDoctorAndNurse.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\AddNurseAndDoctor.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\AddVictim.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\appointment.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\ChangeDoctorAndNurse.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\ChangeVictim.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\DoctorAndNurse.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\field.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\HealthRecordAndPrescription.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\HomeView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Resource\MainResource.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="style\buttonStyle.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="style\UIColor.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\LoginWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\room.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\Services.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\Victim.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\ViewField.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\ViewHistoryPrescrip.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\ViewMedicine.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\ViewVictim.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\MessageBoxCustom.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+</Project>

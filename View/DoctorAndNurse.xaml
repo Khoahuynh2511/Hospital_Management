@@ -1,0 +1,170 @@
+﻿<UserControl x:Class="LTTQ_DoAn.View.DoctorAndNurse"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LTTQ_DoAn.View"
+            xmlns:viewmodel="clr-namespace:LTTQ_DoAn.ViewModel"
+             mc:Ignorable="d" 
+             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+             Background="Transparent"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+            d:DesignHeight="644" d:DesignWidth="1049"
+             >
+    <UserControl.DataContext>
+        <viewmodel:DoctorAndNurseViewModel></viewmodel:DoctorAndNurseViewModel>
+    </UserControl.DataContext>
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </UserControl.Resources>
+    <Border
+        CornerRadius="20"
+        Background="white">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <!--header gồm thanh tìm kiếm và nút thêm bệnh nhân-->
+            <Border
+                BorderBrush="{StaticResource buttonText}"
+                    BorderThickness="0 0 0 1">
+                <Grid>
+                    <!--nút switch giữa bác sĩ và y tá-->
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left"
+                                Width="140"
+                                Height="35"
+                                Margin="60 0"
+                                Orientation="Horizontal">
+                        <RadioButton Style="{StaticResource BtnUserControl_switch}"
+                                     Command="{Binding DoctorCommand}">
+
+                            <TextBlock Text="Bác Sĩ"
+                                    Style="{StaticResource Switch_btn}"/>
+                        </RadioButton>
+                        <RadioButton Command="{Binding NurseCommand}"
+                            Style="{StaticResource BtnUserControl_switch}">
+                            <TextBlock Text="Y Tá"
+                                       Style="{StaticResource Switch_btn}"/>
+                        </RadioButton>
+                    </StackPanel>
+                    <!--ô search-->
+                    <StackPanel Grid.Column="2"
+                                Orientation="Horizontal"
+                                Margin="0 0 20 0"
+                                HorizontalAlignment="Right">
+                        <fa:IconImage Icon="Search"
+                                      Style="{StaticResource IconInUserControl}"
+                                      />
+                        <TextBox
+                            Style="{StaticResource loginTextBox}"
+                            CaretBrush="Black"
+                            Panel.ZIndex="1"
+                            Margin="0 0 10 2"
+                            >
+                        </TextBox>
+                        <!--nút thêm bác sĩ-->
+                        <Button 
+                            Command="{Binding AddCommand}"
+                            Style="{StaticResource BtnUserControl}"
+                            Visibility="{Binding AddVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <TextBlock
+                                    Style="{StaticResource UserControlText}"
+                                    Text="Thêm y sĩ"
+                                    >
+                            </TextBlock>
+                        </Button>
+                        <!--nút xóa bác sĩ-->
+                        <Button 
+                            Command="{Binding DeleteCommand}"
+                            Style="{StaticResource BtnUserControl_Delete}"
+                            Visibility="{Binding DeleteVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <TextBlock
+                                        Style="{StaticResource UserControlText}"
+                                        Text="Xóa"
+                                    >
+                                </TextBlock>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+            <DataGrid x:Name="DoctorList" Grid.Row="1"
+                      VerticalAlignment="top"
+                      Style="{DynamicResource DataGridStyle1}"
+                      CellStyle="{DynamicResource DataGridCellStyle1}"
+                      RowStyle="{DynamicResource DataGridRowStyle1}"
+                      ItemsSource="{Binding Nurse_doctor}"
+                      SelectedItem="{Binding SelectedItem}"
+                      Height="Auto"
+                      >
+    <DataGrid.Columns>
+        <!--dấu # này là cột chứa checkbox của mỗi item-->
+        <DataGridCheckBoxColumn Width="5*"
+                                CanUserResize="False"
+                                ElementStyle="{StaticResource CheckBoxStyle1}"
+                                >
+            <DataGridCheckBoxColumn.HeaderTemplate>
+                <DataTemplate>
+                    <CheckBox Style="{StaticResource CheckBoxStyle1}"
+                              Visibility="Hidden"/>
+                </DataTemplate>
+            </DataGridCheckBoxColumn.HeaderTemplate>
+        </DataGridCheckBoxColumn>
+
+        <DataGridTextColumn Header="ID" Width="10*"
+                                IsReadOnly="True" CanUserResize="False"
+                                Binding="{Binding SUB_ID}">
+        </DataGridTextColumn>
+
+                    <DataGridTextColumn Header="Tên" Width="20*" Binding="{Binding HOTEN}"
+                            IsReadOnly="True" CanUserResize="False">
+        </DataGridTextColumn>
+
+                    <DataGridTextColumn Header="Tên khoa" Width="25*" Binding="{Binding KHOA.TENKHOA}"
+                            IsReadOnly="True" CanUserResize="False">
+        </DataGridTextColumn>
+                    <DataGridTextColumn Header="Giới tính" Width="10*" Binding="{Binding GIOITINH}"
+                            IsReadOnly="True" CanUserResize="False">
+        </DataGridTextColumn>
+                    <DataGridTextColumn Header="Ngày vào làm" Width="15*" Binding="{Binding NGAYVAOLAM, StringFormat='dd/MM/yyyy'}"
+                            IsReadOnly="True" CanUserResize="False">
+        </DataGridTextColumn>
+        <DataGridTemplateColumn Header="Thao tác" Width="15*"
+             IsReadOnly="True" CanUserResize="False">
+            <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                    <!--cột các nút thao tác-->
+                    <StackPanel Orientation="Horizontal">
+                        <!--nút xem thông tin-->
+                        <RadioButton 
+                            Command="{Binding DataContext.ViewCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                            Tag="{StaticResource normalButton}"
+                            Style="{StaticResource gridOpenButton}"
+                                Margin="0 0 10 0"
+                                ToolTip="Thông tin chi tiết">
+                            <fa:IconImage 
+                                Icon="InfoCircle"
+                                          Height="20"
+                                          />
+                        </RadioButton>
+                        <!--nút sửa thông tin-->
+                        <RadioButton 
+                            Command="{Binding DataContext.ChangeCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                            Tag="{StaticResource normalButton}"
+                            Style="{StaticResource gridOpenButton}"
+                            Visibility="{Binding DataContext.ChangeVisibility, Converter={StaticResource BoolToVisibilityConverter}, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                ToolTip="Sửa thông tin">
+                            <fa:IconImage Icon="PenToSquare"
+                                          Height="20"/>
+                        </RadioButton>
+                    </StackPanel>
+                </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+    </DataGrid.Columns>
+</DataGrid>
+        </Grid>
+    </Border>
+</UserControl>

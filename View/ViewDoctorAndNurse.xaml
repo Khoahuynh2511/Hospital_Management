@@ -1,0 +1,189 @@
+﻿<Window x:Class="LTTQ_DoAn.View.ViewDoctorAndNurse"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewmodel="clr-namespace:LTTQ_DoAn.ViewModel"
+        xmlns:local="clr-namespace:LTTQ_DoAn.View"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        xmlns:materialdesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+        Title="ViewDoctorAndNurse" Height="600" Width="1000"
+        Background="Transparent"
+        WindowStyle="None"
+        ResizeMode="NoResize">
+    <Window.DataContext>
+        <viewmodel:ViewNurseAndDoctorViewModel/>
+    </Window.DataContext>
+    <Border
+    CornerRadius="20"
+    Background="White"
+    BorderBrush="{StaticResource btnActivedText}"
+    BorderThickness="3">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="280"/>
+                <RowDefinition Height="120"/>
+                <RowDefinition Height="100"/>
+            </Grid.RowDefinitions>
+            <!--nút thu nhỏ và tắt màn-->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Click="Button_Click"
+                        Style="{StaticResource controlButton}"
+                        FontSize="16">
+                    <fa:IconImage Icon="WindowMinimize" Style="{StaticResource controlButtonIcon}"/>
+                </Button>
+                <Button
+                    Command="{Binding CancelCommand}"
+                        Style="{StaticResource controlButton}"
+                        FontSize="16">
+                    <fa:IconImage Icon="Xmark" Style="{StaticResource controlButtonIcon}"/>
+                </Button>
+            </StackPanel>
+            <!--tiêu đề trang-->
+            <Border Grid.Row="1"
+                BorderBrush="{StaticResource btnActivedText}"
+                BorderThickness="0 0 0 2">
+                <TextBlock
+                    Margin="30 10 0 0 "
+                    Text="Thông tin y sĩ"
+                    FontSize="40"
+                    Foreground="{StaticResource btnActivedText}"
+                    FontFamily="Poppins"
+                    FontWeight="Medium"
+                    />
+            </Border>
+            <!--các thông tin cá nhân của bệnh nhân-->
+            <Grid Grid.Row="2" Margin="50 50 0 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="250"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Row="1" Grid.Column="0" Margin="0 0 50 0">
+                    <WrapPanel>
+                        <!--Tên-->
+                        <StackPanel Margin="0 0 25 30">
+                            <TextBlock Style="{StaticResource TitlePersonalInfo}"
+                                       Text="Tên:"
+                                       />
+                            <Border BorderThickness="0 0 0 1" BorderBrush="LightGray">
+                                <TextBlock Style="{StaticResource TextBlockPersonalInfo}" Width="200"
+                                           Text="{Binding Ysi.HOTEN}"/>
+                            </Border>
+                        </StackPanel>
+                        <!--tuổi-->
+                        <StackPanel Margin="25 0 25 30">
+                            <TextBlock Style="{StaticResource TitlePersonalInfo}"
+                                Text="Tuổi:"/>
+                            <Border BorderThickness="0 0 0 1" BorderBrush="LightGray">
+                                <TextBlock Style="{StaticResource TextBlockPersonalInfo}" Width="50"
+                                           Text="{Binding Tuoi}"/>
+                            </Border>
+                        </StackPanel>
+                        <!--giới tính-->
+                        <StackPanel Margin="25 0 25 30">
+                            <TextBlock Style="{StaticResource TitlePersonalInfo}"
+                                Text="Giới tính:"/>
+                            <Border BorderThickness="0 0 0 1" BorderBrush="LightGray">
+                                <TextBlock Style="{StaticResource TextBlockPersonalInfo}" Width="100"
+                                           Text="{Binding Ysi.GIOITINH}"/>
+                            </Border>
+                        </StackPanel>
+                        <!--ngày sinh-->
+                        <StackPanel Margin="25 0 0 0">
+                            <TextBlock Style="{StaticResource TitlePersonalInfo}"
+                                Text="Ngày sinh:"/>
+                            <Border BorderThickness="0 0 0 1" BorderBrush="LightGray">
+                                <TextBlock Style="{StaticResource TextBlockPersonalInfo}" Width="130"
+                                           Text="{Binding Ngaysinh}"/>
+                            </Border>
+                        </StackPanel>
+                        <!--chức vụ-->
+                        <StackPanel Margin="0 0 25 30">
+                            <TextBlock Style="{StaticResource TitlePersonalInfo}"
+                               Text="Chức vụ:"
+                               />
+                            <Border BorderThickness="0 0 0 1" BorderBrush="LightGray">
+                                <TextBlock Style="{StaticResource TextBlockPersonalInfo}" Width="130"
+                                           Text="{Binding Ysi.LOAIYSI}"/>
+                            </Border>
+                        </StackPanel>
+                        <!--cấp trên-->
+                        <StackPanel Margin="25 0 25 30">
+                            <TextBlock Style="{StaticResource TitlePersonalInfo}"
+                                Text="Cấp trên:"/>
+                            <Border BorderThickness="0 0 0 1" BorderBrush="LightGray">
+                                <TextBlock Style="{StaticResource TextBlockPersonalInfo}" Width="200"
+                                           Text="{Binding Captren}"/>
+                            </Border>
+                        </StackPanel>
+                    </WrapPanel>
+                </StackPanel>
+                <!--ảnh minh họa-->
+                <Image HorizontalAlignment="Left" Stretch="Uniform" Grid.Column="1" Source="/Photo/doctor.png"
+                    Height="200"/>
+            </Grid>
+            <WrapPanel Grid.Row="3" Margin="50 20 0 0">
+                <!--ID-->
+                <StackPanel Margin="0 0 25 30">
+                    <TextBlock Style="{StaticResource TitlePersonalInfo}"
+                               Text="ID:"
+                               />
+                    <Border BorderThickness="0 0 0 1" BorderBrush="LightGray">
+                        <TextBlock Style="{StaticResource TextBlockPersonalInfo}" Width="140"
+                                           Text="{Binding Ysi.SUB_ID}"/>
+                    </Border>
+                </StackPanel>
+                <!--Khoa-->
+                <StackPanel Margin="25 0 25 30">
+                    <TextBlock Style="{StaticResource TitlePersonalInfo}"
+                               Text="Khoa:"
+                               />
+                    <Border BorderThickness="0 0 0 1" BorderBrush="LightGray">
+                        <TextBlock Style="{StaticResource TextBlockPersonalInfo}" Width="140"
+                                           Text="{Binding Khoa}"/>
+                    </Border>
+                </StackPanel>
+                <!--phòng-->
+                <StackPanel Margin="25 0 25 30">
+                    <TextBlock Style="{StaticResource TitlePersonalInfo}"
+                               Text="Phòng:"
+                               />
+                    <Border BorderThickness="0 0 0 1" BorderBrush="LightGray">
+                        <TextBlock Style="{StaticResource TextBlockPersonalInfo}" Width="130"
+                                           Text="{Binding Maphong}"/>
+                    </Border>
+                </StackPanel>
+                <!--ngày nhập viện-->
+                <StackPanel Margin="25 0 25 30">
+                    <TextBlock Style="{StaticResource TitlePersonalInfo}"
+                               Text="Ngày vào làm:"
+                               />
+                    <Border BorderThickness="0 0 0 1" BorderBrush="LightGray">
+                        <TextBlock Style="{StaticResource TextBlockPersonalInfo}" Width="130"
+                                           Text="{Binding Ngayvaolam}"/>
+                    </Border>
+                </StackPanel>
+            </WrapPanel>
+            <!--2 nút-->
+            <StackPanel Grid.Row="4" Orientation="Horizontal"
+            VerticalAlignment="Top" HorizontalAlignment="Right">
+                <Button 
+                    Command="{Binding CancelCommand}"
+                    Margin="40 0"
+                    Width="130"
+                    Height="50"
+                    Content="Đóng"
+                    FontSize="20"
+                    Foreground="#555"
+                    Background="#fff"
+                    IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                    Style="{StaticResource MaterialDesignFlatLightBgButton}"
+                    />
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>
