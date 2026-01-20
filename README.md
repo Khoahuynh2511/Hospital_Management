@@ -14,9 +14,8 @@ Phần mềm Quản lý Bệnh viện là một ứng dụng desktop được ph
 Hệ thống quản lý bệnh viện được xây dựng nhằm số hóa và tự động hóa các quy trình quản lý trong môi trường y tế, bao gồm:
 
 - **Quản lý thông tin bệnh nhân**: Lưu trữ và quản lý hồ sơ bệnh nhân, thông tin cá nhân, lịch sử khám chữa bệnh
-- **Quản lý nhân sự y tế**: Quản lý thông tin bác sĩ, y tá, nhân viên y tế và phân công công việc
 - **Quản lý bệnh án và đơn thuốc**: Ghi nhận bệnh án, kê đơn thuốc, theo dõi lịch sử điều trị
-- **Quản lý lịch khám**: Đặt lịch khám, quản lý hàng đợi, phân bổ bác sĩ và phòng khám
+- **Quản lý lịch khám**: Đặt lịch khám, quản lý hàng đợi, chọn dịch vụ và ca khám
 - **Quản lý dịch vụ y tế**: Quản lý các dịch vụ khám chữa bệnh, giá cả, khoa phòng
 - **Quản lý thuốc**: Quản lý kho thuốc, số lượng, giá cả, hạn sử dụng
 - **Quản lý hóa đơn**: Tạo và quản lý hóa đơn thanh toán, theo dõi trạng thái thanh toán
@@ -43,52 +42,41 @@ Việc phát triển phần mềm quản lý bệnh viện được lựa chọn
 - Quản lý lịch sử khám chữa bệnh của bệnh nhân
 - Quản lý thông tin liên hệ (số điện thoại, email)
 
-#### 1.4.2. Quản lý y bác sĩ
-- Quản lý thông tin bác sĩ, y tá, nhân viên y tế
-- Phân công bác sĩ vào các khoa, phòng
-- Quản lý cấp bậc và quyền hạn (trưởng khoa, bác sĩ thường)
-
-#### 1.4.3. Quản lý bệnh án và đơn thuốc
+#### 1.4.2. Quản lý bệnh án và đơn thuốc
 - Tạo và quản lý bệnh án cho bệnh nhân
 - Kê đơn thuốc với chi tiết số lượng, liều lượng, cách dùng
 - Xem lịch sử bệnh án và đơn thuốc
 - Cập nhật và chỉnh sửa bệnh án
 
-#### 1.4.4. Quản lý lịch khám
+#### 1.4.3. Quản lý lịch khám
 - Đặt lịch khám cho bệnh nhân
-- Phân bổ bác sĩ và phòng khám
-- Quản lý ca khám (sáng, chiều)
+- Chọn dịch vụ khám
+- Quản lý ca khám (12 ca từ 7:00 đến 18:00)
 - Xem và chỉnh sửa lịch khám
 
-#### 1.4.5. Quản lý hàng đợi
+#### 1.4.4. Quản lý hàng đợi
 - Thêm bệnh nhân vào hàng đợi
 - Quản lý thứ tự khám
 - Cập nhật trạng thái khám (chờ khám, đang khám, đã khám)
 - Ghi chú đặc biệt cho bệnh nhân ưu tiên
 
-#### 1.4.6. Quản lý dịch vụ y tế
+#### 1.4.5. Quản lý dịch vụ y tế
 - Quản lý danh sách dịch vụ khám chữa bệnh
 - Thiết lập giá cả cho từng dịch vụ
-- Phân loại dịch vụ theo khoa
 
-#### 1.4.7. Quản lý khoa và phòng
-- Quản lý thông tin các khoa trong bệnh viện
-- Quản lý phòng khám, phòng bệnh
-- Thiết lập sức chứa và tầng của phòng
-
-#### 1.4.8. Quản lý thuốc
+#### 1.4.6. Quản lý thuốc
 - Quản lý danh mục thuốc
 - Theo dõi số lượng tồn kho
 - Quản lý giá cả và đơn vị tính
 - Quản lý hạn sử dụng thuốc
 
-#### 1.4.9. Quản lý hóa đơn
+#### 1.4.7. Quản lý hóa đơn
 - Tạo hóa đơn thanh toán
 - Tính toán tổng tiền, giảm giá, thành tiền
 - Quản lý phương thức thanh toán (tiền mặt, chuyển khoản, thẻ)
 - Theo dõi trạng thái thanh toán
 
-#### 1.4.10. Dashboard và báo cáo
+#### 1.4.8. Dashboard và báo cáo
 - Hiển thị thống kê tổng quan về hoạt động bệnh viện
 - Biểu đồ thống kê số lượng bệnh nhân, doanh thu
 - Thông tin nhanh về các hoạt động trong ngày
@@ -394,7 +382,7 @@ Thực thể trung tâm của hệ thống, lưu trữ thông tin cá nhân củ
 - Một bệnh nhân thuộc một phòng (N-1 với PHONG)
 
 #### 2.4.2. YSI (Y bác sĩ)
-Lưu trữ thông tin nhân viên y tế bao gồm bác sĩ, y tá, kỹ thuật viên.
+Bảng lưu trữ thông tin nhân viên y tế bao gồm bác sĩ, y tá, kỹ thuật viên. Bảng này được sử dụng để tham chiếu trong các bảng khác (bệnh án, lịch khám) nhưng không có giao diện quản lý riêng trong hệ thống.
 
 **Các thuộc tính:**
 - MAYSI: Mã y sĩ (Primary Key, Identity)
@@ -434,7 +422,7 @@ Lưu trữ thông tin về các lần khám chữa bệnh của bệnh nhân.
 - Một bệnh án thuộc một bệnh nhân (N-1 với BENHNHAN)
 - Một bệnh án do một y sĩ khám (N-1 với YSI)
 - Một bệnh án sử dụng một dịch vụ (N-1 với DICHVU)
-- Một bệnh án có thể có một đơn thuốc (1-1 với DONTHUOC)
+- Một bệnh án có thể có nhiều đơn thuốc (1-N với DONTHUOC)
 - Một bệnh án có nhiều lịch sử thay đổi (1-N với BENHAN_HISTORY)
 
 #### 2.4.4. DONTHUOC (Đơn thuốc)
@@ -447,7 +435,7 @@ Lưu trữ thông tin đơn thuốc được kê cho bệnh nhân.
 - GHICHU: Ghi chú
 
 **Mối quan hệ:**
-- Một đơn thuốc thuộc một bệnh án (N-1 với BENHAN)
+- Một đơn thuốc thuộc một bệnh án (N-1 với BENHAN, một bệnh án có thể có nhiều đơn thuốc)
 - Một đơn thuốc có nhiều chi tiết thuốc (1-N với CHITIETDONTHUOC)
 
 #### 2.4.5. CHITIETDONTHUOC (Chi tiết đơn thuốc)
@@ -495,7 +483,7 @@ Lưu trữ thông tin các dịch vụ khám chữa bệnh.
 - Một dịch vụ có trong nhiều lịch khám (1-N với LICHKHAM)
 
 #### 2.4.8. KHOA (Khoa)
-Lưu trữ thông tin các khoa trong bệnh viện.
+Bảng lưu trữ thông tin các khoa trong bệnh viện. Bảng này được sử dụng để tham chiếu trong các bảng khác nhưng không có giao diện quản lý riêng trong hệ thống.
 
 **Các thuộc tính:**
 - MAKHOA: Mã khoa (Primary Key, Identity)
@@ -510,7 +498,7 @@ Lưu trữ thông tin các khoa trong bệnh viện.
 - Một khoa có một trưởng khoa (1-1 với YSI)
 
 #### 2.4.9. PHONG (Phòng)
-Lưu trữ thông tin các phòng trong bệnh viện.
+Bảng lưu trữ thông tin các phòng trong bệnh viện. Bảng này được sử dụng để tham chiếu trong các bảng khác (bệnh nhân, y sĩ, lịch khám) nhưng không có giao diện quản lý riêng trong hệ thống.
 
 **Các thuộc tính:**
 - MAPHONG: Mã phòng (Primary Key, Identity)
@@ -536,7 +524,7 @@ Lưu trữ thông tin lịch hẹn khám của bệnh nhân.
 - MADICHVU: Mã dịch vụ (Foreign Key → DICHVU)
 - NGAYKHAM: Ngày khám
 - NGAYLENLICH: Ngày lên lịch
-- CAKHAM: Ca khám (1: Sáng, 2: Chiều)
+- CAKHAM: Ca khám (1-12: từ 7:00 đến 18:00, mỗi ca cách nhau 1 giờ)
 
 **Mối quan hệ:**
 - Một lịch khám thuộc một bệnh nhân (N-1 với BENHNHAN)
@@ -863,9 +851,6 @@ CREATE TABLE BENHAN_HISTORY (
 - Dashboard (Trang chủ)
 - Bệnh nhân
 - Hàng đợi
-- Khoa
-- Bác sĩ
-- Phòng bệnh
 - Lịch khám
 - Dịch vụ
 - Thuốc
@@ -879,10 +864,10 @@ CREATE TABLE BENHAN_HISTORY (
 **Luồng hoạt động**:
 1. Khi người dùng chọn menu Dashboard, HomeView được hiển thị
 2. Hệ thống truy vấn database để lấy các thống kê:
-   - Tổng số bệnh nhân
-   - Tổng số bác sĩ
-   - Số lượng khám trong ngày
-   - Doanh thu trong ngày/tháng
+   - Số bệnh nhân hôm nay
+   - Số lịch hẹn hôm nay
+   - Doanh thu hôm nay
+   - Số thuốc sắp hết (số lượng < 10)
 3. Dữ liệu được hiển thị dưới dạng:
    - Các card thống kê với số liệu và icon
    - Biểu đồ cột/đường thể hiện xu hướng
@@ -890,12 +875,13 @@ CREATE TABLE BENHAN_HISTORY (
 4. Dữ liệu được cập nhật tự động khi có thay đổi
 
 **Các thành phần**:
-- Card thống kê số lượng bệnh nhân
-- Card thống kê số lượng bác sĩ
-- Card thống kê số lượng khám trong ngày
-- Card thống kê doanh thu
-- Biểu đồ thống kê theo thời gian
-- Danh sách hoạt động gần đây
+- Card thống kê số bệnh nhân hôm nay
+- Card thống kê số lịch hẹn hôm nay
+- Card thống kê doanh thu hôm nay
+- Card thống kê số thuốc sắp hết
+- Biểu đồ thống kê theo thời gian (bệnh nhân, bệnh án, đơn thuốc, thuốc bán ra, doanh thu)
+- Danh sách thuốc bán chạy
+- Danh sách doanh thu theo dịch vụ
 
 #### 3.1.4. Giao diện quản lý bệnh nhân (Victim)
 
@@ -1022,24 +1008,25 @@ CREATE TABLE BENHAN_HISTORY (
 
 **a) Xem danh sách lịch khám**:
 1. Hiển thị danh sách tất cả lịch khám
-2. Có thể lọc theo ngày, bác sĩ, phòng
-3. Hiển thị thông tin: Mã lịch, Bệnh nhân, Bác sĩ, Phòng, Dịch vụ, Ngày khám, Ca khám
+2. Có thể lọc theo ngày, dịch vụ
+3. Hiển thị thông tin: Mã lịch, Bệnh nhân, Dịch vụ, Ngày khám, Ca khám, Ngày lên lịch
+4. Tự động xóa các lịch khám đã quá hạn (ngày khám < ngày hiện tại)
 
 **b) Đặt lịch khám mới**:
 1. Click "Thêm mới", mở cửa sổ AddAppointment
-2. Chọn bệnh nhân (có thể tìm kiếm)
-3. Chọn bác sĩ
-4. Chọn phòng
-5. Chọn dịch vụ khám
-6. Chọn ngày khám (DatePicker)
-7. Chọn ca khám (Sáng/Chiều)
-8. Hệ thống kiểm tra:
-   - Bác sĩ có rảnh trong ca đó không
-   - Phòng có sẵn không
-9. Click "Lưu":
+2. Chọn bệnh nhân (có thể tìm kiếm trong ComboBox)
+3. Chọn dịch vụ khám
+4. Chọn ngày lên lịch (DatePicker)
+5. Chọn ngày khám (DatePicker)
+6. Chọn ca khám (12 ca từ 7:00 đến 18:00, mỗi ca cách nhau 1 giờ)
+7. Hệ thống kiểm tra:
+   - Ngày khám không được là ngày trong quá khứ
+   - Ngày lên lịch phải hợp lệ
+8. Click "Xác nhận":
    - Lưu lịch khám vào database
    - Cập nhật danh sách
    - Hiển thị thông báo thành công
+   - Đóng cửa sổ
 
 **c) Sửa lịch khám**:
 1. Chọn lịch khám trong danh sách
@@ -1054,8 +1041,8 @@ CREATE TABLE BENHAN_HISTORY (
 
 **Các thành phần**:
 - DataGrid danh sách lịch khám
-- Calendar/DatePicker chọn ngày
-- ComboBox chọn bác sĩ, phòng, dịch vụ, ca khám
+- DatePicker chọn ngày lên lịch và ngày khám
+- ComboBox chọn bệnh nhân (có thể tìm kiếm), dịch vụ, ca khám
 - Cửa sổ AddAppointment, ChangeAppointment, ViewAppointment
 
 #### 3.1.7. Giao diện quản lý hàng đợi (Queue)
@@ -1065,38 +1052,65 @@ CREATE TABLE BENHAN_HISTORY (
 **Luồng hoạt động**:
 
 **a) Xem hàng đợi hiện tại**:
-1. Hiển thị danh sách bệnh nhân đang chờ khám
+1. Hiển thị danh sách bệnh nhân trong hàng đợi hôm nay (chỉ hiển thị bệnh nhân chưa khám xong)
 2. Sắp xếp theo số thứ tự
-3. Hiển thị: Số thứ tự, Tên bệnh nhân, Thời gian đăng ký, Trạng thái
+3. Hiển thị: Số thứ tự, Mã bệnh nhân, Tên bệnh nhân, Thời gian đăng ký, Trạng thái
+4. Hỗ trợ tìm kiếm theo tên, mã bệnh nhân, số thứ tự
+5. Tự động cập nhật số thứ tự hiện tại đang khám
 
 **b) Thêm bệnh nhân vào hàng đợi**:
 1. Click "Thêm vào hàng đợi", mở cửa sổ AddToQueue
-2. Chọn bệnh nhân (có thể tìm kiếm)
+2. Chọn bệnh nhân (có thể tìm kiếm trong ComboBox)
 3. Nhập ghi chú (nếu có, ví dụ: bệnh nhân ưu tiên)
-4. Hệ thống tự động:
-   - Tăng số thứ tự (số thứ tự = số lượng bệnh nhân trong hàng đợi + 1)
+4. Hệ thống kiểm tra:
+   - Bệnh nhân phải có lịch khám vào ngày hôm nay
+   - Bệnh nhân chưa có trong hàng đợi
+5. Nếu hợp lệ, hệ thống tự động:
+   - Tăng số thứ tự (số thứ tự = số lượng bệnh nhân trong hàng đợi hôm nay + 1)
    - Đặt trạng thái mặc định: "Chờ khám"
-   - Ghi nhận thời gian đăng ký
-5. Click "Lưu":
+   - Ghi nhận thời gian đăng ký (mặc định là thời gian hiện tại)
+6. Click "Xác nhận":
    - Lưu vào database
    - Cập nhật danh sách hàng đợi
+   - Hiển thị thông báo thành công với số thứ tự
 
-**c) Cập nhật trạng thái**:
+**c) Gọi bệnh nhân tiếp theo**:
+1. Click nút "Gọi tiếp"
+2. Hệ thống kiểm tra:
+   - Không có bệnh nhân nào đang khám (trạng thái "Đang khám")
+3. Nếu hợp lệ:
+   - Tự động chọn bệnh nhân đầu tiên trong hàng đợi (số thứ tự nhỏ nhất, trạng thái "Chờ khám")
+   - Chuyển trạng thái sang "Đang khám"
+   - Cập nhật số thứ tự hiện tại đang khám
+   - Hiển thị thông báo với số thứ tự và tên bệnh nhân
+   - Cập nhật danh sách hàng đợi
+
+**d) Hoàn thành khám**:
+1. Chọn bệnh nhân đang khám trong hàng đợi
+2. Click nút "Hoàn thành"
+3. Hệ thống:
+   - Chuyển trạng thái sang "Đã khám"
+   - Cập nhật trong database
+   - Nếu là bệnh nhân đang được gọi, reset số thứ tự hiện tại về 0
+   - Cập nhật danh sách (bệnh nhân "Đã khám" sẽ không hiển thị trong danh sách chính)
+
+**e) Hủy lượt khám**:
 1. Chọn bệnh nhân trong hàng đợi
-2. Click các nút trạng thái:
-   - "Đang khám": Chuyển trạng thái sang "Đang khám"
-   - "Đã khám": Chuyển trạng thái sang "Đã khám", có thể tự động tạo bệnh án
-3. Hệ thống cập nhật trạng thái trong database
-
-**d) Xóa khỏi hàng đợi**:
-1. Chọn bệnh nhân
-2. Click "Xóa"
-3. Xác nhận và xóa
-4. Tự động điều chỉnh số thứ tự của các bệnh nhân sau
+2. Click nút "Hủy"
+3. Hiển thị hộp thoại xác nhận
+4. Nếu xác nhận:
+   - Xóa khỏi hàng đợi
+   - Nếu là bệnh nhân đang được gọi, reset số thứ tự hiện tại về 0
+   - Cập nhật danh sách
 
 **Các thành phần**:
-- DataGrid hàng đợi với màu sắc theo trạng thái
-- Các nút chuyển trạng thái
+- DataGrid hàng đợi (chỉ hiển thị bệnh nhân chưa khám xong)
+- TextBox tìm kiếm theo tên, mã bệnh nhân, số thứ tự
+- Nút "Thêm vào hàng đợi" (chỉ Admin, Staff, Lễ tân)
+- Nút "Gọi tiếp" (Admin, Staff, Lễ tân, Bác sĩ)
+- Nút "Hoàn thành" cho từng bệnh nhân
+- Nút "Hủy" cho từng bệnh nhân
+- Nút "Làm mới" để tải lại dữ liệu
 - Cửa sổ AddToQueue
 - Hiển thị số thứ tự hiện tại đang khám
 
@@ -1116,7 +1130,7 @@ CREATE TABLE BENHAN_HISTORY (
 2. Chọn bệnh nhân
 3. Chọn bệnh án (tự động lấy danh sách bệnh án của bệnh nhân)
 4. Hệ thống tự động tính:
-   - Tổng tiền = Thành tiền bệnh án + Tổng tiền thuốc (nếu có)
+   - Tổng tiền = Giá dịch vụ khám + Tổng tiền thuốc (nếu có đơn thuốc)
 5. Nhập giảm giá (nếu có)
 6. Hệ thống tính: Thành tiền = Tổng tiền - Giảm giá
 7. Chọn phương thức thanh toán: Tiền mặt, Chuyển khoản, Thẻ
@@ -1144,22 +1158,7 @@ CREATE TABLE BENHAN_HISTORY (
 - Các nút: Thanh toán, In hóa đơn
 - Hiển thị tổng doanh thu, số hóa đơn chưa thanh toán
 
-#### 3.1.9. Giao diện quản lý y bác sĩ (DoctorAndNurse)
-
-**Mục đích**: Quản lý thông tin nhân viên y tế
-
-**Luồng hoạt động**:
-1. Hiển thị danh sách y bác sĩ
-2. Có thể thêm, sửa, xóa, xem chi tiết
-3. Phân công vào khoa và phòng
-4. Quản lý cấp bậc (trưởng khoa, bác sĩ thường)
-
-**Các thành phần**:
-- DataGrid danh sách y bác sĩ
-- Cửa sổ AddNurseAndDoctor, ChangeNurseAndDoctor, ViewDoctorAndNurse
-- ComboBox chọn khoa, phòng, loại y sĩ
-
-#### 3.1.10. Giao diện quản lý dịch vụ (Services)
+#### 3.1.9. Giao diện quản lý dịch vụ (Services)
 
 **Mục đích**: Quản lý các dịch vụ khám chữa bệnh
 
@@ -1175,7 +1174,7 @@ CREATE TABLE BENHAN_HISTORY (
 - TextBox nhập tên dịch vụ, giá tiền
 - Image upload
 
-#### 3.1.11. Giao diện quản lý thuốc (Medicine)
+#### 3.1.10. Giao diện quản lý thuốc (Medicine)
 
 **Mục đích**: Quản lý kho thuốc
 
@@ -1191,36 +1190,6 @@ CREATE TABLE BENHAN_HISTORY (
 - Cửa sổ AddMedicine, ChangeMedicine, ViewMedicine
 - Hiển thị cảnh báo số lượng thấp, hạn sử dụng
 
-#### 3.1.12. Giao diện quản lý khoa (Field)
-
-**Mục đích**: Quản lý các khoa trong bệnh viện
-
-**Luồng hoạt động**:
-1. Hiển thị danh sách khoa
-2. Thêm, sửa, xóa khoa
-3. Phân công trưởng khoa
-4. Upload hình ảnh khoa
-
-**Các thành phần**:
-- DataGrid danh sách khoa
-- Cửa sổ AddField, ChangeField, ViewField
-- ComboBox chọn trưởng khoa
-
-#### 3.1.13. Giao diện quản lý phòng (Room)
-
-**Mục đích**: Quản lý các phòng trong bệnh viện
-
-**Luồng hoạt động**:
-1. Hiển thị danh sách phòng
-2. Thêm, sửa, xóa phòng
-3. Thiết lập tầng, sức chứa
-4. Xem số lượng bệnh nhân hiện tại trong phòng
-
-**Các thành phần**:
-- DataGrid danh sách phòng
-- Cửa sổ AddRoom, ChangeRoom
-- Hiển thị thống kê sức chứa
-
 ---
 
 ## PHẦN 4: TỔNG KẾT VÀ HƯỚNG PHÁT TRIỂN
@@ -1232,7 +1201,7 @@ CREATE TABLE BENHAN_HISTORY (
 Sau quá trình phát triển, phần mềm Quản lý Bệnh viện đã đạt được các kết quả sau:
 
 1. **Hoàn thiện các chức năng cơ bản**:
-   - Đã xây dựng đầy đủ các module quản lý: bệnh nhân, y bác sĩ, bệnh án, đơn thuốc, lịch khám, hàng đợi, hóa đơn, dịch vụ, thuốc, khoa, phòng
+   - Đã xây dựng đầy đủ các module quản lý: bệnh nhân, bệnh án, đơn thuốc, lịch khám, hàng đợi, hóa đơn, dịch vụ, thuốc
    - Hệ thống đăng nhập với phân quyền người dùng
    - Dashboard thống kê tổng quan
 
@@ -1335,7 +1304,7 @@ Trong quá trình phát triển, nhóm đã gặp một số khó khăn:
 1. **Báo cáo doanh thu**:
    - Báo cáo doanh thu theo ngày, tuần, tháng, năm
    - So sánh doanh thu giữa các kỳ
-   - Phân tích doanh thu theo dịch vụ, khoa, bác sĩ
+   - Phân tích doanh thu theo dịch vụ, theo thời gian
    - Biểu đồ trực quan hóa dữ liệu
 
 2. **Báo cáo bệnh nhân**:
@@ -1497,7 +1466,7 @@ Với các tính năng nâng cao được đề xuất, hệ thống có thể p
 ## THÔNG TIN DỰ ÁN
 
 - **Tên dự án**: Phần mềm Quản lý Bệnh viện
-- **Nhóm thực hiện**: Nhóm 27 UIT
+- **Nhóm thực hiện**: Nhóm 20 UIT
 - **Môn học**: Lập trình trực quan
 - **Năm học**: 2024
 - **Công nghệ**: WPF, C#, SQL Server, Entity Framework
