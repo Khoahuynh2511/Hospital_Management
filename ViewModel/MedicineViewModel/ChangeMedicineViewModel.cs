@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -38,7 +38,7 @@ namespace LTTQ_DoAn.ViewModel
         }
 
         private THUOC thuoc = null;
-        private List<String> unit = new List<string>() { "Viên", "Hộp", "Gói", "Lọ", "Vỉ" };
+        private List<String> unit = new List<string>() { "Viên", "Hộp", "Gói", "Lọ", "Vỉ", "Tuýp", "Ống", "Chai" };
         private string donvi;
         private void update()
         {

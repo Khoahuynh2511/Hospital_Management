@@ -1,4 +1,4 @@
-﻿<Window x:Class="LTTQ_DoAn.View.ChangeDoctorAndNurse"
+<Window x:Class="LTTQ_DoAn.View.ChangeDoctorAndNurse"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -70,57 +70,58 @@
                                        Text="Tên:"
                                        />
                             <TextBox Style="{StaticResource TextPersonalInfo}"
-                                     Text="{Binding Ysi.HOTEN}"
+                                     Text="{Binding HoTen, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                      Width="200">
                             </TextBox>
                         </StackPanel>
-                        
-                        <!--giới tính-->
+                        <!--tuoi-->
                         <StackPanel Margin="25 0 25 30">
                             <TextBlock Style="{StaticResource TitlePersonalInfo}"
-                                Text="Giới tính:"/>
+                                Text="Tuoi:"/>
+                            <Border BorderThickness="0 0 0 1" BorderBrush="LightGray">
+                                <TextBlock Style="{StaticResource TextBlockPersonalInfo}" Width="50"
+                                           Text="{Binding Tuoi}"/>
+                            </Border>
+                        </StackPanel>
+                        <!--gioi tinh-->
+                        <StackPanel Margin="25 0 25 30">
+                            <TextBlock Style="{StaticResource TitlePersonalInfo}"
+                                Text="Gioi tinh:"/>
                             <ComboBox
                         MinWidth="100"
                         Height="30"
                         FontSize="15"
                         ItemsSource="{Binding Gender}"
-                        SelectedValue="{Binding Ysi.GIOITINH, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        SelectedValue="{Binding GioiTinh, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         />
                         </StackPanel>
-                        <!--ngày sinh-->
+                        <!--ngay sinh-->
                         <StackPanel Margin="25 0 0 0">
                             <TextBlock Style="{StaticResource TitlePersonalInfo}"
-                                Text="Ngày sinh:"/>
+                                Text="Ngay sinh:"/>
                             <DatePicker Width="120" Height="30" FontSize="15"
-                                    SelectedDate="{Binding Ysi.NGAYSINH}"
+                                    SelectedDate="{Binding NgaySinh, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         />
                         </StackPanel>
-                        <!--chức vụ-->
+                        <!--chuc vu-->
                         <StackPanel Margin="0 0 25 30">
                             <TextBlock Style="{StaticResource TitlePersonalInfo}"
-                               Text="Chức vụ:"
+                               Text="Chuc vu:"
                                />
                             <ComboBox
-                        MinWidth="120"
+                        MinWidth="140"
                         Height="30"
                         FontSize="15"
-                        SelectedValue="{Binding Ysi.LOAIYSI, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        SelectedValuePath="Content"
-                        >
-                                <ComboBoxItem>Bác sĩ chuyên khoa</ComboBoxItem>
-                                <ComboBoxItem>Bác sĩ cấp cứu</ComboBoxItem>
-                                <ComboBoxItem>Y tá điều dưỡng</ComboBoxItem>
-                                <ComboBoxItem>Y tá hồi sức</ComboBoxItem>
-                            </ComboBox>
+                        ItemsSource="{Binding LoaiYsiList}"
+                        SelectedValue="{Binding LoaiYsi, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        />
 
                         </StackPanel>
-                        <!--cấp trên-->
+                        <!--cap tren-->
                         <StackPanel Margin="25 0 25 30">
                             <TextBlock Style="{StaticResource TitlePersonalInfo}"
-                                Text="Cấp trên:"/>
+                                Text="Cap tren:"/>
                             <ComboBox
-                            IsEditable="True"
-                            IsTextSearchCaseSensitive="True"
                             MinWidth="200"
                             Height="30"
                             FontSize="15"
@@ -135,7 +136,16 @@
                     Height="200"/>
             </Grid>
             <WrapPanel Grid.Row="3" Margin="50 20 0 0">
-
+                <!--ID-->
+                <StackPanel Margin="0 0 25 30">
+                    <TextBlock Style="{StaticResource TitlePersonalInfo}"
+                               Text="ID:"
+                               />
+                    <Border BorderThickness="0 0 0 1" BorderBrush="LightGray">
+                        <TextBlock Style="{StaticResource TextBlockPersonalInfo}" Width="140"
+                                           Text="{Binding SubId}"/>
+                    </Border>
+                </StackPanel>
                 <!--Khoa-->
                 <StackPanel Margin="25 0 25 30">
                     <TextBlock Style="{StaticResource TitlePersonalInfo}"
@@ -149,26 +159,25 @@
                         SelectedValue="{Binding Khoa, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         />
                 </StackPanel>
-                <!--phòng-->
+                <!--phong-->
                 <StackPanel Margin="25 0 25 30">
                     <TextBlock Style="{StaticResource TitlePersonalInfo}"
-                               Text="Phòng:"
+                               Text="Phong:"
                                />
                     <ComboBox FontFamily="Poppins"
                             ItemsSource="{Binding Phonglist}"
-                                                                                    SelectedValue="{Binding Phong_subid, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            SelectedValue="{Binding Phong_subid, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             MinWidth="150"
                             Height="30"
-                            FontSize="15"
-                            Margin="0 0 25 30"/>
+                            FontSize="15"/>
                 </StackPanel>
-                <!--ngày nhập viện-->
+                <!--ngay vao lam-->
                 <StackPanel Margin="25 0 25 30">
                     <TextBlock Style="{StaticResource TitlePersonalInfo}"
-                               Text="Ngày vào làm:"
+                               Text="Ngay vao lam:"
                                />
                     <DatePicker FontSize="15" Height="30"
-                            SelectedDate="{Binding Ysi.NGAYVAOLAM}"/>
+                            SelectedDate="{Binding NgayVaoLam, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
             </WrapPanel>
             <!--2 nút-->

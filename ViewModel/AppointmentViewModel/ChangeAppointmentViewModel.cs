@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -143,11 +143,11 @@ namespace LTTQ_DoAn.ViewModel
             List<String> subID = new List<String>();
             foreach (var item in bacsi)
             {
-                if (item.LOAIYSI == null)
+                if (string.IsNullOrEmpty(item.LOAIYSI))
                 {
                     continue;
                 }
-                if (item.LOAIYSI.Substring(0, 6).Equals("Bác sĩ"))
+                if (item.LOAIYSI.StartsWith("Bác sĩ"))
                 {
                     subID.Add(item.HOTEN + ": " + item.SUB_ID);
                     if (item.MAYSI == Lichkham.MABACSI)
@@ -157,7 +157,6 @@ namespace LTTQ_DoAn.ViewModel
                 }
             }
             this.BacsiList = subID;
-
         }
         public void loadCakham()
         {

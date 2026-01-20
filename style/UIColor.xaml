@@ -1,20 +1,47 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <!--background-->
-    <Color x:Key ="primary">#fff</Color>
-    <Color x:Key ="secondary">#F1F8FF</Color>
-    <SolidColorBrush x:Key ="secondaryFont">#F1F8FF</SolidColorBrush>
+    <Color x:Key="primary">#FFFFFF</Color>
+    <Color x:Key="secondary">#F1F8FF</Color>
+    <SolidColorBrush x:Key="secondaryFont">#F1F8FF</SolidColorBrush>
+    
     <!--button actived-->
-    <Color x:Key ="bActived">#3497F9</Color>
+    <Color x:Key="bActived">#3497F9</Color>
+    
     <!--Deny-->
-    <Color x:Key ="DenyNoti">#FF9C94</Color>
+    <Color x:Key="DenyNoti">#FF9C94</Color>
+    
     <!--buttonText-->
-    <SolidColorBrush x:Key ="normalButton">#fff</SolidColorBrush>
-    <SolidColorBrush x:Key ="buttonText">#7F8F98</SolidColorBrush>
-    <SolidColorBrush x:Key ="btnActivedText">#3497F9</SolidColorBrush>
-    <SolidColorBrush x:Key ="btnActivedGround">#F1F8FF</SolidColorBrush>
+    <SolidColorBrush x:Key="normalButton">#FFFFFF</SolidColorBrush>
+    <SolidColorBrush x:Key="buttonText">#7F8F98</SolidColorBrush>
+    <SolidColorBrush x:Key="btnActivedText">#3497F9</SolidColorBrush>
+    <SolidColorBrush x:Key="btnActivedGround">#F1F8FF</SolidColorBrush>
+    
     <!--infoText-->
-    <SolidColorBrush x:Key ="infoText">#595959</SolidColorBrush>
+    <SolidColorBrush x:Key="infoText">#595959</SolidColorBrush>
+    
+    <!--Status Colors-->
+    <SolidColorBrush x:Key="successColor">#28A745</SolidColorBrush>
+    <SolidColorBrush x:Key="warningColor">#FFC107</SolidColorBrush>
+    <SolidColorBrush x:Key="dangerColor">#DC3545</SolidColorBrush>
+    <SolidColorBrush x:Key="infoColor">#17A2B8</SolidColorBrush>
+    
+    <!--Dashboard Card Colors-->
+    <SolidColorBrush x:Key="cardPatientBg">#E3F2FD</SolidColorBrush>
+    <SolidColorBrush x:Key="cardQueueBg">#FFF3E0</SolidColorBrush>
+    <SolidColorBrush x:Key="cardRevenueBg">#E8F5E9</SolidColorBrush>
+    <SolidColorBrush x:Key="cardAlertBg">#FFEBEE</SolidColorBrush>
+    
+    <!--Gradient-->
+    <LinearGradientBrush x:Key="headerGradient" StartPoint="0,0" EndPoint="1,0">
+        <GradientStop Color="#2193b0" Offset="0"/>
+        <GradientStop Color="#6dd5ed" Offset="1"/>
+    </LinearGradientBrush>
+    
+    <LinearGradientBrush x:Key="sidebarGradient" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#667eea" Offset="0"/>
+        <GradientStop Color="#764ba2" Offset="1"/>
+    </LinearGradientBrush>
 </ResourceDictionary>
     
     

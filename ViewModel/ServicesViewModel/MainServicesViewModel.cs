@@ -1,4 +1,4 @@
-﻿using LTTQ_DoAn.View;
+using LTTQ_DoAn.View;
 using System;
 using System.Collections.Generic;
 using System.Data.Metadata.Edm;
@@ -76,38 +76,10 @@ namespace LTTQ_DoAn.ViewModel
         }
         void Set_permission(string type)
         {
-            switch (type)
-            {
-                case "Admin":
-                    Set_admin();
-                    break;
-                case "Staff":
-                    Set_staff();
-                    break;
-                case "Doctor":
-                    Set_doctor();
-                    break;
-                default:
-                    break;
-            }
-        }
-        void Set_doctor()
-        {
-            deleteVisibility = false;
-            changeVisibility = false;
-            addVisibility = false;
-        }
-        void Set_admin()
-        {
+            // Phong mach tu nhan - full quyen
             deleteVisibility = true;
             changeVisibility = true;
             addVisibility = true;
-        }
-        void Set_staff()
-        {
-            deleteVisibility = false;
-            changeVisibility = false;
-            addVisibility = false;
         }
         private bool CanExecuteChangeCommand(object? obj) {
             return true;

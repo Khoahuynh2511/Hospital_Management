@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -79,11 +79,11 @@ namespace LTTQ_DoAn.ViewModel
             List<String> subID = new List<String>();
             foreach (var item in bacsi)
             {
-                if (item.LOAIYSI == null || item.MAKHOA != Khoa.MAKHOA)
+                if (string.IsNullOrEmpty(item.LOAIYSI) || item.MAKHOA != Khoa.MAKHOA)
                 {
                     continue;
                 }
-                if (item.LOAIYSI.Substring(0, 6).Equals("Bác sĩ"))
+                if (item.LOAIYSI.StartsWith("Bác sĩ"))
                 {
                     //Bỏ qua các Bác Sĩ đã là trưởng khoa rồi (trừ trưởng khoa của Khoa hiện tại)
                     if (item.KHOA.TRUONGKHOA == item.MAYSI && item.MAYSI != Khoa.TRUONGKHOA)

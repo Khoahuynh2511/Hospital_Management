@@ -1,4 +1,4 @@
-﻿using LiveCharts;
+using LiveCharts;
 using LiveCharts.Wpf;
 using System;
 using System.Collections.Generic;
@@ -15,10 +15,18 @@ namespace LTTQ_DoAn.ViewModel
         public string DateTimeFormat = "dd/MM/yyyy";
         public static int divide_number = 5;
         
-        private int ysi_count;
         private int victim_count;
         private int field_count;
         private int service_count;
+        private int benhan_count;
+        private int donthuoc_count;
+        private int medicine_sold_count;
+        
+        // Dashboard quick stats
+        private int todayPatientCount;
+        private int todayAppointmentCount;
+        private int lowStockMedicineCount;
+        private decimal todayRevenue;
         
         private DateTime chart_startdate = new DateTime(2020, 1, 1);
         private DateTime chart_enddate = DateTime.Now;
@@ -28,10 +36,21 @@ namespace LTTQ_DoAn.ViewModel
         private SeriesCollection victim_series_collections;
         private string[] victimTimeLabels;
 
-        //Doctor and nurse
-        private DateTime[] doctorNurseDateTime;
-        private SeriesCollection doctorNurse_collections;
-        private string[] doctorNurseTimeLabels;
+        //BenhAn
+        private DateTime[] benhanDateTime;
+        private SeriesCollection benhan_collections;
+        private string[] benhanTimeLabels;
+
+        //DonThuoc
+        private DateTime[] donthuocDateTime;
+        private SeriesCollection donthuoc_collections;
+        private string[] donthuocTimeLabels;
+
+        //Medicine
+        private DateTime[] medicineDateTime;
+        private SeriesCollection medicine_collections;
+        private string[] medicineTimeLabels;
+        private List<ThuocBanChay> listThuocBanChay;
 
         //Service
         private DateTime[] serviceDateTime;
@@ -46,13 +65,11 @@ namespace LTTQ_DoAn.ViewModel
             public string Ten { get; set; }
             public string Doanhthu { get; set; }
         }
-        public int Ysi_count
+        public class ThuocBanChay
         {
-            get => ysi_count; set
-            {
-                ysi_count = value;
-                OnPropertyChanged(nameof(Ysi_count));
-            }
+            public string Ten { get; set; }
+            public string Soluong { get; set; }
+            public string Doanhthu { get; set; }
         }
         public int Victim_count
         {
@@ -69,6 +86,30 @@ namespace LTTQ_DoAn.ViewModel
             {
                 service_count = value;
                 OnPropertyChanged(nameof(Service_count));
+            }
+        }
+        public int Benhan_count
+        {
+            get => benhan_count; set
+            {
+                benhan_count = value;
+                OnPropertyChanged(nameof(Benhan_count));
+            }
+        }
+        public int Donthuoc_count
+        {
+            get => donthuoc_count; set
+            {
+                donthuoc_count = value;
+                OnPropertyChanged(nameof(Donthuoc_count));
+            }
+        }
+        public int Medicine_sold_count
+        {
+            get => medicine_sold_count; set
+            {
+                medicine_sold_count = value;
+                OnPropertyChanged(nameof(Medicine_sold_count));
             }
         }
 
@@ -120,28 +161,84 @@ namespace LTTQ_DoAn.ViewModel
             }
         }
 
-        public DateTime[] DoctorNurseDateTime
+        public DateTime[] BenhanDateTime
         {
-            get => doctorNurseDateTime; set
+            get => benhanDateTime; set
             {
-                doctorNurseDateTime = value;
-                OnPropertyChanged(nameof(DoctorNurseDateTime));
+                benhanDateTime = value;
+                OnPropertyChanged(nameof(BenhanDateTime));
             }
         }
-        public SeriesCollection DoctorNurse_collections
+        public SeriesCollection Benhan_collections
         {
-            get => doctorNurse_collections; set
+            get => benhan_collections; set
             {
-                doctorNurse_collections = value;
-                OnPropertyChanged(nameof(DoctorNurse_collections));
+                benhan_collections = value;
+                OnPropertyChanged(nameof(Benhan_collections));
             }
         }
-        public string[] DoctorNurseTimeLabels
+        public string[] BenhanTimeLabels
         {
-            get => doctorNurseTimeLabels; set
+            get => benhanTimeLabels; set
             {
-                doctorNurseTimeLabels = value;
-                OnPropertyChanged(nameof(DoctorNurseTimeLabels));
+                benhanTimeLabels = value;
+                OnPropertyChanged(nameof(BenhanTimeLabels));
+            }
+        }
+        public DateTime[] DonthuocDateTime
+        {
+            get => donthuocDateTime; set
+            {
+                donthuocDateTime = value;
+                OnPropertyChanged(nameof(DonthuocDateTime));
+            }
+        }
+        public SeriesCollection Donthuoc_collections
+        {
+            get => donthuoc_collections; set
+            {
+                donthuoc_collections = value;
+                OnPropertyChanged(nameof(Donthuoc_collections));
+            }
+        }
+        public string[] DonthuocTimeLabels
+        {
+            get => donthuocTimeLabels; set
+            {
+                donthuocTimeLabels = value;
+                OnPropertyChanged(nameof(DonthuocTimeLabels));
+            }
+        }
+        public DateTime[] MedicineDateTime
+        {
+            get => medicineDateTime; set
+            {
+                medicineDateTime = value;
+                OnPropertyChanged(nameof(MedicineDateTime));
+            }
+        }
+        public SeriesCollection Medicine_collections
+        {
+            get => medicine_collections; set
+            {
+                medicine_collections = value;
+                OnPropertyChanged(nameof(Medicine_collections));
+            }
+        }
+        public string[] MedicineTimeLabels
+        {
+            get => medicineTimeLabels; set
+            {
+                medicineTimeLabels = value;
+                OnPropertyChanged(nameof(MedicineTimeLabels));
+            }
+        }
+        public List<ThuocBanChay> ListThuocBanChay
+        {
+            get => listThuocBanChay; set
+            {
+                listThuocBanChay = value;
+                OnPropertyChanged(nameof(ListThuocBanChay));
             }
         }
 
@@ -177,6 +274,73 @@ namespace LTTQ_DoAn.ViewModel
                 listDichVu = value;
                 OnPropertyChanged(nameof(ListDichVu));
             }
+        }
+
+        // Dashboard quick stats properties
+        public int TodayPatientCount
+        {
+            get => todayPatientCount;
+            set
+            {
+                todayPatientCount = value;
+                OnPropertyChanged(nameof(TodayPatientCount));
+            }
+        }
+        public int TodayAppointmentCount
+        {
+            get => todayAppointmentCount;
+            set
+            {
+                todayAppointmentCount = value;
+                OnPropertyChanged(nameof(TodayAppointmentCount));
+            }
+        }
+        public int LowStockMedicineCount
+        {
+            get => lowStockMedicineCount;
+            set
+            {
+                lowStockMedicineCount = value;
+                OnPropertyChanged(nameof(LowStockMedicineCount));
+            }
+        }
+        public decimal TodayRevenue
+        {
+            get => todayRevenue;
+            set
+            {
+                todayRevenue = value;
+                OnPropertyChanged(nameof(TodayRevenue));
+            }
+        }
+        public string TodayRevenueFormatted
+        {
+            get => todayRevenue.ToString("N0") + " VNĐ";
+        }
+
+        private void LoadQuickStats()
+        {
+            DateTime today = DateTime.Today;
+            DateTime tomorrow = today.AddDays(1);
+
+            // Today patients
+            TodayPatientCount = _db.BENHNHAN
+                .Count(p => p.NGAYNHAPVIEN >= today && p.NGAYNHAPVIEN < tomorrow);
+
+            // Today appointments
+            TodayAppointmentCount = _db.LICHKHAM
+                .Count(l => l.NGAYKHAM >= today && l.NGAYKHAM < tomorrow);
+
+            // Low stock medicines (less than 10)
+            LowStockMedicineCount = _db.THUOC
+                .Count(t => t.SOLUONG < 10);
+
+            // Today revenue
+            decimal? revenue = _db.BENHAN
+                .Where(b => b.NGAYKHAM >= today && b.NGAYKHAM < tomorrow)
+                .Sum(b => b.THANHTIEN);
+            TodayRevenue = revenue ?? 0;
+            OnPropertyChanged(nameof(TodayRevenueFormatted));
         }
 
         public void LoadDoanhThuTheoService(DateTime startdate, DateTime enddate)
@@ -227,7 +391,9 @@ namespace LTTQ_DoAn.ViewModel
                 seriesDay = seriesDay.AddDays(ammountSpace);
             }
             VictimDateTime = timeLable;
-            DoctorNurseDateTime = timeLable;
+            BenhanDateTime = timeLable;
+            DonthuocDateTime = timeLable;
+            MedicineDateTime = timeLable;
             ServiceDateTime = timeLable;
             string[] timeStringLable = new string[ammount];
             for (int i = 0; i < ammount; i++)
@@ -238,11 +404,12 @@ namespace LTTQ_DoAn.ViewModel
                     break;
                 }
                
-                //Console.WriteLine(seriesDay + "\n");
                 timeStringLable.SetValue(VictimDateTime[i].ToString("yyyy/MM/dd") +"-" + VictimDateTime[i+1].ToString("yyyy/MM/dd"), i);
             }
             VictimTimeLabels = timeStringLable;
-            DoctorNurseTimeLabels = timeStringLable;
+            BenhanTimeLabels = timeStringLable;
+            DonthuocTimeLabels = timeStringLable;
+            MedicineTimeLabels = timeStringLable;
             ServiceTimeLabels = timeStringLable;
         }
         private int findVictimNumbers(DateTime start_day, DateTime end_date)
@@ -252,12 +419,32 @@ namespace LTTQ_DoAn.ViewModel
                                 select m).Count();
             return numbers;
         }
-        private int findDoctorNurseNumbers(DateTime start_day, DateTime end_date)
+        private int findBenhanNumbers(DateTime start_day, DateTime end_date)
         {
-            int numbers = (from m in _db.YSI
-                           where m.NGAYVAOLAM >= start_day && m.NGAYVAOLAM <= end_date
+            DateTime configEnd = end_date.AddDays(1);
+            int numbers = (from m in _db.BENHAN
+                           where m.NGAYKHAM >= start_day && m.NGAYKHAM <= configEnd
                            select m).Count();
             return numbers;
+        }
+        private int findDonthuocNumbers(DateTime start_day, DateTime end_date)
+        {
+            DateTime configEnd = end_date.AddDays(1);
+            int numbers = (from m in _db.BENHAN
+                           join dt in _db.DONTHUOC on m.MABENHAN equals dt.MABENHAN
+                           where m.NGAYKHAM >= start_day && m.NGAYKHAM <= configEnd
+                           select dt).Count();
+            return numbers;
+        }
+        private double findMedicineSoldNumbers(DateTime start_day, DateTime end_date)
+        {
+            DateTime configEnd = end_date.AddDays(1);
+            double? numbers = (from m in _db.BENHAN
+                               join dt in _db.DONTHUOC on m.MABENHAN equals dt.MABENHAN
+                               join ctdt in _db.CHITIETDONTHUOC on dt.MADONTHUOC equals ctdt.MADONTHUOC
+                               where m.NGAYKHAM >= start_day && m.NGAYKHAM <= configEnd
+                               select ctdt.SOLUONG).Sum();
+            return numbers ?? 0;
         }
         private int calServiceNumbers(DateTime start_day, DateTime end_date)
         {
@@ -303,26 +490,101 @@ namespace LTTQ_DoAn.ViewModel
 
 
         }
-        void Load_DoctorNurse_Axis_Y()
+        void Load_Benhan_Axis_Y()
         {
             ChartValues<int> chartValues = new ChartValues<int>();
-            foreach (var item in DoctorNurseTimeLabels)
+            foreach (var item in BenhanTimeLabels)
             {
                 DateTime start_date = DateTime.ParseExact(item.Split('-')[0], "yyyy/MM/dd", CultureInfo.InvariantCulture);
                 DateTime end_date = DateTime.ParseExact(item.Split('-')[1], "yyyy/MM/dd", CultureInfo.InvariantCulture);
-                int count = findDoctorNurseNumbers(start_date, end_date);
+                int count = findBenhanNumbers(start_date, end_date);
                 chartValues.Add(count);
             }
-            DoctorNurse_collections = new SeriesCollection
+            Benhan_collections = new SeriesCollection
             {
                 new LineSeries
                 {
-                    Title = "Số y sĩ",
+                    Title = "Số bệnh án",
                     Values = chartValues
                 }
             };
+        }
+        void Load_Donthuoc_Axis_Y()
+        {
+            ChartValues<int> chartValues = new ChartValues<int>();
+            foreach (var item in DonthuocTimeLabels)
+            {
+                DateTime start_date = DateTime.ParseExact(item.Split('-')[0], "yyyy/MM/dd", CultureInfo.InvariantCulture);
+                DateTime end_date = DateTime.ParseExact(item.Split('-')[1], "yyyy/MM/dd", CultureInfo.InvariantCulture);
+                int count = findDonthuocNumbers(start_date, end_date);
+                chartValues.Add(count);
+            }
+            Donthuoc_collections = new SeriesCollection
+            {
+                new LineSeries
+                {
+                    Title = "Số đơn thuốc",
+                    Values = chartValues
+                }
+            };
+        }
+        void Load_Medicine_Axis_Y()
+        {
+            ChartValues<double> chartValues = new ChartValues<double>();
+            foreach (var item in MedicineTimeLabels)
+            {
+                DateTime start_date = DateTime.ParseExact(item.Split('-')[0], "yyyy/MM/dd", CultureInfo.InvariantCulture);
+                DateTime end_date = DateTime.ParseExact(item.Split('-')[1], "yyyy/MM/dd", CultureInfo.InvariantCulture);
+                double count = findMedicineSoldNumbers(start_date, end_date);
+                chartValues.Add(count);
+            }
+            Medicine_collections = new SeriesCollection
+            {
+                new LineSeries
+                {
+                    Title = "Số lượng thuốc bán ra",
+                    Values = chartValues
+                }
+            };
+        }
+        public void LoadThuocBanChay(DateTime startdate, DateTime enddate)
+        {
+            DateTime configEnd = enddate.AddDays(1);
+            var rawData = (from ctdt in _db.CHITIETDONTHUOC
+                          join dt in _db.DONTHUOC on ctdt.MADONTHUOC equals dt.MADONTHUOC
+                          join ba in _db.BENHAN on dt.MABENHAN equals ba.MABENHAN
+                          join t in _db.THUOC on ctdt.MATHUOC equals t.MATHUOC
+                          where ba.NGAYKHAM >= startdate && ba.NGAYKHAM <= configEnd
+                          select new
+                          {
+                              Ten = t.TENTHUOC,
+                              Soluong = ctdt.SOLUONG ?? 0,
+                              Giatien = t.GIATIEN ?? 0
+                          }).ToList();
 
+            var thuocData = rawData
+                .GroupBy(x => x.Ten)
+                .Select(g => new
+                {
+                    Ten = g.Key,
+                    Soluong = g.Sum(x => x.Soluong),
+                    Doanhthu = g.Sum(x => (decimal)x.Soluong * x.Giatien)
+                })
+                .OrderByDescending(x => x.Soluong)
+                .Take(10)
+                .ToList();
 
+            List<ThuocBanChay> listThuoc = new List<ThuocBanChay>();
+            foreach (var item in thuocData)
+            {
+                listThuoc.Add(new ThuocBanChay()
+                {
+                    Ten = item.Ten,
+                    Soluong = item.Soluong.ToString("F0"),
+                    Doanhthu = item.Doanhthu.ToString("N0") + " VNĐ"
+                });
+            }
+            ListThuocBanChay = listThuoc;
         }
 
         void Load_Service_Axis_Y()
@@ -355,35 +617,25 @@ namespace LTTQ_DoAn.ViewModel
         void LoadChart()
         {
             divideTime(divide_number, Chart_startdate, Chart_enddate);
-            Ysi_count = findDoctorNurseNumbers(Chart_startdate, Chart_enddate);
             Victim_count = findVictimNumbers(Chart_startdate, Chart_enddate);
+            Benhan_count = findBenhanNumbers(Chart_startdate, Chart_enddate);
+            Donthuoc_count = findDonthuocNumbers(Chart_startdate, Chart_enddate);
+            Medicine_sold_count = (int)findMedicineSoldNumbers(Chart_startdate, Chart_enddate);
             Service_count = calServiceNumbers(Chart_startdate, Chart_enddate);
             Load_Victim_Axis_Y();
-            Load_DoctorNurse_Axis_Y();
+            Load_Benhan_Axis_Y();
+            Load_Donthuoc_Axis_Y();
+            Load_Medicine_Axis_Y();
             Load_Service_Axis_Y();
+            LoadDoanhThuTheoService(Chart_startdate, Chart_enddate);
+            LoadThuocBanChay(Chart_startdate, Chart_enddate);
         }
         public HomeViewModel()
         {
-            //Chart_startdate =  new DateTime(2020, 1, 1);
-            //Chart_enddate = DateTime.Now;
-            /*
-            Ysi_count = _db.YSI.Count();
-            Victim_count = _db.BENHNHAN.Count();
-            Field_count = _db.KHOA.Count();
-            Service_count = _db.DICHVU.Count();
-            */
+            LoadQuickStats();
             LoadChart();
             LoadDoanhThuTheoService(Chart_startdate, Chart_enddate);
-            /*Victim_series_collections = new SeriesCollection
-            {
-                new LineSeries
-                {
-                    Title = "Số bệnh nhân",
-                    Values = new ChartValues<double> { 4, 6, 5, 2 ,4 }
-                }
-            };
-            */
-            //VictimTimeLabels = new[] { "Jan", "Feb", "Mar", "Apr", "May" };
+            LoadThuocBanChay(Chart_startdate, Chart_enddate);
             YFormatter = value => value.ToString("F0");
             VNDFormatter = value => value.ToString("C");
         }

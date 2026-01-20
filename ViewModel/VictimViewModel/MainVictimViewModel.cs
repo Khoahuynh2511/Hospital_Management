@@ -1,4 +1,4 @@
-﻿using LTTQ_DoAn.Model;
+using LTTQ_DoAn.Model;
 using LTTQ_DoAn.View;
 using LTTQ_DoAn.Repositories;
 using System;
@@ -22,12 +22,16 @@ namespace LTTQ_DoAn.ViewModel
         public bool viewHealthRecordVisibility = true;
         public bool changeVisibility = true;
         public bool addVisibility = true;
+        public bool deleteVisibility = true;
         public ICommand ViewCommand { get; }
         public ICommand ViewHealthRecordCommand { get; }
         public ICommand ChangeCommand { get; }
         public ICommand AddCommand { get; }
+        public ICommand DeleteCommand { get; }
         private List<BENHNHAN> victims;
+        private List<BENHNHAN> allVictims;
         private BENHNHAN selectedItem = null;
+        private string searchText = "";
 
         QUANLYBENHVIENEntities _db;
         public List<BENHNHAN> Victims { get => victims; set
@@ -40,6 +44,33 @@ namespace LTTQ_DoAn.ViewModel
             { 
                 selectedItem = value;
                 OnPropertyChanged(nameof(SelectedItem));
+            }
+        }
+        public string SearchText
+        {
+            get => searchText;
+            set
+            {
+                searchText = value;
+                OnPropertyChanged(nameof(SearchText));
+                FilterVictims();
+            }
+        }
+        private void FilterVictims()
+        {
+            if (string.IsNullOrWhiteSpace(SearchText))
+            {
+                Victims = allVictims;
+            }
+            else
+            {
+                string keyword = SearchText.ToLower();
+                Victims = allVictims.Where(v =>
+                    (v.HOTEN != null && v.HOTEN.ToLower().Contains(keyword)) ||
+                    (v.SUB_ID != null && v.SUB_ID.ToLower().Contains(keyword)) ||
+                    (v.MABHYT != null && v.MABHYT.ToLower().Contains(keyword)) ||
+                    (v.DIACHI != null && v.DIACHI.ToLower().Contains(keyword))
+                ).ToList();
             }
         }
         public bool ViewHealthRecordVisibility
@@ -66,11 +97,19 @@ namespace LTTQ_DoAn.ViewModel
                 OnPropertyChanged(nameof(ChangeVisibility));
             }
         }
+        public bool DeleteVisibility
+        {
+            get => deleteVisibility; set
+            {
+                deleteVisibility = value;
+                OnPropertyChanged(nameof(DeleteVisibility));
+            }
+        }
         private void Load()
         {
             _db = new QUANLYBENHVIENEntities();
-            Victims = _db.BENHNHAN.ToList();
-            //System.Windows.MessageBox.Show("Done");
+            allVictims = _db.BENHNHAN.ToList();
+            Victims = allVictims;
         }
 
         public VictimViewModel()
@@ -81,41 +120,15 @@ namespace LTTQ_DoAn.ViewModel
             ViewCommand = new ViewModelCommand(ExecuteViewCommand, CanExecuteViewCommand);
             ChangeCommand = new ViewModelCommand(ExecuteChangeCommand, CanExecuteChangeCommand);
             ViewHealthRecordCommand = new ViewModelCommand(ExecuteViewHealthRecordCommand, CanExecuteViewHealthRecordCommand);
+            DeleteCommand = new ViewModelCommand(ExecuteDeleteCommand, CanExecuteDeleteCommand);
         }
         void Set_permission(string type)
         {
-            switch (type)
-            {
-                case "Admin":
-                    Set_admin();
-                    break;
-                case "Staff":
-                    Set_staff();
-                    break;
-                case "Doctor":
-                    Set_doctor();
-                    break;
-                default:
-                    break;
-            }
-        }
-        void Set_doctor()
-        {
+            // Phong mach tu nhan - full quyen
             viewHealthRecordVisibility = true;
-            changeVisibility = false;
-            addVisibility = false;
-    }
-        void Set_admin()
-        {
-            viewHealthRecordVisibility = true;
-            changeVisibility = false;
-            addVisibility = false;
-        }
-        void Set_staff()
-        {
-            viewHealthRecordVisibility = false;
             changeVisibility = true;
             addVisibility = true;
+            deleteVisibility = true;
         }
         private bool CanExecuteAddCommand(object? obj)
         {
@@ -206,6 +219,45 @@ namespace LTTQ_DoAn.ViewModel
             }
         }
 
-      
+        private bool CanExecuteDeleteCommand(object? obj)
+        {
+            return SelectedItem != null;
+        }
+
+        private void ExecuteDeleteCommand(object? obj)
+        {
+            if (SelectedItem != null)
+            {
+                var result = new MessageBoxCustom("Xác nhận", 
+                    "Bạn có chắc chắn muốn xóa bệnh nhân này?", 
+                    MessageType.Info, 
+                    MessageButtons.OKCancel).ShowDialog();
+                
+                if (result == true)
+                {
+                    try
+                    {
+                        var benhnhan = _db.BENHNHAN.FirstOrDefault(b => b.MABENHNHAN == SelectedItem.MABENHNHAN);
+                        if (benhnhan != null)
+                        {
+                            _db.BENHNHAN.DeleteObject(benhnhan);
+                            _db.SaveChanges();
+                            new MessageBoxCustom("Thông báo", 
+                                "Xóa bệnh nhân thành công!", 
+                                MessageType.Success, 
+                                MessageButtons.OK).ShowDialog();
+                            Load();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        new MessageBoxCustom("Lỗi", 
+                            "Không thể xóa bệnh nhân. Bệnh nhân có thể đang có lịch khám hoặc bệnh án liên quan.", 
+                            MessageType.Error, 
+                            MessageButtons.OK).ShowDialog();
+                    }
+                }
+            }
+        }
     }
 }

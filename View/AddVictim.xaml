@@ -1,4 +1,4 @@
-﻿<Window x:Class="LTTQ_DoAn.View.AddVictim"
+<Window x:Class="LTTQ_DoAn.View.AddVictim"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -8,7 +8,7 @@
         WindowStartupLocation="CenterScreen"
         xmlns:materialdesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
-        Title="AddVictim" Height="630" Width="1000"
+        Title="Thêm bệnh nhân" Height="650" Width="1000"
         Background="Transparent"
         xmlns:viewmodel="clr-namespace:LTTQ_DoAn.ViewModel"
         WindowStyle="None"
@@ -16,158 +16,159 @@
     <Window.DataContext>
         <viewmodel:AddVictimViewModel/>
     </Window.DataContext>
-    <Border
-    CornerRadius="20"
-    Background="White"
-    BorderBrush="{StaticResource btnActivedText}"
-    BorderThickness="3"
-    >
+    <Border CornerRadius="20" Background="White" BorderBrush="{StaticResource btnActivedText}" BorderThickness="2">
+        <Border.Effect>
+            <DropShadowEffect ShadowDepth="5" BlurRadius="20" Opacity="0.3" Direction="270"/>
+        </Border.Effect>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="60"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="40"/>
                 <RowDefinition Height="80"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <!--nút thu nhỏ và tắt màn-->
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Click="Button_Click"
-                        Style="{StaticResource controlButton}"
-                        FontSize="16">
-                    <fa:IconImage Icon="WindowMinimize" Style="{StaticResource controlButtonIcon}"/>
-                </Button>
-                <Button Command="{Binding CancelCommand}"
-                        Style="{StaticResource controlButton}"
-                        FontSize="16">
-                    <fa:IconImage Icon="Xmark" Style="{StaticResource controlButtonIcon}"/>
-                </Button>
-            </StackPanel>
-            <Border Grid.Row="1" Grid.ColumnSpan="2"
-                BorderBrush="{StaticResource btnActivedText}"
-                BorderThickness="0 0 0 2">
-                <TextBlock
-                    Margin="30 10 0 0 "
-                    Text="Thêm bệnh nhân"
-                    FontSize="40"
-                    Foreground="{StaticResource btnActivedText}"
-                    FontFamily="Poppins"
-                    FontWeight="Medium"
-                    />
+            
+            <!--Nút điều khiển cửa sổ-->
+            <Border Background="{StaticResource btnActivedText}" CornerRadius="18 18 0 0">
+                <Grid>
+                    <TextBlock Text="Thêm bệnh nhân mới" Foreground="White" FontWeight="SemiBold" 
+                               VerticalAlignment="Center" Margin="20 0" FontSize="14"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Click="Button_Click" Style="{StaticResource controlButton}" Width="40" Height="40">
+                            <fa:IconImage Icon="WindowMinimize" Foreground="White" Height="12"/>
+                        </Button>
+                        <Button Command="{Binding CancelCommand}" Style="{StaticResource controlButton}" Width="40" Height="40">
+                            <fa:IconImage Icon="Xmark" Foreground="White" Height="14"/>
+                        </Button>
+                    </StackPanel>
+                </Grid>
             </Border>
-            <StackPanel Grid.Row="2" Orientation="Horizontal">
-                <!--tên-->
-                <TextBox
-                MinWidth="300"
-                HorizontalContentAlignment="Stretch"
-                Style="{DynamicResource MaterialDesignOutlinedTextBox}"
-                materialdesign:HintAssist.Hint="Tên"
-                materialdesign:TextFieldAssist.HasClearButton="True"
-                Text="{Binding Ten}"
-                FontSize="15"
-                Height="55"
-                Margin="50 0 25 0" TextChanged="TextBox_TextChanged"/>
-                <!--tuổi-->
-                <!--giới tính-->
-                <ComboBox
-                MinWidth="120"
-                Height="55"
-                FontSize="15"
-                materialdesign:HintAssist.Hint="Giới tính"
-                Style="{DynamicResource MaterialDesignOutlinedComboBox }"
-                SelectedValue="{Binding Gioitinh, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                SelectedValuePath="Content"
-                 Margin="5 0 25 0">
-                    <ComboBoxItem>Nam</ComboBoxItem>
-                    <ComboBoxItem>Nữ</ComboBoxItem>
-                </ComboBox>
-                <!--ngày sinh-->
-                <DatePicker
-                MinWidth="250"
-                Height="55"
-                FontSize="15"
-                materialdesign:HintAssist.Hint="Ngày sinh"
-                SelectedDate="{Binding Ngaysinh, Mode=TwoWay}"
-                materialdesign:HintAssist.Background="{StaticResource btnActivedGround}"
-                Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
-                Margin="5 0 50 0"/>
+            
+            <!--Tiêu đề-->
+            <Border Grid.Row="1" BorderBrush="#E0E0E0" BorderThickness="0 0 0 1" Margin="30 0">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Border Background="{StaticResource btnActivedText}" CornerRadius="10" Padding="12" Margin="0 0 15 0">
+                        <fa:IconImage Icon="UserPlus" Foreground="White" Height="24"/>
+                    </Border>
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="Thêm bệnh nhân" FontSize="28" Foreground="{StaticResource btnActivedText}" 
+                                   FontFamily="Segoe UI" FontWeight="SemiBold"/>
+                        <TextBlock Text="Điền đầy đủ thông tin bệnh nhân bên dưới" FontSize="13" Foreground="#757575"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+            
+            <!--Thông tin cơ bản-->
+            <StackPanel Grid.Row="2" Margin="30 20 30 10">
+                <TextBlock Text="Thông tin cơ bản" FontWeight="SemiBold" FontSize="14" Foreground="#424242" Margin="0 0 0 12"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="1.5*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0" Margin="0 0 15 0"
+                        Style="{DynamicResource MaterialDesignOutlinedTextBox}"
+                        materialdesign:HintAssist.Hint="Họ và tên"
+                        materialdesign:TextFieldAssist.HasClearButton="True"
+                        Text="{Binding Ten}" FontSize="15" Height="55" TextChanged="TextBox_TextChanged"/>
+                    <ComboBox Grid.Column="1" Margin="0 0 15 0"
+                        Height="55" FontSize="15"
+                        materialdesign:HintAssist.Hint="Giới tính"
+                        Style="{DynamicResource MaterialDesignOutlinedComboBox}"
+                        SelectedValue="{Binding Gioitinh, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        SelectedValuePath="Content">
+                        <ComboBoxItem>Nam</ComboBoxItem>
+                        <ComboBoxItem>Nữ</ComboBoxItem>
+                    </ComboBox>
+                    <DatePicker Grid.Column="2"
+                        Height="55" FontSize="15"
+                        materialdesign:HintAssist.Hint="Ngày sinh"
+                        SelectedDate="{Binding Ngaysinh, Mode=TwoWay}"
+                        materialdesign:HintAssist.Background="White"
+                        Style="{StaticResource MaterialDesignFloatingHintDatePicker}"/>
+                </Grid>
             </StackPanel>
 
-            <StackPanel Grid.Row="3" Orientation="Horizontal">
-                <TextBox
-                MinWidth="400"
-                HorizontalContentAlignment="Stretch"
-                Style="{DynamicResource MaterialDesignOutlinedTextBox}"
-                materialdesign:HintAssist.Hint="Mã bảo hiểm y tế"
-                materialdesign:TextFieldAssist.HasClearButton="True"
-                Text="{Binding Bhyt}"
-                FontSize="15"
-                Height="55"
-                Margin="50 0 0 0"/>
+            <!--Thông tin bảo hiểm-->
+            <StackPanel Grid.Row="3" Margin="30 10 30 10">
+                <TextBlock Text="Thông tin bảo hiểm" FontWeight="SemiBold" FontSize="14" Foreground="#424242" Margin="0 0 0 12"/>
+                <TextBox Style="{DynamicResource MaterialDesignOutlinedTextBox}"
+                    materialdesign:HintAssist.Hint="Mã bảo hiểm y tế (BHYT)"
+                    materialdesign:TextFieldAssist.HasClearButton="True"
+                    Text="{Binding Bhyt}" FontSize="15" Height="55" MaxWidth="500" HorizontalAlignment="Left"/>
             </StackPanel>
 
-            <StackPanel Grid.Row="4" Orientation="Horizontal">
-                <ComboBox
-                MinWidth="150"
-                Height="55"
-                FontSize="15"
-                materialdesign:HintAssist.Hint="Mã phòng"
-                ItemsSource="{Binding Listphong}"
-                                    SelectedValue="{Binding Maphong, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-
-                Style="{DynamicResource MaterialDesignOutlinedComboBox }"
-                Margin="50 0 25 0">
-                </ComboBox>
+            <!--Thông tin nhập viện-->
+            <StackPanel Grid.Row="4" Margin="30 10 30 10">
+                <TextBlock Text="Thông tin khám" FontWeight="SemiBold" FontSize="14" Foreground="#424242" Margin="0 0 0 12"/>
                 <DatePicker
-                MinWidth="250"
-                Height="55"
-                FontSize="15"
-                materialdesign:HintAssist.Hint="Ngày nhập viện"
-                materialdesign:HintAssist.Background="{StaticResource btnActivedGround}"
-                Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
-                SelectedDate="{Binding Ngaynhapvien, Mode=TwoWay}"
-                Margin="25 0 0 0"/>
+                    Height="55" FontSize="15"
+                    Width="300"
+                    HorizontalAlignment="Left"
+                    materialdesign:HintAssist.Hint="Ngày đăng ký"
+                    materialdesign:HintAssist.Background="White"
+                    Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
+                    SelectedDate="{Binding Ngaynhapvien, Mode=TwoWay}"/>
             </StackPanel>
         
-            <StackPanel Grid.Row="5" Orientation="Horizontal">
-                <TextBox
-                MinWidth="500"
-                HorizontalContentAlignment="Stretch"
-                Style="{DynamicResource MaterialDesignOutlinedTextBox}"
-                materialdesign:HintAssist.Hint="Địa chỉ"
-                materialdesign:TextFieldAssist.HasClearButton="True"
-                Text="{Binding Diachi}"
-                FontSize="15"
-                Height="55"
-                Margin="50 0 0 0"/>
+            <!--Thông tin liên lạc-->
+            <StackPanel Grid.Row="5" Margin="30 10 30 10">
+                <TextBlock Text="Thông tin liên lạc" FontWeight="SemiBold" FontSize="14" Foreground="#424242" Margin="0 0 0 12"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="1.5*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0" Margin="0 0 15 0"
+                        Style="{DynamicResource MaterialDesignOutlinedTextBox}"
+                        materialdesign:HintAssist.Hint="Địa chỉ"
+                        materialdesign:TextFieldAssist.HasClearButton="True"
+                        Text="{Binding Diachi}" FontSize="15" Height="55"/>
+                    <TextBox Grid.Column="1" Margin="0 0 15 0"
+                        Style="{DynamicResource MaterialDesignOutlinedTextBox}"
+                        materialdesign:HintAssist.Hint="Số điện thoại"
+                        materialdesign:TextFieldAssist.HasClearButton="True"
+                        Text="{Binding SoDienThoai}" FontSize="15" Height="55"/>
+                    <TextBox Grid.Column="2"
+                        Style="{DynamicResource MaterialDesignOutlinedTextBox}"
+                        materialdesign:HintAssist.Hint="Email"
+                        materialdesign:TextFieldAssist.HasClearButton="True"
+                        Text="{Binding Email}" FontSize="15" Height="55"/>
+                </Grid>
             </StackPanel>
 
-            <StackPanel Grid.Row="6" Orientation="Horizontal"
-                        VerticalAlignment="Top" HorizontalAlignment="Right">
-                <Button Command="{Binding ConfirmAddCommand}"
-                    Width="130"
-                    Height="50"
-                    Content="Xác nhận"
-                    FontSize="20"
-                    Foreground="#f2f2f2"
-                    Background="{StaticResource btnActivedText}"
-                    IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                    Style="{StaticResource MaterialDesignFlatLightBgButton}"
-                    ToolTip="Thêm bệnh nhân" />
-                <Button Command="{Binding CancelCommand}"
-                    Margin="40 0"
-                    Width="130"
-                    Height="50"
-                    Content="Hủy bỏ"
-                    FontSize="20"
-                    Foreground="#555"
-                    Background="#fff"
-                    IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                    Style="{StaticResource MaterialDesignFlatLightBgButton}"
-                    />
-            </StackPanel>
+            <!--Nút hành động-->
+            <Border Grid.Row="6" Background="#FAFAFA" CornerRadius="0 0 18 18" Padding="30 15">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <Button Command="{Binding CancelCommand}"
+                        Width="140" Height="45"
+                        Foreground="#616161" Background="White"
+                        BorderBrush="#E0E0E0" BorderThickness="1"
+                        Style="{StaticResource MaterialDesignFlatButton}"
+                        materialdesign:ShadowAssist.ShadowDepth="Depth0">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:IconImage Icon="Xmark" Height="14" Foreground="#616161" Margin="0 0 8 0"/>
+                            <TextBlock Text="Hủy bỏ" FontSize="15" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{Binding ConfirmAddCommand}"
+                        Width="160" Height="45" Margin="15 0 0 0"
+                        Foreground="White" Background="{StaticResource btnActivedText}"
+                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                        ToolTip="Xác nhận thêm bệnh nhân mới">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:IconImage Icon="Check" Height="14" Foreground="White" Margin="0 0 8 0"/>
+                            <TextBlock Text="Xác nhận" FontSize="15" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Border>
         </Grid>
     </Border>
 </Window>

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -44,23 +44,46 @@ namespace LTTQ_DoAn.View
                     System.Media.SystemSounds.Hand.Play();
                     ImgMessage.Source = new BitmapImage(new Uri("pack://application:,,,/LTTQ_DoAn;component/Photo/fail.png"));
                     break;
+                case MessageType.Info:
+                    System.Media.SystemSounds.Beep.Play();
+                    ImgMessage.Source = new BitmapImage(new Uri("pack://application:,,,/LTTQ_DoAn;component/Photo/success.png"));
+                    break;
+                case MessageType.Warning:
+                    System.Media.SystemSounds.Exclamation.Play();
+                    ImgMessage.Source = new BitmapImage(new Uri("pack://application:,,,/LTTQ_DoAn;component/Photo/fail.png"));
+                    break;
             }
             switch (Buttons)
             {
                 case MessageButtons.OKCancel:
                     confirm_btn.Visibility = Visibility.Visible;
+                    confirm_btn.Content = "Xác nhận";
                     close_btn.Visibility = Visibility.Visible;
+                    close_btn.Content = "Hủy";
                     break;
                 case MessageButtons.OK:
                     confirm_btn.Visibility = Visibility.Visible;
+                    confirm_btn.Content = "OK";
                     close_btn.Visibility = Visibility.Collapsed;
+                    break;
+                case MessageButtons.YesNo:
+                    confirm_btn.Visibility = Visibility.Visible;
+                    confirm_btn.Content = "Có";
+                    close_btn.Visibility = Visibility.Visible;
+                    close_btn.Content = "Không";
                     break;
             }
         }
 
-        private void close_btn_Click(object sender, RoutedEventArgs e)
+        private void confirm_btn_Click(object sender, RoutedEventArgs e)
         {
             this.DialogResult = true;
+            this.Close();
+        }
+
+        private void close_btn_Click(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = false;
             this.Close();
         }
     }
@@ -68,10 +91,13 @@ namespace LTTQ_DoAn.View
     {
         OKCancel,
         OK,
+        YesNo,
     }
     public enum MessageType
     {
         Success,
         Error,
+        Info,
+        Warning,
     }
 }

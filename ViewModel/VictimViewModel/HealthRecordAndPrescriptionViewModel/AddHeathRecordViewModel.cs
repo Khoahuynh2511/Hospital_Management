@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -86,13 +86,41 @@ namespace LTTQ_DoAn.ViewModell
                 UpdateChiphi(Dichvu);
             }
         }
-        protected void UpdateChiphi(string Dichvu)
+        protected void UpdateChiphi(string dichvuStr)
         {
-            Dichvu = Dichvu.Substring(5);
-            List<DICHVU> dichvu = _db.DICHVU.ToList();
-            for (int i = 0; i < dichvu.Count; i++)
-                if (dichvu[i].TENDICHVU == Dichvu)
-                    Chiphi = dichvu[i].GIATIEN.ToString();
+            if (string.IsNullOrEmpty(dichvuStr))
+            {
+                return;
+            }
+            try
+            {
+                string[] parts = dichvuStr.Split(new[] { ':' }, 2);
+                if (parts.Length < 2)
+                {
+                    return;
+                }
+                string tenDV = parts[1].Trim();
+                List<DICHVU> dichvuList = _db.DICHVU.ToList();
+                foreach (var dv in dichvuList)
+                {
+                    if (dv.TENDICHVU == tenDV)
+                    {
+                        if (dv.GIATIEN.HasValue)
+                        {
+                            Chiphi = dv.GIATIEN.Value.ToString("F0");
+                        }
+                        else
+                        {
+                            Chiphi = "0";
+                        }
+                        break;
+                    }
+                }
+            }
+            catch
+            {
+                // Ignore parse errors
+            }
         }
         public BENHNHAN Benhnhan
         {
@@ -119,17 +147,16 @@ namespace LTTQ_DoAn.ViewModell
             List<String> subID = new List<String>();
             foreach (var item in bacsi)
             {
-                if (item.LOAIYSI == null)
+                if (string.IsNullOrEmpty(item.LOAIYSI))
                 {
                     continue;
                 }
-                if (item.LOAIYSI.Substring(0, 6).Equals("Bác sĩ"))
+                if (item.LOAIYSI.StartsWith("Bác sĩ"))
                 {
                     subID.Add(item.HOTEN + ": " + item.SUB_ID);
                 }
             }
             this.Bacsilist = subID;
-
         }
 
         public int convertDichvuSub_ID(string inputString)
@@ -148,13 +175,18 @@ namespace LTTQ_DoAn.ViewModell
         }
         public void insert()
         {
+            string chiphiStr = Chiphi?.Replace(".", "") ?? "0";
+            if (!Decimal.TryParse(chiphiStr, out decimal thanhTien))
+            {
+                thanhTien = 0;
+            }
+
             BENHAN newBenhAn = new BENHAN()
             {
-                MAYSI = convertBacsiSub_ID(Bacsi),
                 MADICHVU = convertDichvuSub_ID(Dichvu),
                 NGAYKHAM = DateTime.Now,
                 MABENHNHAN = Benhnhan.MABENHNHAN,
-                THANHTIEN = Decimal.Parse(Chiphi),
+                THANHTIEN = thanhTien,
                 TRIEUCHUNG = Bieuhien,
                 KETLUAN = Ketluan,
             };
@@ -164,7 +196,6 @@ namespace LTTQ_DoAn.ViewModell
         public AddHeathRecordViewModel(BENHNHAN SelectedBenhNhan)
         {
             Benhnhan = SelectedBenhNhan;
-            loadBacsi();
             loadDichvu();
             CancelCommand = new ViewModelCommand(ExecuteCancelCommand, CanExecuteCancelCommand);
             ConfirmAddCommand = new ViewModelCommand(ExecuteAddCommand, CanExecuteAddCommand);

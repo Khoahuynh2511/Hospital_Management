@@ -1,4 +1,4 @@
-﻿<Window x:Class="LTTQ_DoAn.View.MessageBoxCustom"
+<Window x:Class="LTTQ_DoAn.View.MessageBoxCustom"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -97,7 +97,7 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <Button x:Name="confirm_btn"
-                                Click="close_btn_Click"
+                                Click="confirm_btn_Click"
                             Grid.Column="1"
                             Width="100"
                             Content="Xác nhận"

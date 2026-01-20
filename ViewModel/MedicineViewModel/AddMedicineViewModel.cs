@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -76,10 +76,16 @@ namespace LTTQ_DoAn.ViewModel
         }
         public void insert()
         {
+            string giatienStr = Giatien?.Replace(".", "").Replace(",", "").Trim() ?? "0";
+            if (!decimal.TryParse(giatienStr, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal giaTien))
+            {
+                giaTien = 0;
+            }
+
             THUOC newThuoc = new THUOC()
             {
                 TENTHUOC = Tenthuoc,
-                GIATIEN = decimal.Parse(Giatien),
+                GIATIEN = giaTien,
                 GHICHU= Ghichu,
                 DONVITINH = Donvitinh,
                 SOLUONG = Soluong,

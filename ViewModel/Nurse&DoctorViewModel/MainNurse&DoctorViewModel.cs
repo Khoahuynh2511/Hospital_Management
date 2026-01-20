@@ -1,4 +1,4 @@
-﻿using LTTQ_DoAn.View;
+using LTTQ_DoAn.View;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;

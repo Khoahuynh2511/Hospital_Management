@@ -1,4 +1,4 @@
-﻿<Window x:Class="LTTQ_DoAn.View.ViewVictim"
+<Window x:Class="LTTQ_DoAn.View.ViewVictim"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -126,7 +126,7 @@
             </Grid>
                 <!--các thông tin y tế-->
             <WrapPanel Grid.Row="3" Margin="50 20 0 0">
-                <!--Mã bệnh nhân-->
+                <!--Ma benh nhan-->
                 <StackPanel Margin="0 0 25 30">
                     <TextBlock Style="{StaticResource TitlePersonalInfo}" Width="140"
                                Text="ID:"
@@ -136,34 +136,34 @@
                                            Text="{Binding Benhnhan.SUB_ID}"/>
                     </Border>
                 </StackPanel>
-                <!--Khoa của bệnh nhân-->
+                <!--So dien thoai-->
                 <StackPanel Margin="25 0 25 30">
                     <TextBlock Style="{StaticResource TitlePersonalInfo}" Width="140"
-                               Text="Khoa:"
+                               Text="Số điện thoại:"
                                />
-                            <Border BorderThickness="0 0 0 1" BorderBrush="LightGray">
-                                <TextBlock Style="{StaticResource TextBlockPersonalInfo}" 
-                                           Text="{Binding Khoa}"/>
-                            </Border>
+                    <Border BorderThickness="0 0 0 1" BorderBrush="LightGray">
+                        <TextBlock Style="{StaticResource TextBlockPersonalInfo}" 
+                                   Text="{Binding Benhnhan.SODIENTHOAI}"/>
+                    </Border>
                 </StackPanel>
-                <!--Phòng-->
+                <!--Email-->
                 <StackPanel Margin="25 0 25 30">
-                    <TextBlock Style="{StaticResource TitlePersonalInfo}" Width="130"
-                               Text="Phòng:" 
+                    <TextBlock Style="{StaticResource TitlePersonalInfo}" Width="180"
+                               Text="Email:" 
                                />
                     <Border BorderThickness="0 0 0 1" BorderBrush="LightGray">
                         <TextBlock Style="{StaticResource TextBlockPersonalInfo}"
-                                           Text="{Binding Maphong}"/>
+                                   Text="{Binding Benhnhan.EMAIL}"/>
                     </Border>
                 </StackPanel>
-                <!--ngày nhập viện-->
+                <!--Ngay dang ky-->
                 <StackPanel Margin="25 0 25 30">
                     <TextBlock Style="{StaticResource TitlePersonalInfo}"
-                               Text="Ngày nhập viện:"
+                               Text="Ngày đăng ký:"
                                />
                     <Border BorderThickness="0 0 0 1" BorderBrush="LightGray">
                         <TextBlock Style="{StaticResource TextBlockPersonalInfo}" Width="140"
-                                           Text="{Binding Benhnhan.NGAYNHAPVIEN, StringFormat='dd/MM/yyyy'}"/>
+                                   Text="{Binding Benhnhan.NGAYNHAPVIEN, StringFormat='dd/MM/yyyy'}"/>
                     </Border>
                 </StackPanel>
             </WrapPanel>

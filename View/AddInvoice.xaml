@@ -1,0 +1,199 @@
+<Window x:Class="LTTQ_DoAn.View.AddInvoice"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewmodel="clr-namespace:LTTQ_DoAn.ViewModel"
+        xmlns:local="clr-namespace:LTTQ_DoAn.View"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        xmlns:materialdesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+        Title="Tạo hóa đơn" Height="700" Width="1000"
+        Background="Transparent"
+        WindowStyle="None"
+        ResizeMode="NoResize">
+    <Window.DataContext>
+        <viewmodel:AddInvoiceViewModel/>
+    </Window.DataContext>
+    <Border CornerRadius="20" Background="White" BorderBrush="{StaticResource btnActivedText}" BorderThickness="2">
+        <Border.Effect>
+            <DropShadowEffect ShadowDepth="5" BlurRadius="20" Opacity="0.3" Direction="270"/>
+        </Border.Effect>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="80"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="80"/>
+            </Grid.RowDefinitions>
+            
+            <Border Background="{StaticResource btnActivedText}" CornerRadius="18 18 0 0">
+                <Grid>
+                    <TextBlock Text="Tạo hóa đơn mới" Foreground="White" FontWeight="SemiBold" 
+                               VerticalAlignment="Center" Margin="20 0" FontSize="14"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Click="Button_Click" Style="{StaticResource controlButton}" Width="40" Height="40">
+                            <fa:IconImage Icon="WindowMinimize" Foreground="White" Height="12"/>
+                        </Button>
+                        <Button Command="{Binding CancelCommand}" Style="{StaticResource controlButton}" Width="40" Height="40">
+                            <fa:IconImage Icon="Xmark" Foreground="White" Height="14"/>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+            
+            <Border Grid.Row="1" BorderBrush="#E0E0E0" BorderThickness="0 0 0 1" Margin="30 0">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Border Background="{StaticResource btnActivedText}" CornerRadius="10" Padding="12" Margin="0 0 15 0">
+                        <fa:IconImage Icon="FileInvoice" Foreground="White" Height="24"/>
+                    </Border>
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="Tạo hóa đơn" FontSize="28" Foreground="{StaticResource btnActivedText}" 
+                                   FontFamily="Segoe UI" FontWeight="SemiBold"/>
+                        <TextBlock Text="Chọn bệnh án và kiểm tra thông tin hóa đơn" FontSize="13" Foreground="White"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+            
+            <StackPanel Grid.Row="2" Margin="30 20 30 10">
+                <TextBlock Text="Chọn bệnh án" FontWeight="SemiBold" FontSize="14" Foreground="Black" Margin="0 0 0 12"/>
+                <ComboBox ItemsSource="{Binding BenhAnList}"
+                         SelectedValue="{Binding SelectedBenhAn, Mode=TwoWay}"
+                         Height="55" FontSize="15"
+                         materialdesign:HintAssist.Hint="Chọn bệnh án"
+                         Style="{DynamicResource MaterialDesignOutlinedComboBox}"/>
+            </StackPanel>
+            
+            <Grid Grid.Row="3" Margin="30 10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <StackPanel Grid.Column="0" Margin="0 0 15 0">
+                    <TextBlock Text="Thông tin bệnh nhân" FontWeight="SemiBold" FontSize="14" Foreground="Black" Margin="0 0 0 12"/>
+                    <TextBox Text="{Binding TenBenhNhan}" IsReadOnly="True"
+                            Style="{DynamicResource MaterialDesignOutlinedTextBox}"
+                            materialdesign:HintAssist.Hint="Tên bệnh nhân"
+                            FontSize="15" Height="55" Margin="0 0 0 15"/>
+                    
+                    <TextBlock Text="Dịch vụ và thuốc" FontWeight="SemiBold" FontSize="14" Foreground="Black" Margin="0 0 0 12"/>
+                    <Border BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="5" Padding="10" MaxHeight="300">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <StackPanel>
+                                <Border Background="#F5F5F5" CornerRadius="5" Padding="10" Margin="0 0 0 10">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="150"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding DichVu}" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Column="1" Text="{Binding GiaDichVu, StringFormat='{}{0:N0} VND'}" 
+                                                  HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="#2E7D32"/>
+                                    </Grid>
+                                </Border>
+                                
+                                <ItemsControl ItemsSource="{Binding ThuocList}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border BorderBrush="#E0E0E0" BorderThickness="0 0 0 1" Padding="10 8" Margin="0 0 0 5">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="100"/>
+                                                        <ColumnDefinition Width="80"/>
+                                                        <ColumnDefinition Width="150"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Text="{Binding TenThuoc}" VerticalAlignment="Center"/>
+                                                    <TextBlock Grid.Column="1" Text="{Binding DonGia, StringFormat='{}{0:N0} VND'}" 
+                                                              HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <TextBlock Grid.Column="2" Text="{Binding SoLuong, StringFormat='x{0}'}" 
+                                                              HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    <TextBlock Grid.Column="3" Text="{Binding ThanhTien, StringFormat='{}{0:N0} VND'}" 
+                                                              HorizontalAlignment="Right" VerticalAlignment="Center" 
+                                                              Foreground="#2E7D32" FontWeight="SemiBold"/>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Border>
+                </StackPanel>
+                
+                <StackPanel Grid.Column="1">
+                    <TextBlock Text="Thông tin thanh toán" FontWeight="SemiBold" FontSize="14" Foreground="Black" Margin="0 0 0 12"/>
+                    
+                    <Border Background="#F5F5F5" CornerRadius="5" Padding="15" Margin="0 0 0 15">
+                        <StackPanel>
+                            <Grid Margin="0 0 0 10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Tổng tiền:" VerticalAlignment="Center" Foreground="Black"/>
+                                <TextBlock Grid.Column="1" Text="{Binding TongTienFormatted}" 
+                                          HorizontalAlignment="Right" FontWeight="SemiBold" FontSize="16" Foreground="Black"/>
+                            </Grid>
+                            
+                            <TextBox Text="{Binding GiamGia, UpdateSourceTrigger=PropertyChanged}"
+                                    PreviewTextInput="TextBox_PreviewTextInput"
+                                    Style="{DynamicResource MaterialDesignOutlinedTextBox}"
+                                    materialdesign:HintAssist.Hint="Giảm giá (VND)"
+                                    FontSize="15" Height="55" Margin="0 0 0 10"/>
+                            
+                            <Grid Margin="0 0 0 10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Thành tiền:" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="16" Foreground="Black"/>
+                                <TextBlock Grid.Column="1" Text="{Binding ThanhTienFormatted}" 
+                                          HorizontalAlignment="Right" FontWeight="Bold" FontSize="18" Foreground="#2E7D32"/>
+                            </Grid>
+                            
+                            <ComboBox ItemsSource="{Binding PhuongThucList}"
+                                     SelectedValue="{Binding PhuongThuc, Mode=TwoWay}"
+                                     Height="55" FontSize="15"
+                                     materialdesign:HintAssist.Hint="Phương thức thanh toán"
+                                     Style="{DynamicResource MaterialDesignOutlinedComboBox}" Margin="0 10 0 0"/>
+                            
+                            <TextBox Text="{Binding GhiChu}"
+                                    Style="{DynamicResource MaterialDesignOutlinedTextBox}"
+                                    materialdesign:HintAssist.Hint="Ghi chú"
+                                    FontSize="15" Height="80" Margin="0 10 0 0"
+                                    TextWrapping="Wrap" AcceptsReturn="True"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Grid>
+            
+            <Border Grid.Row="4" BorderBrush="#E0E0E0" BorderThickness="0 1 0 0" Margin="30 0" Padding="0 15 0 0">
+                <TextBlock Text="* Tổng tiền được tính tự động từ giá dịch vụ và tổng giá trị thuốc trong đơn thuốc" 
+                          FontSize="12" Foreground="Black" FontStyle="Italic"/>
+            </Border>
+            
+            <Border Grid.Row="5" Background="#F5F5F5" CornerRadius="0 0 18 18" Padding="20">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Command="{Binding CancelCommand}"
+                           Style="{StaticResource BtnUserControl}"
+                           Padding="20 10" Margin="0 0 15 0">
+                        <TextBlock Text="Hủy" FontWeight="SemiBold" Foreground="White"/>
+                    </Button>
+                    <Button Command="{Binding ConfirmAddCommand}"
+                           Style="{StaticResource BtnUserControl}"
+                           Padding="20 10">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:IconImage Icon="Check" Height="14" Margin="0 0 8 0" Foreground="White"/>
+                            <TextBlock Text="Tạo hóa đơn" FontWeight="SemiBold" Foreground="White"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

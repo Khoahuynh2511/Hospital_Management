@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="QUANLYBENHVIENModelStoreContainer" CdmEntityContainer="QUANLYBENHVIENEntities">
+    <EntitySetMapping Name="BENHAN">
+      <EntityTypeMapping TypeName="QUANLYBENHVIENModel.BENHAN">
+        <MappingFragment StoreEntitySet="BENHAN">
+          <ScalarProperty Name="MABENHAN" ColumnName="MABENHAN" />
+          <ScalarProperty Name="SUB_ID" ColumnName="SUB_ID" />
+          <ScalarProperty Name="MAYSI" ColumnName="MAYSI" />
+          <ScalarProperty Name="MABENHNHAN" ColumnName="MABENHNHAN" />
+          <ScalarProperty Name="MADICHVU" ColumnName="MADICHVU" />
+          <ScalarProperty Name="THANHTIEN" ColumnName="THANHTIEN" />
+          <ScalarProperty Name="TRIEUCHUNG" ColumnName="TRIEUCHUNG" />
+          <ScalarProperty Name="NGAYKHAM" ColumnName="NGAYKHAM" />
+          <ScalarProperty Name="KETLUAN" ColumnName="KETLUAN" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BENHAN_HISTORY">
+      <EntityTypeMapping TypeName="QUANLYBENHVIENModel.BENHAN_HISTORY">
+        <MappingFragment StoreEntitySet="BENHAN_HISTORY">
+          <ScalarProperty Name="MALICHSU" ColumnName="MALICHSU" />
+          <ScalarProperty Name="MABENHAN" ColumnName="MABENHAN" />
+          <ScalarProperty Name="MAYSI" ColumnName="MAYSI" />
+          <ScalarProperty Name="MABENHNHAN" ColumnName="MABENHNHAN" />
+          <ScalarProperty Name="MADICHVU" ColumnName="MADICHVU" />
+          <ScalarProperty Name="TRIEUCHUNG" ColumnName="TRIEUCHUNG" />
+          <ScalarProperty Name="NGAYKHAM" ColumnName="NGAYKHAM" />
+          <ScalarProperty Name="THANHTIEN" ColumnName="THANHTIEN" />
+          <ScalarProperty Name="KETLUAN" ColumnName="KETLUAN" />
+          <ScalarProperty Name="CHANGED_DATE" ColumnName="CHANGED_DATE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BENHNHAN">
+      <EntityTypeMapping TypeName="QUANLYBENHVIENModel.BENHNHAN">
+        <MappingFragment StoreEntitySet="BENHNHAN">
+          <ScalarProperty Name="MABENHNHAN" ColumnName="MABENHNHAN" />
+          <ScalarProperty Name="SUB_ID" ColumnName="SUB_ID" />
+          <ScalarProperty Name="MAPHONG" ColumnName="MAPHONG" />
+          <ScalarProperty Name="HOTEN" ColumnName="HOTEN" />
+          <ScalarProperty Name="GIOITINH" ColumnName="GIOITINH" />
+          <ScalarProperty Name="NGAYSINH" ColumnName="NGAYSINH" />
+          <ScalarProperty Name="DIACHI" ColumnName="DIACHI" />
+          <ScalarProperty Name="MABHYT" ColumnName="MABHYT" />
+          <ScalarProperty Name="NGAYNHAPVIEN" ColumnName="NGAYNHAPVIEN" />
+          <ScalarProperty Name="SODIENTHOAI" ColumnName="SODIENTHOAI" />
+          <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CHITIETDONTHUOC">
+      <EntityTypeMapping TypeName="QUANLYBENHVIENModel.CHITIETDONTHUOC">
+        <MappingFragment StoreEntitySet="CHITIETDONTHUOC">
+          <ScalarProperty Name="MADONTHUOC" ColumnName="MADONTHUOC" />
+          <ScalarProperty Name="MATHUOC" ColumnName="MATHUOC" />
+          <ScalarProperty Name="SOLUONG" ColumnName="SOLUONG" />
+          <ScalarProperty Name="SOLAN" ColumnName="SOLAN" />
+          <ScalarProperty Name="GHICHU" ColumnName="GHICHU" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DICHVU">
+      <EntityTypeMapping TypeName="QUANLYBENHVIENModel.DICHVU">
+        <MappingFragment StoreEntitySet="DICHVU">
+          <ScalarProperty Name="MADICHVU" ColumnName="MADICHVU" />
+          <ScalarProperty Name="SUB_ID" ColumnName="SUB_ID" />
+          <ScalarProperty Name="TENDICHVU" ColumnName="TENDICHVU" />
+          <ScalarProperty Name="GIATIEN" ColumnName="GIATIEN" />
+          <ScalarProperty Name="PICTURE" ColumnName="PICTURE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DONTHUOC">
+      <EntityTypeMapping TypeName="QUANLYBENHVIENModel.DONTHUOC">
+        <MappingFragment StoreEntitySet="DONTHUOC">
+          <ScalarProperty Name="MADONTHUOC" ColumnName="MADONTHUOC" />
+          <ScalarProperty Name="SUB_ID" ColumnName="SUB_ID" />
+          <ScalarProperty Name="MABENHAN" ColumnName="MABENHAN" />
+          <ScalarProperty Name="GHICHU" ColumnName="GHICHU" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="KHOA">
+      <EntityTypeMapping TypeName="QUANLYBENHVIENModel.KHOA">
+        <MappingFragment StoreEntitySet="KHOA">
+          <ScalarProperty Name="MAKHOA" ColumnName="MAKHOA" />
+          <ScalarProperty Name="SUB_ID" ColumnName="SUB_ID" />
+          <ScalarProperty Name="TENKHOA" ColumnName="TENKHOA" />
+          <ScalarProperty Name="NGAYTHANHLAP" ColumnName="NGAYTHANHLAP" />
+          <ScalarProperty Name="TRUONGKHOA" ColumnName="TRUONGKHOA" />
+          <ScalarProperty Name="PICTURE" ColumnName="PICTURE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LICHKHAM">
+      <EntityTypeMapping TypeName="QUANLYBENHVIENModel.LICHKHAM">
+        <MappingFragment StoreEntitySet="LICHKHAM">
+          <ScalarProperty Name="MALICHKHAM" ColumnName="MALICHKHAM" />
+          <ScalarProperty Name="SUB_ID" ColumnName="SUB_ID" />
+          <ScalarProperty Name="MABACSI" ColumnName="MABACSI" />
+          <ScalarProperty Name="MABENHNHAN" ColumnName="MABENHNHAN" />
+          <ScalarProperty Name="MAPHONG" ColumnName="MAPHONG" />
+          <ScalarProperty Name="MADICHVU" ColumnName="MADICHVU" />
+          <ScalarProperty Name="NGAYKHAM" ColumnName="NGAYKHAM" />
+          <ScalarProperty Name="NGAYLENLICH" ColumnName="NGAYLENLICH" />
+          <ScalarProperty Name="CAKHAM" ColumnName="CAKHAM" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PHONG">
+      <EntityTypeMapping TypeName="QUANLYBENHVIENModel.PHONG">
+        <MappingFragment StoreEntitySet="PHONG">
+          <ScalarProperty Name="MAPHONG" ColumnName="MAPHONG" />
+          <ScalarProperty Name="SUB_ID" ColumnName="SUB_ID" />
+          <ScalarProperty Name="TANG" ColumnName="TANG" />
+          <ScalarProperty Name="TENPHONG" ColumnName="TENPHONG" />
+          <ScalarProperty Name="SUCCHUA" ColumnName="SUCCHUA" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="QUANLYBENHVIENModel.sysdiagrams">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TAIKHOAN">
+      <EntityTypeMapping TypeName="QUANLYBENHVIENModel.TAIKHOAN">
+        <MappingFragment StoreEntitySet="TAIKHOAN">
+          <ScalarProperty Name="TENDANGNHAP" ColumnName="TENDANGNHAP" />
+          <ScalarProperty Name="MATKHAU" ColumnName="MATKHAU" />
+          <ScalarProperty Name="MASO" ColumnName="MASO" />
+          <ScalarProperty Name="LOAITAIKHOAN" ColumnName="LOAITAIKHOAN" />
+          <ScalarProperty Name="AVATAR" ColumnName="AVATAR" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="THUOC">
+      <EntityTypeMapping TypeName="QUANLYBENHVIENModel.THUOC">
+        <MappingFragment StoreEntitySet="THUOC">
+          <ScalarProperty Name="MATHUOC" ColumnName="MATHUOC" />
+          <ScalarProperty Name="SUB_ID" ColumnName="SUB_ID" />
+          <ScalarProperty Name="GHICHU" ColumnName="GHICHU" />
+          <ScalarProperty Name="GIATIEN" ColumnName="GIATIEN" />
+          <ScalarProperty Name="DONVITINH" ColumnName="DONVITINH" />
+          <ScalarProperty Name="TENTHUOC" ColumnName="TENTHUOC" />
+          <ScalarProperty Name="SOLUONG" ColumnName="SOLUONG" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="YSI">
+      <EntityTypeMapping TypeName="QUANLYBENHVIENModel.YSI">
+        <MappingFragment StoreEntitySet="YSI">
+          <ScalarProperty Name="MAYSI" ColumnName="MAYSI" />
+          <ScalarProperty Name="SUB_ID" ColumnName="SUB_ID" />
+          <ScalarProperty Name="MAKHOA" ColumnName="MAKHOA" />
+          <ScalarProperty Name="MAPHONG" ColumnName="MAPHONG" />
+          <ScalarProperty Name="HOTEN" ColumnName="HOTEN" />
+          <ScalarProperty Name="GIOITINH" ColumnName="GIOITINH" />
+          <ScalarProperty Name="NGAYSINH" ColumnName="NGAYSINH" />
+          <ScalarProperty Name="NGAYVAOLAM" ColumnName="NGAYVAOLAM" />
+          <ScalarProperty Name="LOAIYSI" ColumnName="LOAIYSI" />
+          <ScalarProperty Name="MACHIHUY" ColumnName="MACHIHUY" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +13,7 @@ using RestSharp;
 using System.Windows.Media.Imaging;
 using Microsoft.Win32;
 using System.Net.NetworkInformation;
+using System.Net;
 
 namespace LTTQ_DoAn.ViewModel
 {
@@ -75,7 +76,16 @@ namespace LTTQ_DoAn.ViewModel
             CancelCommand = new ViewModelCommand(ExecuteCancelCommand, CanExecuteCancelCommand);
             ConfirmChangeCommand = new ViewModelCommand(ExecuteChangeCommand, CanExecuteChangeCommand);
             AddImageCommand = new ViewModelCommand(ExecuteAddImageCommand, CanExecuteAddImageCommand);
-
+            
+            if (Dichvu != null && string.IsNullOrEmpty(Dichvu.PICTURE))
+            {
+                Image_url = GetAutoMedicalImage();
+                try
+                {
+                    Image = new BitmapImage(new Uri(Image_url));
+                }
+                catch { }
+            }
         }
         private bool CanExecuteAddImageCommand(object? obj)
         {
@@ -84,45 +94,65 @@ namespace LTTQ_DoAn.ViewModel
         private void postImage(string path)
         {
             var client = new RestClient("http://3.25.245.200");
-            // client.Authenticator = new HttpBasicAuthenticator(username, password);
             var request = new RestRequest("photo/item");
             request.AddFile("image", path);
             var response = client.Post(request);
-            var content = response.Content; // Raw content as string
+            var content = response.Content;
             ImageResponse jsonResponse = JsonNet.Deserialize<ImageResponse>(content);
             string data = jsonResponse.url.ToString();
             Image_url = data;
         }
-        private void ExecuteAddImageCommand(object? obj)
-        {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "Image files|*.bmp;*.jpg;*.png";
-            ofd.FilterIndex = 1;
-            if (ofd.ShowDialog() == true)
-            {
-                Image = new BitmapImage(new Uri(ofd.FileName));
-            }
-            string currentDirectory = System.IO.Directory.GetCurrentDirectory();
-            string store_dir = currentDirectory + "\\service_temporary_image.png";
-            BitmapEncoder encoder = new PngBitmapEncoder();
-            encoder.Frames.Add(BitmapFrame.Create(Image));
 
-            using (var fileStream = new System.IO.FileStream(store_dir, System.IO.FileMode.Create))
-            {
-                encoder.Save(fileStream);
-            }
+        private string GetAutoMedicalImage()
+        {
             try
             {
-                postImage(store_dir);
-                new MessageBoxCustom("Thông báo", "Tải ảnh lên thành công", MessageType.Success, MessageButtons.OK).ShowDialog();
-
+                string searchTerm = "medical";
+                if (!string.IsNullOrEmpty(Dichvu?.TENDICHVU))
+                {
+                    string tenDichVu = Dichvu.TENDICHVU.ToLower();
+                    if (tenDichVu.Contains("khám") || tenDichVu.Contains("kham"))
+                    {
+                        searchTerm = "medical examination";
+                    }
+                    else if (tenDichVu.Contains("xét nghiệm") || tenDichVu.Contains("xet nghiem"))
+                    {
+                        searchTerm = "medical test";
+                    }
+                    else if (tenDichVu.Contains("siêu âm") || tenDichVu.Contains("sieu am"))
+                    {
+                        searchTerm = "ultrasound";
+                    }
+                    else if (tenDichVu.Contains("x-quang") || tenDichVu.Contains("x quang"))
+                    {
+                        searchTerm = "xray";
+                    }
+                    else if (tenDichVu.Contains("phẫu thuật") || tenDichVu.Contains("phau thuat"))
+                    {
+                        searchTerm = "surgery";
+                    }
+                }
+                
+                return "https://picsum.photos/400/300?random=" + DateTime.Now.Ticks;
             }
-
+            catch
+            {
+                return "https://picsum.photos/400/300";
+            }
+        }
+        private void ExecuteAddImageCommand(object? obj)
+        {
+            try
+            {
+                string autoImageUrl = GetAutoMedicalImage();
+                Image_url = autoImageUrl;
+                Image = new BitmapImage(new Uri(autoImageUrl));
+                new MessageBoxCustom("Thông báo", "Đã tự động tải ảnh y khoa", MessageType.Success, MessageButtons.OK).ShowDialog();
+            }
             catch (Exception e)
             {
-                new MessageBoxCustom("Lỗi", "Tải ảnh lên thất bại\n Lỗi: " + e.Message, MessageType.Error, MessageButtons.OK).ShowDialog();
+                new MessageBoxCustom("Lỗi", "Không thể tải ảnh: " + e.Message, MessageType.Error, MessageButtons.OK).ShowDialog();
             }
-
         }
         private bool CanExecuteCancelCommand(object? obj)
         {

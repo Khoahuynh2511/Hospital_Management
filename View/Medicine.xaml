@@ -1,10 +1,11 @@
-﻿<UserControl x:Class="LTTQ_DoAn.View.Medicine"
+<UserControl x:Class="LTTQ_DoAn.View.Medicine"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LTTQ_DoAn.View"
              xmlns:viewmodel="clr-namespace:LTTQ_DoAn.ViewModel"
+             xmlns:resource="clr-namespace:LTTQ_DoAn.Resource"
              mc:Ignorable="d" 
              d:DesignHeight="644" d:DesignWidth="1049"
              xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
@@ -14,6 +15,8 @@
     </UserControl.DataContext>
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <resource:LowStockConverter x:Key="LowStockConverter"/>
+        <resource:VndCurrencyConverter x:Key="VndCurrencyConverter" />
     </UserControl.Resources>
     <Border
         CornerRadius="20"
@@ -83,15 +86,35 @@
                         Binding="{Binding TENTHUOC}">
                     </DataGridTextColumn>
 
-                    <DataGridTextColumn Header="Số lượng" Width="15*"
-                        IsReadOnly="True" CanUserResize="False"
-                        Binding="{Binding SOLUONG}">
-                    </DataGridTextColumn>
+                    <DataGridTemplateColumn Header="So luong" Width="15*"
+                        IsReadOnly="True" CanUserResize="False">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding SOLUONG}">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding SOLUONG, Converter={StaticResource LowStockConverter}}" Value="True">
+                                                    <Setter Property="Foreground" Value="{StaticResource dangerColor}"/>
+                                                    <Setter Property="FontWeight" Value="Bold"/>
+                                                    <Setter Property="ToolTip" Value="Thuoc sap het - Can nhap them!"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
 
-                    <DataGridTextColumn Header="Giá tiền" Width="15*"
-                        IsReadOnly="True" CanUserResize="False"
-                        Binding="{Binding GIATIEN}">
-                    </DataGridTextColumn>
+                    <DataGridTemplateColumn Header="Giá tiền" Width="15*"
+                        IsReadOnly="True" CanUserResize="False">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding GIATIEN, Converter={StaticResource VndCurrencyConverter}}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
 
                     <DataGridTextColumn Header="Đơn vị" Width="10*"
                         IsReadOnly="True" CanUserResize="False"

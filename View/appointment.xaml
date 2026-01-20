@@ -37,10 +37,11 @@
                                       />
                         <TextBox
                             Style="{StaticResource loginTextBox}"
+                            Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
                             CaretBrush="Black"
                             Panel.ZIndex="1"
                             Margin="0 0 10 2"
-                            
+                            ToolTip="Tim kiem theo ten benh nhan, ma lich kham, dich vu"
                             >
                         </TextBox>
                         <Button 

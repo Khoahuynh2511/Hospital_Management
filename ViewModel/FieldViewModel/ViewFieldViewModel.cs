@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -44,12 +44,12 @@ namespace LTTQ_DoAn.ViewModel
                 {
                     continue;
                 }
-                if (item.LOAIYSI.Substring(0, 6).Equals("Bác sĩ"))
+                if (item.LOAIYSI.StartsWith("Bác sĩ"))
                 {
                     soBacSi++;
                     continue;
                 }
-                if (item.LOAIYSI.Substring(0, 4).Equals("Y tá"))
+                if (item.LOAIYSI.StartsWith("Y tá"))
                 {
                     soYTa++;
                     continue;

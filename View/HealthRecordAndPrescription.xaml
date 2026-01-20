@@ -1,4 +1,4 @@
-﻿<Window x:Class="LTTQ_DoAn.View.HealthRecordAndPrescription"
+<Window x:Class="LTTQ_DoAn.View.HealthRecordAndPrescription"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -10,7 +10,7 @@
         Background="Transparent"
         xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
         xmlns:materialdesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         Title="MainWindow" Height="800" Width="1000" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True">
     <Window.DataContext>
         <viewmodel:HealthRecordAndPrescriptionViewModel></viewmodel:HealthRecordAndPrescriptionViewModel>
@@ -71,14 +71,14 @@
                                 </ListView.ItemContainerStyle>
                                 <ListView.View>
                                     <GridView>
-                                        <GridViewColumn Width="880">
+                                        <GridViewColumn Width="850">
                                             <GridViewColumnHeader Visibility="Collapsed"/>
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <Expander HorizontalAlignment="Stretch"
                                                             Header="{Binding SUB_ID}"
                                                             FontWeight="Bold"
-                                                            Width="880"
+                                                            Width="850"
                                                             FontSize="15">
                                                         <Grid>
                                                             <Grid.RowDefinitions>
@@ -133,21 +133,12 @@
                                                                 </ScrollViewer>
                                                             </StackPanel>
                                                             <StackPanel Grid.Row="3" Orientation="Horizontal">
-                                                                <TextBlock Text="Bác sĩ: "
-                                                                           FontWeight="Bold"
-                                                                           Style="{StaticResource InfoText}"/>
-                                                                <!--tên bác sĩ khám-->
-                                                                <TextBlock Text="{Binding MAYSI}"
-                                                                           Style="{StaticResource InfoText}"
-                                                                           Margin="0 0 50 0"/>
                                                                 <TextBlock Text="Dịch vụ: "
                                                                             FontWeight="Bold"
                                                                             Style="{StaticResource InfoText}"/>
-                                                                <!--dich vu-->
                                                                 <TextBlock Text="{Binding DICHVU}"
                                                                             Style="{StaticResource InfoText}"
                                                                             Margin="0 0 50 0"/>
-                                                                <!--giá tiền khám-->
                                                                 <TextBlock Text="Chi Phí: "
                                                                            FontWeight="Bold"
                                                                             Style="{StaticResource InfoText}"/>
@@ -160,7 +151,7 @@
                                             </GridViewColumn.CellTemplate>
                                         </GridViewColumn>
                                         <!--các nút thao tác như xóa, sửa-->
-                                        <GridViewColumn Width="100">
+                                        <GridViewColumn Width="150">
                                             <GridViewColumnHeader Visibility="Collapsed"/>
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
@@ -184,6 +175,18 @@
                                                             <i:Interaction.Triggers>
                                                                 <i:EventTrigger EventName="MouseLeftButtonDown">
                                                                     <i:InvokeCommandAction Command="{Binding DataContext.ViewHistory, RelativeSource={RelativeSource AncestorType=ListView}}"/>
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                        </Border>
+                                                        <!--command xoa benh an-->
+                                                        <Border Style="{StaticResource borderList}"
+                                                                Margin="5 5 0 5"
+                                                                Visibility="{Binding DataContext.ChangeVisibility, Converter={StaticResource BoolToVisibilityConverter}, RelativeSource={RelativeSource AncestorType=ListView}}">
+                                                            <fa:IconImage Icon="Trash" Height="20"/>
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="MouseLeftButtonDown">
+                                                                    <i:InvokeCommandAction Command="{Binding DataContext.DeleteHRCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                                                                          CommandParameter="{Binding}"/>
                                                                 </i:EventTrigger>
                                                             </i:Interaction.Triggers>
                                                         </Border>
@@ -241,13 +244,13 @@
                                 </ListView.ItemContainerStyle>
                                 <ListView.View>
                                     <GridView>
-                                        <GridViewColumn Width="900">
+                                        <GridViewColumn Width="850">
                                             <GridViewColumnHeader Visibility="Collapsed"/>
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <Expander HorizontalAlignment="Stretch"
                                                             Header="{Binding SUB_IDDT}"
-                                                            Width="880"
+                                                            Width="850"
                                                             FontWeight="Bold"
                                                             FontSize="15">
                                                         <Grid>
@@ -284,13 +287,6 @@
                                                                            />
                                                             </StackPanel>
                                                             <StackPanel Grid.Row="2" Orientation="Horizontal">
-                                                                <!--tên bác sĩ khám-->
-                                                                <TextBlock Text="Bác sĩ: "
-                                                                           FontWeight="Bold"
-                                                                         Style="{StaticResource InfoText}"/>
-                                                                <TextBlock Text="{Binding BACSI}"
-                                                                       Style="{StaticResource InfoText}"
-                                                                       Margin="0 0 200 0"/>
                                                             </StackPanel>
                                                         </Grid>
                                                     </Expander>
@@ -298,7 +294,7 @@
                                             </GridViewColumn.CellTemplate>
                                         </GridViewColumn>
                                         <!--các nút thao tác như xóa, sửa-->
-                                        <GridViewColumn Width="100">
+                                        <GridViewColumn Width="150">
                                             <GridViewColumnHeader Visibility="Collapsed"/>
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
@@ -309,8 +305,29 @@
                                                             <fa:IconImage Icon="PenToSquare" Height="20"/>
                                                             <i:Interaction.Triggers>
                                                                 <i:EventTrigger EventName="MouseLeftButtonDown">
-                                                                    <!--them command sua vao day-->
                                                                     <i:InvokeCommandAction Command="{Binding DataContext.ChangePCommand, RelativeSource={RelativeSource AncestorType=ListView}}"/>
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                        </Border>
+                                                        <Border Style="{StaticResource borderList}"
+                                                                Margin="5"
+                                                                ToolTip="In toa thuoc">
+                                                            <fa:IconImage Icon="Print" Height="20"/>
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="MouseLeftButtonDown">
+                                                                    <i:InvokeCommandAction Command="{Binding DataContext.PrintPrescriptionCommand, RelativeSource={RelativeSource AncestorType=ListView}}"/>
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                        </Border>
+                                                        <!--command xoa don thuoc-->
+                                                        <Border Style="{StaticResource borderList}"
+                                                                Margin="5"
+                                                                Visibility="{Binding DataContext.ChangeVisibility, Converter={StaticResource BoolToVisibilityConverter}, RelativeSource={RelativeSource AncestorType=ListView}}">
+                                                            <fa:IconImage Icon="Trash" Height="20"/>
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="MouseLeftButtonDown">
+                                                                    <i:InvokeCommandAction Command="{Binding DataContext.DeletePCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                                                                          CommandParameter="{Binding}"/>
                                                                 </i:EventTrigger>
                                                             </i:Interaction.Triggers>
                                                         </Border>

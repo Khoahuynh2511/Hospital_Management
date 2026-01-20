@@ -1,4 +1,4 @@
-﻿<Window x:Class="LTTQ_DoAn.View.ChangeVictim"
+<Window x:Class="LTTQ_DoAn.View.ChangeVictim"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -118,26 +118,25 @@
                     Height="200"/>
             </Grid>
             <WrapPanel Grid.Row="3" Margin="50 20 0 0">
-                <!--phòng-->
+                <!--So dien thoai-->
                 <StackPanel Margin="0 0 25 30">
                     <TextBlock Style="{StaticResource TitlePersonalInfo}"
-                               Text="Phòng:"
+                               Text="So dien thoai:"
                                />
-                    <ComboBox 
-                                        SelectedValue="{Binding Phong_SUBID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                ItemsSource="{Binding Listphong}"
-                             Width="130"
-                            FontSize="15"
-                            FontFamily="Poppins">
-                    </ComboBox>
+                    <TextBox Style="{StaticResource TextPersonalInfo}"
+                             Text="{Binding Benhnhan.SODIENTHOAI}"
+                             Width="150">
+                    </TextBox>
                 </StackPanel>
-                <!--ngày nhập viện-->
+                <!--Email-->
                 <StackPanel Margin="25 0 25 30">
                     <TextBlock Style="{StaticResource TitlePersonalInfo}"
-                               Text="Ngày nhập viện:"
+                               Text="Email:"
                                />
-                    <DatePicker Height="30" Width="110" FontSize="15"
-                                SelectedDate="{Binding Benhnhan.NGAYNHAPVIEN}"/>
+                    <TextBox Style="{StaticResource TextPersonalInfo}"
+                             Text="{Binding Benhnhan.EMAIL}"
+                             Width="200">
+                    </TextBox>
                 </StackPanel>
             </WrapPanel>
             <!--2 nút-->

@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:viewModel="clr-namespace:LTTQ_DoAn.ViewModel"
              xmlns:local="clr-namespace:LTTQ_DoAn.View"
+             xmlns:resource="clr-namespace:LTTQ_DoAn.Resource"
              mc:Ignorable="d" 
              xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
              Background="Transparent"
@@ -15,6 +16,7 @@
     </UserControl.DataContext>
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <resource:NullToBoolConverter x:Key="NullToBoolConverter" />
     </UserControl.Resources>
     <Border
         CornerRadius="20"
@@ -38,18 +40,32 @@
                                       />
                         <TextBox
                             Style="{StaticResource loginTextBox}"
+                            Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
                             CaretBrush="Black"
                             Panel.ZIndex="1"
                             Margin="0 0 10 2"
+                            ToolTip="Tim kiem theo ten, ma benh nhan, BHYT, dia chi"
                             >
                         </TextBox>
                         <Button 
                             Command="{Binding AddCommand}"
                             Style="{StaticResource BtnUserControl}"
-                            Visibility="{Binding AddVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
+                            Visibility="{Binding AddVisibility, Converter={StaticResource BoolToVisibilityConverter}}"
+                            Margin="0 0 10 0">
                             <TextBlock
                                     Style="{StaticResource UserControlText}"
                                     Text="Thêm bệnh nhân"
+                                    >
+                            </TextBlock>
+                        </Button>
+                        <Button 
+                            Command="{Binding DeleteCommand}"
+                            Style="{StaticResource BtnUserControl_Delete}"
+                            Visibility="{Binding DeleteVisibility, Converter={StaticResource BoolToVisibilityConverter}}"
+                            IsEnabled="{Binding SelectedItem, Converter={StaticResource NullToBoolConverter}}">
+                            <TextBlock
+                                    Style="{StaticResource UserControlText}"
+                                    Text="Xóa bệnh nhân"
                                     >
                             </TextBlock>
                         </Button>
@@ -81,7 +97,7 @@
                     <DataGridTextColumn Header="Giới tính" Width="10*" Binding="{Binding GIOITINH}"
                                         IsReadOnly="True" CanUserResize="False">
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="Ngày nhập viện" Width="15*" Binding="{Binding NGAYNHAPVIEN, StringFormat='dd/MM/yyyy'}"
+                    <DataGridTextColumn Header="Số điện thoại" Width="15*" Binding="{Binding SODIENTHOAI}"
                                         IsReadOnly="True" CanUserResize="False">
                     </DataGridTextColumn>
                     <DataGridTemplateColumn Header="Thao tác" Width="15*"
@@ -117,8 +133,19 @@
                                         Visibility="{Binding DataContext.ViewHealthRecordVisibility, Converter={StaticResource BoolToVisibilityConverter},RelativeSource={RelativeSource AncestorType=DataGrid}}"
                                         Tag="{StaticResource normalButton}"
                                         Style="{StaticResource gridOpenButton}"
+                                            Margin="0 0 10 0"
                                             ToolTip="Bệnh án và đơn thuốc">
                                         <fa:IconImage Icon="NotesMedical"
+                                                      Height="20"/>
+                                    </RadioButton>
+                                    <!--xóa bệnh nhân-->
+                                    <RadioButton 
+                                        Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                        Visibility="{Binding DataContext.DeleteVisibility, Converter={StaticResource BoolToVisibilityConverter},RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                        Tag="{StaticResource normalButton}"
+                                        Style="{StaticResource gridOpenButton}"
+                                            ToolTip="Xóa bệnh nhân">
+                                        <fa:IconImage Icon="Trash"
                                                       Height="20"/>
                                     </RadioButton>
                                 </StackPanel>

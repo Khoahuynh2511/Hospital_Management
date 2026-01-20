@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -76,6 +76,22 @@ namespace LTTQ_DoAn.ViewModel
                 OnPropertyChanged(nameof(Diachi));
             }
         }
+        public string SoDienThoai
+        {
+            get => sodienthoai; set
+            {
+                sodienthoai = value;
+                OnPropertyChanged(nameof(SoDienThoai));
+            }
+        }
+        public string Email
+        {
+            get => email; set
+            {
+                email = value;
+                OnPropertyChanged(nameof(Email));
+            }
+        }
 
         public List<string> Listphong { get => listphong; set => listphong = value; }
 
@@ -86,6 +102,8 @@ namespace LTTQ_DoAn.ViewModel
         private string maphong = null;
         private string ngaynhapvien = null;
         private string diachi = null;
+        private string sodienthoai = null;
+        private string email = null;
         private List<String> listphong;
         public AddVictimViewModel(int id)
         {
@@ -95,23 +113,32 @@ namespace LTTQ_DoAn.ViewModel
         }
         public void insert()
         {
+            DateTime? ngaySinh = null;
+            if (!string.IsNullOrEmpty(Ngaysinh))
+            {
+                ngaySinh = DateTime.ParseExact(Ngaysinh, "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
+            }
+
+            DateTime? ngayNhapVien = null;
+            if (!string.IsNullOrEmpty(Ngaynhapvien))
+            {
+                ngayNhapVien = DateTime.ParseExact(Ngaynhapvien, "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
+            }
+
             BENHNHAN newBenhnhan = new BENHNHAN()
             {
                 HOTEN = this.Ten,
                 GIOITINH = Gioitinh,
-                NGAYSINH = DateTime.ParseExact(Ngaysinh, "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture),
+                NGAYSINH = ngaySinh,
                 MABHYT = Bhyt,
                 MAPHONG = this.convertPhongSUB_ID(Maphong),
-                NGAYNHAPVIEN = DateTime.ParseExact(Ngaynhapvien, "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture),
-                DIACHI = Diachi
+                NGAYNHAPVIEN = ngayNhapVien,
+                DIACHI = Diachi,
+                SODIENTHOAI = SoDienThoai,
+                EMAIL = Email
             };
-            //newBenhnhan.MAPHONG = 1;
-            //MessageBox.Show(Gioitinh);
-            //MessageBox.Show(Ten + Gioitinh + Ngaysinh + Bhyt + this.convertSUB_ID(Maphong) + Ngaynhapvien + Diachi);
             _db.BENHNHAN.AddObject(newBenhnhan);
-            //_db.BENHNHAN.AddObject(newBenhnhan);
             _db.SaveChanges();
-            //BaseViewModel.global_db = _db;
         }
         public void loadPhong()
         {

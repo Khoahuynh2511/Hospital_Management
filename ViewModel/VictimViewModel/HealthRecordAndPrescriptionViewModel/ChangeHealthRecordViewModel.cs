@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -75,13 +75,29 @@ namespace LTTQ_DoAn.ViewModel
                 UpdateChiphi(dichvu);
             }
         }
-        protected void UpdateChiphi(string Dichvu)
+        protected void UpdateChiphi(string dichvuStr)
         {
-            Dichvu = Dichvu.Substring(5);
-            List<DICHVU> dichvu = _db.DICHVU.ToList();
-            for (int i = 0; i < dichvu.Count; i++)
-                if (dichvu[i].TENDICHVU == Dichvu)
-                    Chiphi = dichvu[i].GIATIEN.ToString();
+            if (string.IsNullOrEmpty(dichvuStr) || dichvuStr.Length < 5)
+            {
+                return;
+            }
+            try
+            {
+                string tenDV = dichvuStr.Substring(5);
+                List<DICHVU> dichvuList = _db.DICHVU.ToList();
+                foreach (var dv in dichvuList)
+                {
+                    if (dv.TENDICHVU == tenDV)
+                    {
+                        Chiphi = dv.GIATIEN.ToString();
+                        break;
+                    }
+                }
+            }
+            catch
+            {
+                // Ignore parse errors
+            }
         }
         public ICommand CancelCommand { get; }
         public ICommand ConfirmChangeCommand { get; }
@@ -116,17 +132,16 @@ namespace LTTQ_DoAn.ViewModel
             List<String> subID = new List<String>();
             foreach (var item in bacsi)
             {
-                if (item.LOAIYSI == null)
+                if (string.IsNullOrEmpty(item.LOAIYSI))
                 {
                     continue;
                 }
-                if (item.LOAIYSI.Substring(0, 6).Equals("Bác sĩ"))
+                if (item.LOAIYSI.StartsWith("Bác sĩ"))
                 {
                     subID.Add(item.HOTEN + ": " + item.SUB_ID);
                 }
             }
             this.Bacsilist = subID;
-
         }
 
         public ChangeHealthRecordViewModel()
@@ -161,7 +176,6 @@ namespace LTTQ_DoAn.ViewModel
             BENHAN updateBenhan = (from m in _db.BENHAN
                                        where m.MABENHAN == Benhan.MABENHAN
                                        select m).Single();
-            updateBenhan.MAYSI = convertBacsiSub_ID(Bacsi);
             updateBenhan.MABENHNHAN = Benhan.BENHNHAN.MABENHNHAN;
             updateBenhan.MADICHVU = convertDichvuSub_ID(Dichvu);
             updateBenhan.THANHTIEN = Decimal.Parse(Chiphi);
@@ -196,7 +210,7 @@ namespace LTTQ_DoAn.ViewModel
                 NGAYKHAM = (DateTime)Benhan.NGAYKHAM,
                 TRIEUCHUNG = Benhan.TRIEUCHUNG,
                 KETLUAN = Benhan.KETLUAN,
-                MAYSI = (int)Benhan.MAYSI,
+                MAYSI = Benhan.MAYSI ?? 0,
                 THANHTIEN = (int)Benhan.THANHTIEN,
             };
             Benhan_history = benhan_backup;
@@ -206,10 +220,23 @@ namespace LTTQ_DoAn.ViewModel
             findBenhAn(maBenhAn);
             createBenhAn_backup();
             loadDichvu();
-            loadBacsi();
-            //Bacsi = Benhan.YSI.SUB_ID + ": " + Benhan.YSI.HOTEN;
-            Bacsi = Benhan.YSI.HOTEN + ": " + Benhan.YSI.SUB_ID;
-            Dichvu = Benhan.DICHVU.SUB_ID + ": " + Benhan.DICHVU.TENDICHVU;
+            
+            // Load chi phi tu benh an hien tai
+            if (Benhan.THANHTIEN != null)
+            {
+                Chiphi = Benhan.THANHTIEN.ToString();
+            }
+            
+            // Load dich vu
+            if (Benhan.DICHVU != null)
+            {
+                Dichvu = Benhan.DICHVU.SUB_ID + ": " + Benhan.DICHVU.TENDICHVU;
+            }
+            else if (DichVuList != null && DichVuList.Count > 0)
+            {
+                Dichvu = DichVuList[0];
+            }
+            
             CancelCommand = new ViewModelCommand(ExecuteCancelCommand, CanExecuteCancelCommand);
             ConfirmChangeCommand = new ViewModelCommand(ExecuteConfirmChangeCommand, CanExecuteConfirmChangeCommand);
         }

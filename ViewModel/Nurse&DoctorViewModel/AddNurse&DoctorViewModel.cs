@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -101,38 +101,62 @@ namespace LTTQ_DoAn.ViewModel
         }
         public int? convertPhongSUB_ID(string Sub_id)
         {
-            if (Sub_id == null)
+            if (string.IsNullOrEmpty(Sub_id))
             {
                 return null;
             }
-            // Chuỗi cần tách
-            string inputString = Sub_id;
-            string[] parts = inputString.Split(new[] { ':' }, 2);
-            // Tách các ký tự còn lại thành một chuỗi riêng
+            // Chuoi can tach
+            string[] parts = Sub_id.Split(new[] { ':' }, 2);
+            if (parts.Length == 0 || parts[0].Length < 4)
+            {
+                return null;
+            }
+            // Tach cac ky tu con lai thanh mot chuoi rieng
             string remainingCharacters = parts[0].Substring(3);
-            return int.Parse(remainingCharacters);
+            if (int.TryParse(remainingCharacters, out int result))
+            {
+                return result;
+            }
+            return null;
         }
 
         public int? convertChiHuySUB_ID(string Sub_id)
         {
-            if (Sub_id == null)
+            if (string.IsNullOrEmpty(Sub_id) || Sub_id == "Không có cấp trên")
             {
                 return null;
             }
-            // Chuỗi cần tách
-            string inputString = Sub_id;
-
-            // Tách các ký tự còn lại thành một chuỗi riêng
-            string remainingCharacters = inputString.Substring(1);
-
-            return int.Parse(remainingCharacters);
+            // Chuoi can tach
+            string[] parts = Sub_id.Split(new[] { ':' }, 2);
+            if (parts.Length == 0 || parts[0].Length < 2)
+            {
+                return null;
+            }
+            string k1 = parts[0].Substring(1);
+            if (int.TryParse(k1, out int result))
+            {
+                return result;
+            }
+            return null;
         }
         public int convertKhoaSub_ID(string inputString)
         {
-            // Tách chuỗi sử dụng phương thức Split
+            if (string.IsNullOrEmpty(inputString))
+            {
+                return 0;
+            }
+            // Tach chuoi su dung phuong thuc Split
             string[] parts = inputString.Split(new[] { ':' }, 2);
+            if (parts.Length == 0 || parts[0].Length < 2)
+            {
+                return 0;
+            }
             string k1 = parts[0].Substring(1);
-            return int.Parse(k1);
+            if (int.TryParse(k1, out int result))
+            {
+                return result;
+            }
+            return 0;
         }
         public void insert()
         {

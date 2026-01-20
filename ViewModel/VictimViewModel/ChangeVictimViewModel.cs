@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -58,7 +58,8 @@ namespace LTTQ_DoAn.ViewModel
             updateBenhnhan.DIACHI = Benhnhan.DIACHI;
             updateBenhnhan.MABHYT = Benhnhan.MABHYT;
             updateBenhnhan.NGAYNHAPVIEN = Benhnhan.NGAYNHAPVIEN;
-            //updateMember.gender = genderComboBox.Text;
+            updateBenhnhan.SODIENTHOAI = Benhnhan.SODIENTHOAI;
+            updateBenhnhan.EMAIL = Benhnhan.EMAIL;
             _db.SaveChanges();
         }
         public void loadPhong()

@@ -1,4 +1,4 @@
-﻿using LTTQ_DoAn.View;
+using LTTQ_DoAn.View;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -30,7 +30,9 @@ namespace LTTQ_DoAn.ViewModel
         public ICommand DeleteApointmentCommand { get; }
 
         private List<LichKhamType> lichkhams;
+        private List<LichKhamType> allLichkhams;
         private LichKhamType selectedItem = null;
+        private string searchText = "";
 
         public bool deleteVisibility = true;
         public bool changeVisibility = true;
@@ -51,6 +53,32 @@ namespace LTTQ_DoAn.ViewModel
             {
                 selectedItem = value;
                 OnPropertyChanged(nameof(SelectedItem));
+            }
+        }
+        public string SearchText
+        {
+            get => searchText;
+            set
+            {
+                searchText = value;
+                OnPropertyChanged(nameof(SearchText));
+                FilterAppointments();
+            }
+        }
+        private void FilterAppointments()
+        {
+            if (string.IsNullOrWhiteSpace(SearchText))
+            {
+                LICHKHAMs = allLichkhams;
+            }
+            else
+            {
+                string keyword = SearchText.ToLower();
+                LICHKHAMs = allLichkhams.Where(lk =>
+                    (lk.Benhnhan.HOTEN != null && lk.Benhnhan.HOTEN.ToLower().Contains(keyword)) ||
+                    (lk.Lichkham.SUB_ID != null && lk.Lichkham.SUB_ID.ToLower().Contains(keyword)) ||
+                    (lk.Dichvu.TENDICHVU != null && lk.Dichvu.TENDICHVU.ToLower().Contains(keyword))
+                ).ToList();
             }
         }
         public bool DeleteVisibility
@@ -117,7 +145,8 @@ namespace LTTQ_DoAn.ViewModel
                 };
                 list.Add(newLichKham);
             }
-            LICHKHAMs = list;
+            allLichkhams = list;
+            LICHKHAMs = allLichkhams;
         }
 
         public AppointmentViewModel()
@@ -132,35 +161,7 @@ namespace LTTQ_DoAn.ViewModel
         }
         void Set_permission(string type)
         {
-            switch (type)
-            {
-                case "Admin":
-                    Set_admin();
-                    break;
-                case "Staff":
-                    Set_staff();
-                    break;
-                case "Doctor":
-                    Set_doctor();
-                    break;
-                default:
-                    break;
-            }
-        }
-        void Set_doctor()
-        {
-            deleteVisibility = false;
-            changeVisibility = false;
-            addVisibility = false;
-        }
-        void Set_admin()
-        {
-            deleteVisibility = false;
-            changeVisibility = false;
-            addVisibility = false;
-        }
-        void Set_staff()
-        {
+            // Phong mach tu nhan - full quyen
             deleteVisibility = true;
             changeVisibility = true;
             addVisibility = true;

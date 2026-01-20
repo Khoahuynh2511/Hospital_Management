@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -67,16 +67,50 @@ namespace LTTQ_DoAn.View
                 new MessageBoxCustom("Lỗi", ex.Message, MessageType.Error, MessageButtons.OKCancel).ShowDialog();
             }
         }
-        private void Doctor_Button_Click(object sender, RoutedEventArgs e)
+        private void Benhan_Button_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                string path = show_save_dialog("Doctor_Chart");
+                string path = show_save_dialog("Benhan_Chart");
                 if (path == "")
                 {
                     throw new Exception("Đường dẫn không hợp lệ");
                 }
-                SaveToPng(DoctorChart, path);
+                SaveToPng(BenhanChart, path);
+                new MessageBoxCustom("Thành công", "Xuất biểu đồ thành công!", MessageType.Success, MessageButtons.OK).ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                new MessageBoxCustom("Lỗi", ex.Message, MessageType.Error, MessageButtons.OKCancel).ShowDialog();
+            }
+        }
+        private void Donthuoc_Button_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string path = show_save_dialog("Donthuoc_Chart");
+                if (path == "")
+                {
+                    throw new Exception("Đường dẫn không hợp lệ");
+                }
+                SaveToPng(DonthuocChart, path);
+                new MessageBoxCustom("Thành công", "Xuất biểu đồ thành công!", MessageType.Success, MessageButtons.OK).ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                new MessageBoxCustom("Lỗi", ex.Message, MessageType.Error, MessageButtons.OKCancel).ShowDialog();
+            }
+        }
+        private void Medicine_Button_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string path = show_save_dialog("Medicine_Chart");
+                if (path == "")
+                {
+                    throw new Exception("Đường dẫn không hợp lệ");
+                }
+                SaveToPng(MedicineChart, path);
                 new MessageBoxCustom("Thành công", "Xuất biểu đồ thành công!", MessageType.Success, MessageButtons.OK).ShowDialog();
             }
             catch (Exception ex)

@@ -4,10 +4,18 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net472</TargetFramework>
     <Nullable>enable</Nullable>
-	<LangVersion>8.0</LangVersion>
+    <LangVersion>8.0</LangVersion>
     <UseWPF>true</UseWPF>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <ImplicitUsings>disable</ImplicitUsings>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="CreatePassword.cs" />
+    <Compile Remove="PasswordTool\**\*" />
+    <None Remove="PasswordTool\**\*" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Remove="Photo\appointment.png" />
@@ -33,10 +41,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EntityDeploy Include="QLBVModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>QLBVModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
+    <EmbeddedResource Include="QLBVModel.csdl">
+      <LogicalName>QLBVModel.csdl</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QLBVModel.ssdl">
+      <LogicalName>QLBVModel.ssdl</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QLBVModel.msl">
+      <LogicalName>QLBVModel.msl</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
@@ -59,11 +72,9 @@
     <PackageReference Include="MaterialDesignColors" Version="2.1.4" />
     <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.77" />
-    <PackageReference Include="MicrosoftExpressionInteractions" Version="3.0.40218" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="RestSharp" Version="110.2.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
-    <PackageReference Include="System.Windows.Interactivity.WPF" Version="2.0.20525" />
 	<Reference Include="System.Data.Entity" />
 	<Reference Include="System.Messaging" />
 	<Reference Include="System.Security" />

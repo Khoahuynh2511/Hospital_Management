@@ -1,4 +1,4 @@
-﻿<Window x:Class="LTTQ_DoAn.View.MainWindow"
+<Window x:Class="LTTQ_DoAn.View.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -44,6 +44,14 @@
             <local:Medicine/>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type viewmodel:QueueViewModel}">
+            <local:Queue/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewmodel:InvoiceViewModel}">
+            <local:Invoice/>
+        </DataTemplate>
+
     </Window.Resources>
     <Border
         BorderBrush="DodgerBlue"
@@ -79,7 +87,7 @@
                                 <TextBlock Text="Dashboard" Style="{StaticResource menuButtonText}"/>
                             </StackPanel>
                         </RadioButton>
-                        <!--Bệnh nhân-->
+                        <!--Benh nhan-->
                         <RadioButton 
                             Visibility="{Binding VictimVisibility, Converter={StaticResource BoolToVisibilityConverter}}"
                             Command="{Binding ShowVictimViewCommand}"
@@ -89,6 +97,18 @@
                             <StackPanel Orientation="Horizontal">
                                 <fa:IconImage Icon="BedPulse" Style="{StaticResource menuButtonIcon}"/>
                                 <TextBlock Text="Bệnh nhân" Style="{StaticResource menuButtonText}"/>
+                            </StackPanel>
+                        </RadioButton>
+                        <!--Hang doi-->
+                        <RadioButton 
+                            Visibility="{Binding QueueVisibility, Converter={StaticResource BoolToVisibilityConverter}}"
+                            Command="{Binding ShowQueueViewCommand}"
+                            Style="{StaticResource menuButton}"
+                                    Tag="{StaticResource normalButton}"
+                                    >
+                            <StackPanel Orientation="Horizontal">
+                                <fa:IconImage Icon="PeopleGroup" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock Text="Hàng đợi" Style="{StaticResource menuButtonText}"/>
                             </StackPanel>
                         </RadioButton>
                         <!--khoa-->
@@ -101,14 +121,14 @@
                                 <TextBlock Text="Khoa" Style="{StaticResource menuButtonText}"/>
                             </StackPanel>
                         </RadioButton>
-                        <!--Y sĩ-->
+                        <!--Bac si-->
                         <RadioButton Style="{StaticResource menuButton}"
                                                                  Visibility="{Binding DoctorAndNurseVisibility, Converter={StaticResource BoolToVisibilityConverter}}"
                                     Tag="{StaticResource normalButton}"
                                      Command="{Binding ShowDoctorViewCommand}">
                             <StackPanel Orientation="Horizontal">
-                                <fa:IconImage Icon="UserNurse" Style="{StaticResource menuButtonIcon}"/>
-                                <TextBlock Text="Y sĩ" Style="{StaticResource menuButtonText}"/>
+                                <fa:IconImage Icon="UserDoctor" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock Text="Bac si" Style="{StaticResource menuButtonText}"/>
                             </StackPanel>
                         </RadioButton>
                         <!--Phòng-->
@@ -141,7 +161,7 @@
                                 <TextBlock Text="Dịch vụ" Style="{StaticResource menuButtonText}"/>
                             </StackPanel>
                         </RadioButton>
-                        <!--Thuốc-->
+                        <!--Thuoc-->
                         <RadioButton Style="{StaticResource menuButton}"
                                 Visibility="{Binding MedicineVisibility, Converter={StaticResource BoolToVisibilityConverter}}" 
                                 Tag="{StaticResource normalButton}"
@@ -149,6 +169,16 @@
                             <StackPanel Orientation="Horizontal">
                                 <fa:IconImage Icon="Pills" Style="{StaticResource menuButtonIcon}"/>
                                 <TextBlock Text="Thuốc" Style="{StaticResource menuButtonText}"/>
+                            </StackPanel>
+                        </RadioButton>
+                        <!--Hoa don-->
+                        <RadioButton Style="{StaticResource menuButton}"
+                                Visibility="{Binding InvoiceVisibility, Converter={StaticResource BoolToVisibilityConverter}}" 
+                                Tag="{StaticResource normalButton}"
+                                Command="{Binding ShowInvoiceViewCommand}">
+                            <StackPanel Orientation="Horizontal">
+                                <fa:IconImage Icon="FileInvoiceDollar" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock Text="Hóa đơn" Style="{StaticResource menuButtonText}"/>
                             </StackPanel>
                         </RadioButton>
                     </StackPanel>

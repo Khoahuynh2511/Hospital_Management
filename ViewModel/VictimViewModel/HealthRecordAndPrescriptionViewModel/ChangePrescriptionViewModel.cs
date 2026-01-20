@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -294,20 +294,40 @@ namespace LTTQ_DoAn.ViewModel
         }
         public int convertSoLuong(string inputString)
         {
-            string new_soLuong_string = inputString.Split(new[] { '-' })[2];
-            string[] soLuong_parts = new_soLuong_string.Split(new[] { ':' });
-            string soLuong_string = soLuong_parts[1];
-            int soLuong = int.Parse(soLuong_string);
-            return soLuong;
+            try
+            {
+                string[] parts = inputString.Split(new[] { '-' });
+                if (parts.Length < 3) return 0;
+                string new_soLuong_string = parts[2];
+                string[] soLuong_parts = new_soLuong_string.Split(new[] { ':' });
+                if (soLuong_parts.Length < 2) return 0;
+                string soLuong_string = soLuong_parts[1].Trim();
+                int soLuong = int.Parse(soLuong_string);
+                return soLuong;
+            }
+            catch
+            {
+                return 0;
+            }
         }
         public int convertSoLan(string inputString)
         {
-            string new_soLan_string = inputString.Split(new[] { '-' })[4];
-            string[] soLan_parts = new_soLan_string.Split(new[] { ':' });
-            string soLan_string = soLan_parts[1];
-            string next_split = soLan_string.Split(new[] { '*' })[0];
-            int soLan = int.Parse(next_split);
-            return soLan;
+            try
+            {
+                string[] parts = inputString.Split(new[] { '-' });
+                if (parts.Length < 5) return 1;
+                string new_soLan_string = parts[4];
+                string[] soLan_parts = new_soLan_string.Split(new[] { ':' });
+                if (soLan_parts.Length < 2) return 1;
+                string soLan_string = soLan_parts[1];
+                string next_split = soLan_string.Split(new[] { '*' })[0].Trim();
+                int soLan = int.Parse(next_split);
+                return soLan;
+            }
+            catch
+            {
+                return 1;
+            }
         }
         private CHITIETDONTHUOC findCTDT(int madonthuoc, int mathuoc)
         {
@@ -322,7 +342,7 @@ namespace LTTQ_DoAn.ViewModel
         }
         public void convertGhiChuToCTDT()
         {
-            if (Ghichu == null)
+            if (string.IsNullOrEmpty(Ghichu))
             {
                 InsertThuocList = new List<InsertThuoc>();
                 return;
@@ -332,47 +352,61 @@ namespace LTTQ_DoAn.ViewModel
             List<InsertThuoc> temp_insert_thuoc_list = new List<InsertThuoc>();
             foreach (var item in new_parts)
             {
-                string new_maThuoc_string = item.Split(new[] { '-' })[1];
-                string[] maThuoc_parts = new_maThuoc_string.Split(new[] { ':' });
-                string maThuoc_string = maThuoc_parts[1].Substring(3);
-                int maThuoc = int.Parse(maThuoc_string);
+                try
+                {
+                    string[] dashParts = item.Split(new[] { '-' });
+                    if (dashParts.Length < 5) continue;
+                    
+                    string new_maThuoc_string = dashParts[1];
+                    string[] maThuoc_parts = new_maThuoc_string.Split(new[] { ':' });
+                    if (maThuoc_parts.Length < 2) continue;
+                    
+                    string maThuoc_string = maThuoc_parts[1].Trim();
+                    if (maThuoc_string.StartsWith("MED"))
+                        maThuoc_string = maThuoc_string.Substring(3);
+                    int maThuoc = int.Parse(maThuoc_string);
 
-                int new_soluong = convertSoLuong(item);
-                int new_solan = convertSoLan(item);
+                    int new_soluong = convertSoLuong(item);
+                    int new_solan = convertSoLan(item);
 
-                THUOC newThuoc = getThuoc(maThuoc);
-                if (newThuoc == null)
-                {
-                    throw new Exception("Không tìm thấy loại thuốc MED" + maThuoc);
-                }
-                CHITIETDONTHUOC oldCTDT = findCTDT(Donthuoc.MADONTHUOC, newThuoc.MATHUOC);
-                if (oldCTDT != null)
-                {
-                    if (new_soluong > (newThuoc.SOLUONG + oldCTDT.SOLUONG))
+                    THUOC newThuoc = getThuoc(maThuoc);
+                    if (newThuoc == null)
                     {
-                        throw new Exception("Số lượng trong kho của thuốc " + newThuoc.TENTHUOC
-                            + " không đủ để thêm vào đơn thuốc\n" +
-                            "Trong kho: " + newThuoc.SOLUONG +
-                            "\nĐơn thuốc: " + new_soluong);
+                        continue;
                     }
-                }
-                else
-                {
-                    if (new_soluong > newThuoc.SOLUONG )
+                    CHITIETDONTHUOC oldCTDT = findCTDT(Donthuoc.MADONTHUOC, newThuoc.MATHUOC);
+                    if (oldCTDT != null)
                     {
-                        throw new Exception("Số lượng trong kho của thuốc " + newThuoc.TENTHUOC
-                            + " không đủ để thêm vào đơn thuốc\n" +
-                            "Trong kho: " + newThuoc.SOLUONG +
-                            "\nĐơn thuốc: " + new_soluong);
+                        if (new_soluong > (newThuoc.SOLUONG + oldCTDT.SOLUONG))
+                        {
+                            throw new Exception("Số lượng trong kho của thuốc " + newThuoc.TENTHUOC
+                                + " không đủ để thêm vào đơn thuốc\n" +
+                                "Trong kho: " + newThuoc.SOLUONG +
+                                "\nĐơn thuốc: " + new_soluong);
+                        }
                     }
+                    else
+                    {
+                        if (new_soluong > newThuoc.SOLUONG )
+                        {
+                            throw new Exception("Số lượng trong kho của thuốc " + newThuoc.TENTHUOC
+                                + " không đủ để thêm vào đơn thuốc\n" +
+                                "Trong kho: " + newThuoc.SOLUONG +
+                                "\nĐơn thuốc: " + new_soluong);
+                        }
+                    }
+                    InsertThuoc new_insertThuoc = new InsertThuoc()
+                    {
+                        Mathuoc = newThuoc.MATHUOC,
+                        Soluong = new_soluong,
+                        Solan = new_solan
+                    };
+                    temp_insert_thuoc_list.Add(new_insertThuoc);
                 }
-                InsertThuoc new_insertThuoc = new InsertThuoc()
+                catch (Exception)
                 {
-                    Mathuoc = newThuoc.MATHUOC,
-                    Soluong = new_soluong,
-                    Solan = new_solan
-                };
-                temp_insert_thuoc_list.Add(new_insertThuoc);
+                    continue;
+                }
             }
             InsertThuocList = temp_insert_thuoc_list;
         }

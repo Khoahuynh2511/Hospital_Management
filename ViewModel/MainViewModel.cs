@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -37,6 +37,8 @@ namespace LTTQ_DoAn.ViewModel
         private bool doctorAndNurseVisibility = true;
         private bool serviceVisibility = true;
         private bool medicineVisibility = true;
+        private bool queueVisibility = true;
+        private bool invoiceVisibility = true;
         QUANLYBENHVIENEntities _db = new QUANLYBENHVIENEntities();
 
         public bool IsViewVisible
@@ -98,55 +100,28 @@ namespace LTTQ_DoAn.ViewModel
         public ICommand ShowFieldViewCommand { get; }
         public ICommand ShowRoomViewCommand { get; }
         public ICommand ShowMedicineViewCommand { get; }
+        public ICommand ShowQueueViewCommand { get; }
+        public ICommand ShowInvoiceViewCommand { get; }
         public ICommand LogoutViewCommand { get; }
 
         public MainWindow Main_wd { get => main_wd; set => main_wd = value; }
-        void Set_doctor()
-        {
-            RoomVisibility = true;
-            AppointmentVisibility = true;
-            VictimVisibility = true;
-            FieldVisibility = true;
-            DoctorAndNurseVisibility = true;
-            ServiceVisibility = true;
-            MedicineVisibility = true;
-        }        
         void Set_admin()
         {
-            RoomVisibility = true;
+            // Admin phong mach tu nhan: Full quyen
+            RoomVisibility = false;
             AppointmentVisibility = true;
             VictimVisibility = true;
-            FieldVisibility = true;
-            DoctorAndNurseVisibility = true;
+            FieldVisibility = false;
+            DoctorAndNurseVisibility = false;
             ServiceVisibility = true;
             MedicineVisibility = true;
-        }        
-        void Set_staff()
-        {
-            RoomVisibility = true;
-            AppointmentVisibility = true;
-            VictimVisibility = true;
-            FieldVisibility = true;
-            DoctorAndNurseVisibility = true;
-            ServiceVisibility = true;
-            MedicineVisibility = true;
+            QueueVisibility = true;
+            InvoiceVisibility = true;
         }
         void Set_permission(string type)
         {
-            switch (type)
-            {
-                case "Admin":
-                    Set_admin();
-                    break;
-                case "Staff":
-                    Set_staff();
-                    break;
-                case "Doctor":
-                    Set_doctor();
-                    break;
-                default:
-                    break;
-            }
+            // Phong mach tu nhan chi co 1 role Admin
+            Set_admin();
         }
 
         public bool RoomVisibility
@@ -205,6 +180,22 @@ namespace LTTQ_DoAn.ViewModel
                 OnPropertyChanged(nameof(MedicineVisibility));
             }
         }
+        public bool QueueVisibility
+        {
+            get => queueVisibility; set
+            {
+                queueVisibility = value;
+                OnPropertyChanged(nameof(QueueVisibility));
+            }
+        }
+        public bool InvoiceVisibility
+        {
+            get => invoiceVisibility; set
+            {
+                invoiceVisibility = value;
+                OnPropertyChanged(nameof(InvoiceVisibility));
+            }
+        }
         //Dùng cái này
         public MainViewModel(MainWindow wd, TAIKHOAN user_account)
         {
@@ -223,16 +214,16 @@ namespace LTTQ_DoAn.ViewModel
             ShowFieldViewCommand = new ViewModelCommand(ExecuteShowFieldViewCommand);
             ShowServicesViewCommand = new ViewModelCommand(ExecuteShowServicesViewCommand);
             ShowMedicineViewCommand = new ViewModelCommand(ExecuteShowMedicineViewCommand);
+            ShowQueueViewCommand = new ViewModelCommand(ExecuteShowQueueViewCommand);
+            ShowInvoiceViewCommand = new ViewModelCommand(ExecuteShowInvoiceViewCommand);
             LogoutViewCommand = new ViewModelCommand(ExecuteLogoutViewCommand);
-            //Khởi tạo màn hình mặc định
+            //Khoi tao man hinh mac dinh
             ExecuteShowHomeViewCommand(new object());
-            //LoadCurrentUserData();
         }
         public MainViewModel()
         {
             userRepository = new UserRepository();
-            //CurrentUserAccount = new UserAccountModel();
-            //khởi tạo phương thức xem view
+            //Khoi tao phuong thuc xem view
             ShowHomeViewCommand = new ViewModelCommand(ExecuteShowHomeViewCommand);
             ShowCustomerViewCommand = new ViewModelCommand(ExecuteShowCustomerViewCommand);
             ShowVictimViewCommand = new ViewModelCommand(ExecuteShowVictimViewCommand);
@@ -242,6 +233,8 @@ namespace LTTQ_DoAn.ViewModel
             ShowFieldViewCommand = new ViewModelCommand(ExecuteShowFieldViewCommand);
             ShowServicesViewCommand = new ViewModelCommand(ExecuteShowServicesViewCommand);
             ShowMedicineViewCommand = new ViewModelCommand(ExecuteShowMedicineViewCommand);
+            ShowQueueViewCommand = new ViewModelCommand(ExecuteShowQueueViewCommand);
+            ShowInvoiceViewCommand = new ViewModelCommand(ExecuteShowInvoiceViewCommand);
             LogoutViewCommand = new ViewModelCommand(ExecuteLogoutViewCommand);
             //Khởi tạo màn hình mặc định
             ExecuteShowHomeViewCommand(new object());
@@ -312,8 +305,8 @@ namespace LTTQ_DoAn.ViewModel
         private void ExecuteShowDoctorViewCommand(object obj)
         {
             CurrentChildView = new DoctorAndNurseViewModel();
-            Caption = "Y sĩ";
-            Icon = IconChar.UserNurse;
+            Caption = "Bac si";
+            Icon = IconChar.UserDoctor;
         }
         private void ExecuteShowRoomViewCommand(object obj)
         {
@@ -338,6 +331,18 @@ namespace LTTQ_DoAn.ViewModel
             CurrentChildView = new MedicineViewModel();
             Caption = "Thuốc";
             Icon = IconChar.Pills;
+        }
+        private void ExecuteShowQueueViewCommand(object obj)
+        {
+            CurrentChildView = new QueueViewModel();
+            Caption = "Hàng đợi";
+            Icon = IconChar.PeopleGroup;
+        }
+        private void ExecuteShowInvoiceViewCommand(object obj)
+        {
+            CurrentChildView = new InvoiceViewModel();
+            Caption = "Hoá đơn";
+            Icon = IconChar.FileInvoiceDollar;
         }
 
 

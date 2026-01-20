@@ -1,6 +1,7 @@
-﻿using LTTQ_DoAn.Model;
+using LTTQ_DoAn.Model;
 using LTTQ_DoAn.View;
 using LTTQ_DoAn.Repositories;
+using LTTQ_DoAn.Resource;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -57,6 +58,7 @@ namespace LTTQ_DoAn.ViewModel
         public ICommand DeletePCommand { get; }
         public ICommand ExitCommand { get; }
         public ICommand ViewHistory { get; }
+        public ICommand PrintPrescriptionCommand { get; }
         public BENHNHAN Benhnhan
         {
             get => benhnhan; set
@@ -231,16 +233,28 @@ namespace LTTQ_DoAn.ViewModel
             List<DonThuocType> list = new List<DonThuocType>();
             foreach (var item in query)
             {
+                string bacSi = "";
+                string khoa = "";
+                
+                if (item.BENHAN != null && item.BENHAN.YSI != null)
+                {
+                    bacSi = item.BENHAN.YSI.HOTEN ?? "";
+                    if (item.BENHAN.YSI.KHOA != null)
+                    {
+                        khoa = item.BENHAN.YSI.KHOA.TENKHOA ?? "";
+                    }
+                }
+                
                 DonThuocType donthuoc = new DonThuocType()
                 {
                     MADONTHUOC = item.MADONTHUOC,
                     SUB_IDDT = item.SUB_ID,
                     GHICHU = item.GHICHU,
                     MAYSI = findYSi(item.MABENHAN),
-                    BACSI = item.BENHAN.YSI.HOTEN,
-                    NGAYLAPDONTHUOC = item.BENHAN.NGAYKHAM.ToString(),
-                    KHOA = item.BENHAN.YSI.KHOA.TENKHOA,
-                    BENHAN = item.BENHAN.SUB_ID,
+                    BACSI = bacSi,
+                    NGAYLAPDONTHUOC = item.BENHAN != null ? item.BENHAN.NGAYKHAM.ToString() : "",
+                    KHOA = khoa,
+                    BENHAN = item.BENHAN != null ? item.BENHAN.SUB_ID : "",
                 };
                 list.Add(donthuoc);
             }
@@ -278,6 +292,7 @@ namespace LTTQ_DoAn.ViewModel
             ChangePCommand = new ViewModelCommand(ExecuteChangePCommand, CanExecuteChangePCommand);
             ExitCommand = new ViewModelCommand(ExecuteExitCommand, CanExecuteExitCommand);
             ViewHistory = new ViewModelCommand(ExecuteViewHistoryCommand, CanExecuteViewHistoryCommand);
+            PrintPrescriptionCommand = new ViewModelCommand(ExecutePrintPrescriptionCommand, CanExecutePrintPrescriptionCommand);
         }
         public HealthRecordAndPrescriptionViewModel(BENHNHAN SelectedBenhNhan, HealthRecordAndPrescription view, TAIKHOAN user_account)
         {
@@ -295,6 +310,7 @@ namespace LTTQ_DoAn.ViewModel
             ChangePCommand = new ViewModelCommand(ExecuteChangePCommand, CanExecuteChangePCommand);
             ExitCommand = new ViewModelCommand(ExecuteExitCommand, CanExecuteExitCommand);
             ViewHistory = new ViewModelCommand(ExecuteViewHistoryCommand, CanExecuteViewHistoryCommand);
+            PrintPrescriptionCommand = new ViewModelCommand(ExecutePrintPrescriptionCommand, CanExecutePrintPrescriptionCommand);
         }
 
         private bool CanExecuteViewHistoryCommand(object obj)
@@ -321,27 +337,9 @@ namespace LTTQ_DoAn.ViewModel
 
         void Set_permission(string type)
         {
-            switch (type)
-            {
-                case "Admin":
-                    Set_admin();
-                    break;
-                case "Doctor":
-                    Set_doctor();
-                    break;
-                default:
-                    break;
-            }
-        }
-        void Set_doctor()
-        {
-            changeVisibility = false;
-            addVisibility = true;
-        }
-        void Set_admin()
-        {
+            // Phong mach tu nhan - full quyen
             changeVisibility = true;
-            addVisibility = false;
+            addVisibility = true;
         }
         private bool CanExecuteExitCommand(object obj)
         {
@@ -377,14 +375,47 @@ namespace LTTQ_DoAn.ViewModel
 
         private bool CanExecuteDeleteHRCommand(object? obj)
         {
-            return true;
+            return Benhan != null;
         }
         
         private void ExecuteDeleteHRCommand(object? obj)
         {
+            BenhAnType selectedBenhAn = null;
+            
+            if (obj is BenhAnType benhAn)
+            {
+                selectedBenhAn = benhAn;
+            }
+            else if (Benhan != null)
+            {
+                selectedBenhAn = Benhan;
+            }
+            else
+            {
+                new MessageBoxCustom(
+                    "Thông báo",
+                    "Vui lòng chọn bệnh án cần xóa",
+                    MessageType.Info,
+                    MessageButtons.OK)
+                    .ShowDialog();
+                return;
+            }
+
+            var result = new MessageBoxCustom(
+                "Xác nhận",
+                "Bạn có chắc chắn muốn xóa bệnh án: " + selectedBenhAn.SUB_ID + "?",
+                MessageType.Info,
+                MessageButtons.OKCancel)
+                .ShowDialog();
+
+            if (result != true)
+            {
+                return;
+            }
+
             try
             {
-                int Id = Benhan.MABENHAN;
+                int Id = selectedBenhAn.MABENHAN;
                 var deleteMember = _db.BENHAN.Where(m => m.MABENHAN == Id).Single();
                 _db.BENHAN.DeleteObject(deleteMember);
                 _db.SaveChanges();
@@ -392,8 +423,8 @@ namespace LTTQ_DoAn.ViewModel
                 new MessageBoxCustom(
                     "Thông báo",
                     "Đã xóa bệnh án: \nMã bệnh án: " +
-                        Benhan.SUB_ID.ToString() + "\nNgày khám: " +
-                        Benhan.NGAYKHAM.ToString(),
+                        selectedBenhAn.SUB_ID.ToString() + "\nNgày khám: " +
+                        selectedBenhAn.NGAYKHAM.ToString(),
                     MessageType.Success,
                     MessageButtons.OK)
                     .ShowDialog();
@@ -451,20 +482,83 @@ namespace LTTQ_DoAn.ViewModel
 
         private bool CanExecuteDeletePCommand(object? obj)
         {
-            return true;
+            return Donthuoc != null;
         }
         private void ExecuteDeletePCommand(object? obj)
         {
+            DonThuocType selectedDonThuoc = null;
+            
+            if (obj is DonThuocType donThuoc)
+            {
+                selectedDonThuoc = donThuoc;
+            }
+            else if (Donthuoc != null)
+            {
+                selectedDonThuoc = Donthuoc;
+            }
+            else
+            {
+                new MessageBoxCustom(
+                    "Thông báo",
+                    "Vui lòng chọn đơn thuốc cần xóa",
+                    MessageType.Info,
+                    MessageButtons.OK)
+                    .ShowDialog();
+                return;
+            }
+
+            var result = new MessageBoxCustom(
+                "Xác nhận",
+                "Bạn có chắc chắn muốn xóa đơn thuốc: " + selectedDonThuoc.SUB_IDDT + "?",
+                MessageType.Info,
+                MessageButtons.OKCancel)
+                .ShowDialog();
+
+            if (result != true)
+            {
+                return;
+            }
+
             try
             {
-                int Id = Donthuoc.MADONTHUOC;
+                int Id = selectedDonThuoc.MADONTHUOC;
+                
+                List<CHITIETDONTHUOC> deleteList = (from m in _db.CHITIETDONTHUOC
+                                                    where m.MADONTHUOC == Id
+                                                    select m).ToList();
+                
+                foreach (var item in deleteList)
+                {
+                    double? soluong_increase = item.SOLUONG;
+                    _db.CHITIETDONTHUOC.DeleteObject(item);
+                    _db.SaveChanges();
+                    
+                    if (soluong_increase.HasValue)
+                    {
+                        var thuoc_increase = _db.THUOC.Where(t => t.MATHUOC == item.MATHUOC).FirstOrDefault();
+                        if (thuoc_increase != null)
+                        {
+                            double? currentSoluong = thuoc_increase.SOLUONG;
+                            if (currentSoluong.HasValue)
+                            {
+                                thuoc_increase.SOLUONG = currentSoluong.Value + soluong_increase.Value;
+                            }
+                            else
+                            {
+                                thuoc_increase.SOLUONG = soluong_increase.Value;
+                            }
+                            _db.SaveChanges();
+                        }
+                    }
+                }
+                
                 var deleteMember = _db.DONTHUOC.Where(m => m.MADONTHUOC == Id).Single();
                 _db.DONTHUOC.DeleteObject(deleteMember);
                 _db.SaveChanges();
 
                 new MessageBoxCustom(
                     "Thông báo",
-                    "Đã xóa đơn thuốc: " + Donthuoc.SUB_IDDT.ToString(),
+                    "Đã xóa đơn thuốc: " + selectedDonThuoc.SUB_IDDT.ToString(),
                     MessageType.Success,
                     MessageButtons.OK)
                     .ShowDialog();
@@ -505,6 +599,128 @@ namespace LTTQ_DoAn.ViewModel
             findDonThuoc();
         }
 
+        private bool CanExecutePrintPrescriptionCommand(object obj)
+        {
+            return Donthuoc != null;
+        }
+
+        private void ExecutePrintPrescriptionCommand(object obj)
+        {
+            if (Donthuoc == null)
+            {
+                new MessageBoxCustom("Thong bao", "Vui long chon don thuoc can in",
+                    MessageType.Info, MessageButtons.OK).ShowDialog();
+                return;
+            }
+
+            try
+            {
+                DONTHUOC donThuoc = _db.DONTHUOC
+                    .Where(d => d.MADONTHUOC == Donthuoc.MADONTHUOC)
+                    .FirstOrDefault();
+
+                if (donThuoc == null)
+                {
+                    new MessageBoxCustom("Loi", "Khong tim thay don thuoc",
+                        MessageType.Error, MessageButtons.OK).ShowDialog();
+                    return;
+                }
+
+                PrescriptionPrintData printData = new PrescriptionPrintData
+                {
+                    MaDonThuoc = Donthuoc.SUB_IDDT,
+                    NgayKeDon = Donthuoc.NGAYLAPDONTHUOC ?? DateTime.Now.ToString("dd/MM/yyyy"),
+                    TenBenhNhan = Benhnhan.HOTEN,
+                    NamSinh = Benhnhan.NGAYSINH?.ToString("yyyy") ?? "",
+                    GioiTinh = Benhnhan.GIOITINH,
+                    DiaChi_BN = Benhnhan.DIACHI,
+                    SoDienThoai_BN = Benhnhan.SODIENTHOAI,
+                    ChuanDoan = donThuoc.BENHAN?.KETLUAN ?? "",
+                    GhiChu = "",
+                    TenBacSi = Donthuoc.BACSI
+                };
+
+                // Parse medicine list from GHICHU field
+                // Format: + Tên thuốc: [name] - Mã thuốc:[code] - Số lượng:[qty] - Đơn vị: [unit] - Dùng:[times]*Lần/Ngày - Giá: [price]
+                if (!string.IsNullOrEmpty(Donthuoc.GHICHU))
+                {
+                    string[] parts = Donthuoc.GHICHU.Split(new[] { '+' }, StringSplitOptions.RemoveEmptyEntries);
+                    int stt = 1;
+                    foreach (var part in parts)
+                    {
+                        try
+                        {
+                            string trimmed = part.Trim();
+                            if (string.IsNullOrEmpty(trimmed)) continue;
+
+                            string tenThuoc = "";
+                            string soLuong = "";
+                            string donVi = "";
+                            string lieuDung = "";
+
+                            // Parse Ten thuoc
+                            int tenStart = trimmed.IndexOf("Tên thuốc:");
+                            int tenEnd = trimmed.IndexOf(" - Mã thuốc:");
+                            if (tenStart >= 0 && tenEnd > tenStart)
+                            {
+                                tenThuoc = trimmed.Substring(tenStart + 10, tenEnd - tenStart - 10).Trim();
+                            }
+
+                            // Parse So luong
+                            int slStart = trimmed.IndexOf("Số lượng:");
+                            int slEnd = trimmed.IndexOf("- Đơn vị:");
+                            if (slStart >= 0 && slEnd > slStart)
+                            {
+                                soLuong = trimmed.Substring(slStart + 9, slEnd - slStart - 9).Trim();
+                            }
+
+                            // Parse Don vi
+                            int dvStart = trimmed.IndexOf("Đơn vị:");
+                            int dvEnd = trimmed.IndexOf(" - Dùng:");
+                            if (dvStart >= 0 && dvEnd > dvStart)
+                            {
+                                donVi = trimmed.Substring(dvStart + 7, dvEnd - dvStart - 7).Trim();
+                            }
+
+                            // Parse Lieu dung (so lan/ngay)
+                            int ldStart = trimmed.IndexOf("Dùng:");
+                            int ldEnd = trimmed.IndexOf(" - Giá:");
+                            if (ldStart >= 0 && ldEnd > ldStart)
+                            {
+                                lieuDung = trimmed.Substring(ldStart + 5, ldEnd - ldStart - 5).Trim();
+                            }
+                            else if (ldStart >= 0)
+                            {
+                                lieuDung = trimmed.Substring(ldStart + 5).Trim();
+                            }
+
+                            if (!string.IsNullOrEmpty(tenThuoc))
+                            {
+                                printData.DanhSachThuoc.Add(new PrescriptionItem
+                                {
+                                    STT = stt++,
+                                    TenThuoc = tenThuoc,
+                                    SoLuong = soLuong,
+                                    DonVi = donVi,
+                                    LieuDung = lieuDung
+                                });
+                            }
+                        }
+                        catch
+                        {
+                            // Skip invalid entries
+                        }
+                    }
+                }
+
+                PrintPrescriptionHelper.PrintPrescription(printData);
+            }
+            catch (Exception ex)
+            {
+                new MessageBoxCustom("Loi", "Khong the in toa thuoc: " + ex.Message,
+                    MessageType.Error, MessageButtons.OK).ShowDialog();
+            }
+        }
 
     }
 }
