@@ -1,4 +1,4 @@
-# PHẦN MỀM QUẢN LÝ BỆNH VIỆN
+# PHẦN MỀM QUẢN LÝ PHÒNG MẠCH TƯ
 ## Nhóm 20 UIT - ĐỒ ÁN MÔN LẬP TRÌNH TRỰC QUAN
 
 ---
@@ -7,26 +7,26 @@
 
 ### 1.1. Giới thiệu đề tài
 
-Phần mềm Quản lý Bệnh viện là một ứng dụng desktop được phát triển trên nền tảng Windows, hỗ trợ quản lý toàn diện các hoạt động của một phòng khám tư nhân hoặc bệnh viện. Hệ thống được thiết kế với giao diện trực quan, dễ sử dụng, giúp nhân viên y tế quản lý thông tin bệnh nhân, lịch khám, đơn thuốc, hóa đơn và các dịch vụ khám chữa bệnh một cách hiệu quả.
+Phần mềm Quản lý Phòng mạch tư là một ứng dụng desktop được phát triển trên nền tảng Windows, hỗ trợ quản lý toàn diện các hoạt động của một phòng khám tư nhân. Hệ thống được thiết kế với giao diện trực quan, dễ sử dụng, giúp nhân viên y tế quản lý thông tin bệnh nhân, lịch khám, đơn thuốc, hóa đơn và các dịch vụ khám chữa bệnh một cách hiệu quả.
 
 ### 1.2. Mô tả đề tài
 
-Hệ thống quản lý bệnh viện được xây dựng nhằm số hóa và tự động hóa các quy trình quản lý trong môi trường y tế, bao gồm:
+Hệ thống quản lý phòng mạch tư được xây dựng nhằm số hóa và tự động hóa các quy trình quản lý trong môi trường y tế, bao gồm:
 
 - **Quản lý thông tin bệnh nhân**: Lưu trữ và quản lý hồ sơ bệnh nhân, thông tin cá nhân, lịch sử khám chữa bệnh
 - **Quản lý bệnh án và đơn thuốc**: Ghi nhận bệnh án, kê đơn thuốc, theo dõi lịch sử điều trị
 - **Quản lý lịch khám**: Đặt lịch khám, quản lý hàng đợi, chọn dịch vụ và ca khám
-- **Quản lý dịch vụ y tế**: Quản lý các dịch vụ khám chữa bệnh, giá cả, khoa phòng
+- **Quản lý dịch vụ y tế**: Quản lý các dịch vụ khám chữa bệnh, giá cả
 - **Quản lý thuốc**: Quản lý kho thuốc, số lượng, giá cả, hạn sử dụng
 - **Quản lý hóa đơn**: Tạo và quản lý hóa đơn thanh toán, theo dõi trạng thái thanh toán
 
 ### 1.3. Lý do chọn đề tài
 
-Việc phát triển phần mềm quản lý bệnh viện được lựa chọn dựa trên các lý do sau:
+Việc phát triển phần mềm quản lý phòng mạch tư được lựa chọn dựa trên các lý do sau:
 
 1. **Nhu cầu thực tế**: Các cơ sở y tế hiện nay đang có nhu cầu cao về việc số hóa quy trình quản lý để nâng cao hiệu quả hoạt động và chất lượng phục vụ bệnh nhân
 
-2. **Tính ứng dụng cao**: Đề tài có tính thực tiễn cao, có thể áp dụng trực tiếp vào các phòng khám tư nhân, bệnh viện nhỏ và vừa
+2. **Tính ứng dụng cao**: Đề tài có tính thực tiễn cao, có thể áp dụng trực tiếp vào các phòng khám tư nhân
 
 3. **Kiến thức tổng hợp**: Đề tài yêu cầu vận dụng nhiều kiến thức về lập trình giao diện, cơ sở dữ liệu, kiến trúc phần mềm, giúp củng cố và mở rộng kỹ năng lập trình
 
@@ -131,7 +131,7 @@ Việc phát triển phần mềm quản lý bệnh viện được lựa chọn
 ### 2.1. Khảo sát hiện trạng hệ thống
 
 #### 2.1.1. Hệ thống quản lý truyền thống
-Trước khi phát triển phần mềm, các phòng khám và bệnh viện nhỏ thường sử dụng phương thức quản lý thủ công:
+Trước khi phát triển phần mềm, các phòng khám tư nhân thường sử dụng phương thức quản lý thủ công:
 
 - **Quản lý hồ sơ giấy tờ**: Thông tin bệnh nhân, bệnh án được lưu trữ dưới dạng giấy tờ, dễ bị thất lạc, khó tìm kiếm
 - **Ghi chép thủ công**: Nhân viên phải ghi chép thông tin bằng tay, dễ xảy ra sai sót
@@ -366,51 +366,25 @@ Thực thể trung tâm của hệ thống, lưu trữ thông tin cá nhân củ
 **Các thuộc tính:**
 - MABENHNHAN: Mã bệnh nhân (Primary Key, Identity)
 - SUB_ID: Mã hiển thị (Computed: "BN" + MABENHNHAN)
-- MAPHONG: Mã phòng (Foreign Key → PHONG)
 - HOTEN: Họ tên bệnh nhân
 - GIOITINH: Giới tính
 - NGAYSINH: Ngày sinh
 - DIACHI: Địa chỉ
 - MABHYT: Mã bảo hiểm y tế
-- NGAYNHAPVIEN: Ngày nhập viện
+- NGAYNHAPVIEN: Ngày đăng ký
 - SODIENTHOAI: Số điện thoại
 - EMAIL: Email
 
 **Mối quan hệ:**
 - Một bệnh nhân có nhiều bệnh án (1-N với BENHAN)
 - Một bệnh nhân có nhiều lịch khám (1-N với LICHKHAM)
-- Một bệnh nhân thuộc một phòng (N-1 với PHONG)
 
-#### 2.4.2. YSI (Y bác sĩ)
-Bảng lưu trữ thông tin nhân viên y tế bao gồm bác sĩ, y tá, kỹ thuật viên. Bảng này được sử dụng để tham chiếu trong các bảng khác (bệnh án, lịch khám) nhưng không có giao diện quản lý riêng trong hệ thống.
-
-**Các thuộc tính:**
-- MAYSI: Mã y sĩ (Primary Key, Identity)
-- SUB_ID: Mã hiển thị (Computed)
-- MAKHOA: Mã khoa (Foreign Key → KHOA)
-- MAPHONG: Mã phòng (Foreign Key → PHONG)
-- HOTEN: Họ tên
-- GIOITINH: Giới tính
-- NGAYSINH: Ngày sinh
-- NGAYVAOLAM: Ngày vào làm
-- LOAIYSI: Loại y sĩ (Bác sĩ, Y tá, Kỹ thuật viên, Lễ tân)
-- MACHIHUY: Mã chỉ huy (Foreign Key → YSI, tự tham chiếu)
-
-**Mối quan hệ:**
-- Một y sĩ thuộc một khoa (N-1 với KHOA)
-- Một y sĩ làm việc tại một phòng (N-1 với PHONG)
-- Một y sĩ có thể có nhiều bệnh án (1-N với BENHAN)
-- Một y sĩ có thể có nhiều lịch khám (1-N với LICHKHAM)
-- Một y sĩ có thể là trưởng khoa (1-1 với KHOA)
-- Một y sĩ có thể có cấp dưới (tự tham chiếu)
-
-#### 2.4.3. BENHAN (Bệnh án)
+#### 2.4.2. BENHAN (Bệnh án)
 Lưu trữ thông tin về các lần khám chữa bệnh của bệnh nhân.
 
 **Các thuộc tính:**
 - MABENHAN: Mã bệnh án (Primary Key, Identity)
 - SUB_ID: Mã hiển thị (Computed)
-- MAYSI: Mã y sĩ khám (Foreign Key → YSI)
 - MABENHNHAN: Mã bệnh nhân (Foreign Key → BENHNHAN)
 - MADICHVU: Mã dịch vụ (Foreign Key → DICHVU)
 - THANHTIEN: Thành tiền
@@ -420,12 +394,11 @@ Lưu trữ thông tin về các lần khám chữa bệnh của bệnh nhân.
 
 **Mối quan hệ:**
 - Một bệnh án thuộc một bệnh nhân (N-1 với BENHNHAN)
-- Một bệnh án do một y sĩ khám (N-1 với YSI)
 - Một bệnh án sử dụng một dịch vụ (N-1 với DICHVU)
 - Một bệnh án có thể có nhiều đơn thuốc (1-N với DONTHUOC)
 - Một bệnh án có nhiều lịch sử thay đổi (1-N với BENHAN_HISTORY)
 
-#### 2.4.4. DONTHUOC (Đơn thuốc)
+#### 2.4.3. DONTHUOC (Đơn thuốc)
 Lưu trữ thông tin đơn thuốc được kê cho bệnh nhân.
 
 **Các thuộc tính:**
@@ -438,7 +411,7 @@ Lưu trữ thông tin đơn thuốc được kê cho bệnh nhân.
 - Một đơn thuốc thuộc một bệnh án (N-1 với BENHAN, một bệnh án có thể có nhiều đơn thuốc)
 - Một đơn thuốc có nhiều chi tiết thuốc (1-N với CHITIETDONTHUOC)
 
-#### 2.4.5. CHITIETDONTHUOC (Chi tiết đơn thuốc)
+#### 2.4.4. CHITIETDONTHUOC (Chi tiết đơn thuốc)
 Lưu trữ chi tiết các loại thuốc trong đơn thuốc.
 
 **Các thuộc tính:**
@@ -452,7 +425,7 @@ Lưu trữ chi tiết các loại thuốc trong đơn thuốc.
 - Một chi tiết thuộc một đơn thuốc (N-1 với DONTHUOC)
 - Một chi tiết về một loại thuốc (N-1 với THUOC)
 
-#### 2.4.6. THUOC (Thuốc)
+#### 2.4.5. THUOC (Thuốc)
 Lưu trữ thông tin về các loại thuốc trong kho.
 
 **Các thuộc tính:**
@@ -468,7 +441,7 @@ Lưu trữ thông tin về các loại thuốc trong kho.
 **Mối quan hệ:**
 - Một thuốc có trong nhiều chi tiết đơn thuốc (1-N với CHITIETDONTHUOC)
 
-#### 2.4.7. DICHVU (Dịch vụ)
+#### 2.4.6. DICHVU (Dịch vụ)
 Lưu trữ thông tin các dịch vụ khám chữa bệnh.
 
 **Các thuộc tính:**
@@ -482,45 +455,13 @@ Lưu trữ thông tin các dịch vụ khám chữa bệnh.
 - Một dịch vụ được sử dụng trong nhiều bệnh án (1-N với BENHAN)
 - Một dịch vụ có trong nhiều lịch khám (1-N với LICHKHAM)
 
-#### 2.4.8. KHOA (Khoa)
-Bảng lưu trữ thông tin các khoa trong bệnh viện. Bảng này được sử dụng để tham chiếu trong các bảng khác nhưng không có giao diện quản lý riêng trong hệ thống.
-
-**Các thuộc tính:**
-- MAKHOA: Mã khoa (Primary Key, Identity)
-- SUB_ID: Mã hiển thị (Computed)
-- TENKHOA: Tên khoa
-- NGAYTHANHLAP: Ngày thành lập
-- TRUONGKHOA: Mã trưởng khoa (Foreign Key → YSI)
-- PICTURE: Hình ảnh (URL)
-
-**Mối quan hệ:**
-- Một khoa có nhiều y sĩ (1-N với YSI)
-- Một khoa có một trưởng khoa (1-1 với YSI)
-
-#### 2.4.9. PHONG (Phòng)
-Bảng lưu trữ thông tin các phòng trong bệnh viện. Bảng này được sử dụng để tham chiếu trong các bảng khác (bệnh nhân, y sĩ, lịch khám) nhưng không có giao diện quản lý riêng trong hệ thống.
-
-**Các thuộc tính:**
-- MAPHONG: Mã phòng (Primary Key, Identity)
-- SUB_ID: Mã hiển thị (Computed)
-- TANG: Tầng
-- TENPHONG: Tên phòng
-- SUCCHUA: Sức chứa
-
-**Mối quan hệ:**
-- Một phòng có nhiều bệnh nhân (1-N với BENHNHAN)
-- Một phòng có nhiều y sĩ (1-N với YSI)
-- Một phòng có nhiều lịch khám (1-N với LICHKHAM)
-
-#### 2.4.10. LICHKHAM (Lịch khám)
+#### 2.4.7. LICHKHAM (Lịch khám)
 Lưu trữ thông tin lịch hẹn khám của bệnh nhân.
 
 **Các thuộc tính:**
 - MALICHKHAM: Mã lịch khám (Primary Key, Identity)
 - SUB_ID: Mã hiển thị (Computed)
-- MABACSI: Mã bác sĩ (Foreign Key → YSI)
 - MABENHNHAN: Mã bệnh nhân (Foreign Key → BENHNHAN)
-- MAPHONG: Mã phòng (Foreign Key → PHONG)
 - MADICHVU: Mã dịch vụ (Foreign Key → DICHVU)
 - NGAYKHAM: Ngày khám
 - NGAYLENLICH: Ngày lên lịch
@@ -528,11 +469,9 @@ Lưu trữ thông tin lịch hẹn khám của bệnh nhân.
 
 **Mối quan hệ:**
 - Một lịch khám thuộc một bệnh nhân (N-1 với BENHNHAN)
-- Một lịch khám với một bác sĩ (N-1 với YSI)
-- Một lịch khám tại một phòng (N-1 với PHONG)
 - Một lịch khám cho một dịch vụ (N-1 với DICHVU)
 
-#### 2.4.11. HANGDOI (Hàng đợi)
+#### 2.4.8. HANGDOI (Hàng đợi)
 Lưu trữ thông tin hàng đợi khám của bệnh nhân.
 
 **Các thuộc tính:**
@@ -547,7 +486,7 @@ Lưu trữ thông tin hàng đợi khám của bệnh nhân.
 **Mối quan hệ:**
 - Một hàng đợi thuộc một bệnh nhân (N-1 với BENHNHAN)
 
-#### 2.4.12. HOADON (Hóa đơn)
+#### 2.4.9. HOADON (Hóa đơn)
 Lưu trữ thông tin hóa đơn thanh toán.
 
 **Các thuộc tính:**
@@ -567,23 +506,22 @@ Lưu trữ thông tin hóa đơn thanh toán.
 - Một hóa đơn thuộc một bệnh nhân (N-1 với BENHNHAN)
 - Một hóa đơn cho một bệnh án (N-1 với BENHAN)
 
-#### 2.4.13. TAIKHOAN (Tài khoản)
+#### 2.4.10. TAIKHOAN (Tài khoản)
 Lưu trữ thông tin tài khoản đăng nhập hệ thống.
 
 **Các thuộc tính:**
 - TENDANGNHAP: Tên đăng nhập (Primary Key)
 - MATKHAU: Mật khẩu (đã mã hóa)
 - MASO: Mã số nhân viên
-- LOAITAIKHOAN: Loại tài khoản (Admin, Bác sĩ, Y tá, Lễ tân)
+- LOAITAIKHOAN: Loại tài khoản (Admin)
 - AVATAR: Ảnh đại diện (URL)
 
-#### 2.4.14. BENHAN_HISTORY (Lịch sử bệnh án)
+#### 2.4.11. BENHAN_HISTORY (Lịch sử bệnh án)
 Lưu trữ lịch sử thay đổi của bệnh án.
 
 **Các thuộc tính:**
 - MALICHSU: Mã lịch sử (Primary Key, Identity)
 - MABENHAN: Mã bệnh án (Foreign Key → BENHAN)
-- MAYSI: Mã y sĩ
 - MABENHNHAN: Mã bệnh nhân
 - MADICHVU: Mã dịch vụ
 - TRIEUCHUNG: Triệu chứng
@@ -602,7 +540,6 @@ Lưu trữ lịch sử thay đổi của bệnh án.
 CREATE TABLE BENHNHAN (
     MABENHNHAN INT IDENTITY(1,1) PRIMARY KEY,
     SUB_ID AS ('BN' + RIGHT('000000' + CAST(MABENHNHAN AS VARCHAR(6)), 6)),
-    MAPHONG INT,
     HOTEN NVARCHAR(100),
     GIOITINH NVARCHAR(5),
     NGAYSINH DATETIME,
@@ -610,49 +547,27 @@ CREATE TABLE BENHNHAN (
     MABHYT VARCHAR(20),
     NGAYNHAPVIEN DATETIME,
     SODIENTHOAI NVARCHAR(15),
-    EMAIL NVARCHAR(100),
-    FOREIGN KEY (MAPHONG) REFERENCES PHONG(MAPHONG)
+    EMAIL NVARCHAR(100)
 );
 ```
 
-#### 2.5.2. Bảng YSI
-```sql
-CREATE TABLE YSI (
-    MAYSI INT IDENTITY(1,1) PRIMARY KEY,
-    SUB_ID AS ('YS' + RIGHT('000000' + CAST(MAYSI AS VARCHAR(6)), 6)),
-    MAKHOA INT,
-    MAPHONG INT,
-    HOTEN NVARCHAR(100),
-    GIOITINH NVARCHAR(5),
-    NGAYSINH DATETIME,
-    NGAYVAOLAM DATETIME,
-    LOAIYSI NVARCHAR(50),
-    MACHIHUY INT,
-    FOREIGN KEY (MAKHOA) REFERENCES KHOA(MAKHOA),
-    FOREIGN KEY (MAPHONG) REFERENCES PHONG(MAPHONG),
-    FOREIGN KEY (MACHIHUY) REFERENCES YSI(MAYSI)
-);
-```
-
-#### 2.5.3. Bảng BENHAN
+#### 2.5.2. Bảng BENHAN
 ```sql
 CREATE TABLE BENHAN (
     MABENHAN INT IDENTITY(1,1) PRIMARY KEY,
     SUB_ID AS ('BA' + RIGHT('000000' + CAST(MABENHAN AS VARCHAR(6)), 6)),
-    MAYSI INT,
     MABENHNHAN INT,
     MADICHVU INT,
     THANHTIEN MONEY,
     TRIEUCHUNG NVARCHAR(MAX),
     NGAYKHAM SMALLDATETIME,
     KETLUAN NVARCHAR(MAX),
-    FOREIGN KEY (MAYSI) REFERENCES YSI(MAYSI),
     FOREIGN KEY (MABENHNHAN) REFERENCES BENHNHAN(MABENHNHAN),
     FOREIGN KEY (MADICHVU) REFERENCES DICHVU(MADICHVU)
 );
 ```
 
-#### 2.5.4. Bảng DONTHUOC
+#### 2.5.3. Bảng DONTHUOC
 ```sql
 CREATE TABLE DONTHUOC (
     MADONTHUOC INT IDENTITY(1,1) PRIMARY KEY,
@@ -663,7 +578,7 @@ CREATE TABLE DONTHUOC (
 );
 ```
 
-#### 2.5.5. Bảng CHITIETDONTHUOC
+#### 2.5.4. Bảng CHITIETDONTHUOC
 ```sql
 CREATE TABLE CHITIETDONTHUOC (
     MADONTHUOC INT,
@@ -677,7 +592,7 @@ CREATE TABLE CHITIETDONTHUOC (
 );
 ```
 
-#### 2.5.6. Bảng THUOC
+#### 2.5.5. Bảng THUOC
 ```sql
 CREATE TABLE THUOC (
     MATHUOC INT IDENTITY(1,1) PRIMARY KEY,
@@ -691,7 +606,7 @@ CREATE TABLE THUOC (
 );
 ```
 
-#### 2.5.7. Bảng DICHVU
+#### 2.5.6. Bảng DICHVU
 ```sql
 CREATE TABLE DICHVU (
     MADICHVU INT IDENTITY(1,1) PRIMARY KEY,
@@ -702,50 +617,22 @@ CREATE TABLE DICHVU (
 );
 ```
 
-#### 2.5.8. Bảng KHOA
-```sql
-CREATE TABLE KHOA (
-    MAKHOA INT IDENTITY(1,1) PRIMARY KEY,
-    SUB_ID AS ('KH' + RIGHT('000000' + CAST(MAKHOA AS VARCHAR(6)), 6)),
-    TENKHOA NVARCHAR(100),
-    NGAYTHANHLAP DATETIME,
-    TRUONGKHOA INT,
-    PICTURE NVARCHAR(MAX),
-    FOREIGN KEY (TRUONGKHOA) REFERENCES YSI(MAYSI)
-);
-```
-
-#### 2.5.9. Bảng PHONG
-```sql
-CREATE TABLE PHONG (
-    MAPHONG INT IDENTITY(1,1) PRIMARY KEY,
-    SUB_ID AS ('PHG' + RIGHT('000000' + CAST(MAPHONG AS VARCHAR(6)), 6)),
-    TANG TINYINT,
-    TENPHONG NVARCHAR(100),
-    SUCCHUA TINYINT
-);
-```
-
-#### 2.5.10. Bảng LICHKHAM
+#### 2.5.7. Bảng LICHKHAM
 ```sql
 CREATE TABLE LICHKHAM (
     MALICHKHAM INT IDENTITY(1,1) PRIMARY KEY,
     SUB_ID AS ('LK' + RIGHT('000000' + CAST(MALICHKHAM AS VARCHAR(6)), 6)),
-    MABACSI INT,
     MABENHNHAN INT,
-    MAPHONG INT,
     MADICHVU INT,
     NGAYKHAM DATETIME,
     NGAYLENLICH DATETIME,
     CAKHAM INT,
-    FOREIGN KEY (MABACSI) REFERENCES YSI(MAYSI),
     FOREIGN KEY (MABENHNHAN) REFERENCES BENHNHAN(MABENHNHAN),
-    FOREIGN KEY (MAPHONG) REFERENCES PHONG(MAPHONG),
     FOREIGN KEY (MADICHVU) REFERENCES DICHVU(MADICHVU)
 );
 ```
 
-#### 2.5.11. Bảng HANGDOI
+#### 2.5.8. Bảng HANGDOI
 ```sql
 CREATE TABLE HANGDOI (
     MAHANGDOI INT IDENTITY(1,1) PRIMARY KEY,
@@ -759,7 +646,7 @@ CREATE TABLE HANGDOI (
 );
 ```
 
-#### 2.5.12. Bảng HOADON
+#### 2.5.9. Bảng HOADON
 ```sql
 CREATE TABLE HOADON (
     MAHOADON INT IDENTITY(1,1) PRIMARY KEY,
@@ -778,7 +665,7 @@ CREATE TABLE HOADON (
 );
 ```
 
-#### 2.5.13. Bảng TAIKHOAN
+#### 2.5.10. Bảng TAIKHOAN
 ```sql
 CREATE TABLE TAIKHOAN (
     TENDANGNHAP VARCHAR(30) PRIMARY KEY,
@@ -789,12 +676,11 @@ CREATE TABLE TAIKHOAN (
 );
 ```
 
-#### 2.5.14. Bảng BENHAN_HISTORY
+#### 2.5.11. Bảng BENHAN_HISTORY
 ```sql
 CREATE TABLE BENHAN_HISTORY (
     MALICHSU INT IDENTITY(1,1) PRIMARY KEY,
     MABENHAN INT,
-    MAYSI INT,
     MABENHNHAN INT,
     MADICHVU INT,
     TRIEUCHUNG NVARCHAR(MAX),
@@ -859,7 +745,7 @@ CREATE TABLE BENHAN_HISTORY (
 
 #### 3.1.3. Giao diện Dashboard (HomeView)
 
-**Mục đích**: Hiển thị tổng quan về hoạt động của bệnh viện
+**Mục đích**: Hiển thị tổng quan về hoạt động của phòng mạch
 
 **Luồng hoạt động**:
 1. Khi người dùng chọn menu Dashboard, HomeView được hiển thị
@@ -892,8 +778,8 @@ CREATE TABLE BENHAN_HISTORY (
 **a) Xem danh sách bệnh nhân**:
 1. Hiển thị danh sách tất cả bệnh nhân trong DataGrid
 2. Hỗ trợ tìm kiếm theo tên, mã bệnh nhân, số điện thoại
-3. Hỗ trợ lọc theo phòng, giới tính
-4. Hiển thị thông tin: Mã, Họ tên, Giới tính, Ngày sinh, Địa chỉ, Phòng
+3. Hỗ trợ lọc theo giới tính
+4. Hiển thị thông tin: Mã, Họ tên, Giới tính, Ngày sinh, Địa chỉ
 
 **b) Thêm bệnh nhân mới**:
 1. Click nút "Thêm mới", mở cửa sổ AddVictim
@@ -905,7 +791,6 @@ CREATE TABLE BENHAN_HISTORY (
    - Số điện thoại
    - Email
    - Mã BHYT (nếu có)
-   - Chọn phòng
 3. Hệ thống kiểm tra tính hợp lệ của dữ liệu
 4. Click "Lưu":
    - Tạo mã bệnh nhân mới (tự động)
@@ -942,7 +827,6 @@ CREATE TABLE BENHAN_HISTORY (
 **Các thành phần**:
 - DataGrid hiển thị danh sách bệnh nhân
 - TextBox tìm kiếm
-- ComboBox lọc theo phòng
 - Các nút: Thêm, Sửa, Xóa, Xem
 - Cửa sổ con: AddVictim, ChangeVictim, ViewVictim
 
@@ -956,7 +840,6 @@ CREATE TABLE BENHAN_HISTORY (
 1. Từ giao diện bệnh nhân, chọn bệnh nhân và click "Bệnh án"
 2. Mở cửa sổ AddHealthRecord
 3. Người dùng nhập thông tin:
-   - Chọn bác sĩ khám
    - Chọn dịch vụ khám
    - Nhập triệu chứng
    - Nhập kết luận
@@ -1198,7 +1081,7 @@ CREATE TABLE BENHAN_HISTORY (
 
 #### 4.1.1. Kết quả đạt được
 
-Sau quá trình phát triển, phần mềm Quản lý Bệnh viện đã đạt được các kết quả sau:
+Sau quá trình phát triển, phần mềm Quản lý Phòng mạch tư đã đạt được các kết quả sau:
 
 1. **Hoàn thiện các chức năng cơ bản**:
    - Đã xây dựng đầy đủ các module quản lý: bệnh nhân, bệnh án, đơn thuốc, lịch khám, hàng đợi, hóa đơn, dịch vụ, thuốc
@@ -1225,7 +1108,7 @@ Sau quá trình phát triển, phần mềm Quản lý Bệnh viện đã đạt
 Trong quá trình phát triển, nhóm đã gặp một số khó khăn:
 
 1. **Phức tạp của nghiệp vụ y tế**:
-   - Cần hiểu rõ các quy trình trong bệnh viện để thiết kế hệ thống phù hợp
+   - Cần hiểu rõ các quy trình trong phòng mạch để thiết kế hệ thống phù hợp
    - Xử lý các trường hợp đặc biệt (bệnh nhân ưu tiên, thuốc hết hạn, ...)
 
 2. **Quản lý dữ liệu**:
@@ -1250,7 +1133,7 @@ Trong quá trình phát triển, nhóm đã gặp một số khó khăn:
    - Icon và màu sắc phù hợp với ngữ cảnh y tế
 
 2. **Chức năng đầy đủ**:
-   - Bao phủ hầu hết các nghiệp vụ quản lý trong bệnh viện
+   - Bao phủ hầu hết các nghiệp vụ quản lý trong phòng mạch tư
    - Hỗ trợ đầy đủ các thao tác CRUD (Create, Read, Update, Delete)
    - Tích hợp nhiều tính năng: tìm kiếm, lọc, thống kê
 
@@ -1333,7 +1216,6 @@ Trong quá trình phát triển, nhóm đã gặp một số khó khăn:
 2. **Cảnh báo tự động**:
    - Cảnh báo thuốc sắp hết hạn
    - Cảnh báo thuốc hết hàng
-   - Cảnh báo phòng quá tải
    - Cảnh báo hóa đơn chưa thanh toán
 
 3. **Thông báo hệ thống**:
@@ -1447,9 +1329,9 @@ Trong quá trình phát triển, nhóm đã gặp một số khó khăn:
 
 ## KẾT LUẬN
 
-Phần mềm Quản lý Bệnh viện đã được phát triển thành công với đầy đủ các chức năng cơ bản cần thiết cho việc quản lý một phòng khám tư nhân hoặc bệnh viện nhỏ. Hệ thống có giao diện đẹp, dễ sử dụng, kiến trúc tốt và có khả năng mở rộng trong tương lai.
+Phần mềm Quản lý Phòng mạch tư đã được phát triển thành công với đầy đủ các chức năng cơ bản cần thiết cho việc quản lý một phòng khám tư nhân. Hệ thống có giao diện đẹp, dễ sử dụng, kiến trúc tốt và có khả năng mở rộng trong tương lai.
 
-Với các tính năng nâng cao được đề xuất, hệ thống có thể phát triển thành một giải pháp quản lý bệnh viện hoàn chỉnh, đáp ứng nhu cầu của các cơ sở y tế lớn hơn và cung cấp trải nghiệm tốt hơn cho cả nhân viên y tế và bệnh nhân.
+Với các tính năng nâng cao được đề xuất, hệ thống có thể phát triển thành một giải pháp quản lý phòng mạch hoàn chỉnh, đáp ứng nhu cầu của các phòng khám tư nhân và cung cấp trải nghiệm tốt hơn cho cả nhân viên y tế và bệnh nhân.
 
 ---
 
@@ -1465,7 +1347,7 @@ Với các tính năng nâng cao được đề xuất, hệ thống có thể p
 
 ## THÔNG TIN DỰ ÁN
 
-- **Tên dự án**: Phần mềm Quản lý Bệnh viện
+- **Tên dự án**: Phần mềm Quản lý Phòng mạch tư
 - **Nhóm thực hiện**: Nhóm 20 UIT
 - **Môn học**: Lập trình trực quan
 - **Năm học**: 2024
@@ -1494,4 +1376,4 @@ Với các tính năng nâng cao được đề xuất, hệ thống có thể p
 
 ## DEVELOPERS
 
-[Điền thông tin thành viên nhóm]
+Huỳnh Đăng Khoa - 22590669
