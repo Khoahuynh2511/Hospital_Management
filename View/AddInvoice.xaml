@@ -9,10 +9,14 @@
         WindowStartupLocation="CenterScreen"
         xmlns:materialdesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+        xmlns:resource="clr-namespace:LTTQ_DoAn.Resource"
         Title="Tạo hóa đơn" Height="700" Width="1000"
         Background="Transparent"
         WindowStyle="None"
         ResizeMode="NoResize">
+    <Window.Resources>
+        <resource:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
+    </Window.Resources>
     <Window.DataContext>
         <viewmodel:AddInvoiceViewModel/>
     </Window.DataContext>
@@ -67,33 +71,40 @@
                          Style="{DynamicResource MaterialDesignOutlinedComboBox}"/>
             </StackPanel>
             
-            <Grid Grid.Row="3" Margin="30 10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                
-                <StackPanel Grid.Column="0" Margin="0 0 15 0">
-                    <TextBlock Text="Thông tin bệnh nhân" FontWeight="SemiBold" FontSize="14" Foreground="Black" Margin="0 0 0 12"/>
-                    <TextBox Text="{Binding TenBenhNhan}" IsReadOnly="True"
-                            Style="{DynamicResource MaterialDesignOutlinedTextBox}"
-                            materialdesign:HintAssist.Hint="Tên bệnh nhân"
-                            FontSize="15" Height="55" Margin="0 0 0 15"/>
+            <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="30 10">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
                     
-                    <TextBlock Text="Dịch vụ và thuốc" FontWeight="SemiBold" FontSize="14" Foreground="Black" Margin="0 0 0 12"/>
-                    <Border BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="5" Padding="10" MaxHeight="300">
-                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Grid.Column="0" Margin="0 0 15 0">
+                        <TextBlock Text="Thông tin bệnh nhân" FontWeight="SemiBold" FontSize="14" Foreground="Black" Margin="0 0 0 12"/>
+                        <TextBox Text="{Binding TenBenhNhan}" IsReadOnly="True"
+                                Style="{DynamicResource MaterialDesignOutlinedTextBox}"
+                                materialdesign:HintAssist.Hint="Tên bệnh nhân"
+                                FontSize="15" Height="55" Margin="0 0 0 15"/>
+                        
+                        <TextBlock Text="Dịch vụ và thuốc" FontWeight="SemiBold" FontSize="14" Foreground="Black" Margin="0 0 0 12"/>
+                        <Border BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="5" Padding="10">
                             <StackPanel>
                                 <Border Background="#F5F5F5" CornerRadius="5" Padding="10" Margin="0 0 0 10">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="150"/>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock Text="{Binding DichVu}" FontWeight="SemiBold" VerticalAlignment="Center"/>
-                                        <TextBlock Grid.Column="1" Text="{Binding GiaDichVu, StringFormat='{}{0:N0} VND'}" 
-                                                  HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="#2E7D32"/>
-                                    </Grid>
+                                    <StackPanel>
+                                        <Grid Margin="0 0 0 8">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="150"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{Binding DichVu}" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                            <TextBlock Grid.Column="1" Text="{Binding GiaDichVu, StringFormat='{}{0:N0} VND'}" 
+                                                      HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="#2E7D32"/>
+                                        </Grid>
+                                        <TextBlock Text="{Binding DichVuGhiChu}" 
+                                                  FontSize="12" Foreground="#666666" 
+                                                  TextWrapping="Wrap" 
+                                                  Margin="0 5 0 0"
+                                                  Visibility="{Binding DichVuGhiChu, Converter={StaticResource StringToVisibilityConverter}}"/>
+                                    </StackPanel>
                                 </Border>
                                 
                                 <ItemsControl ItemsSource="{Binding ThuocList}">
@@ -120,57 +131,69 @@
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
+                                
+                                <Border Background="#E8F5E9" BorderBrush="#4CAF50" BorderThickness="1" CornerRadius="5" Padding="10" Margin="0 10 0 0"
+                                        Visibility="{Binding DonThuocGhiChu, Converter={StaticResource StringToVisibilityConverter}}">
+                                    <StackPanel>
+                                        <TextBlock Text="Ghi chú đơn thuốc:" FontWeight="SemiBold" FontSize="13" Foreground="#2E7D32" Margin="0 0 0 8"/>
+                                        <ScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="150">
+                                            <TextBlock Text="{Binding DonThuocGhiChu}" 
+                                                      FontSize="12" Foreground="#424242" 
+                                                      TextWrapping="Wrap"/>
+                                        </ScrollViewer>
+                                    </StackPanel>
+                                </Border>
                             </StackPanel>
-                        </ScrollViewer>
-                    </Border>
-                </StackPanel>
-                
-                <StackPanel Grid.Column="1">
-                    <TextBlock Text="Thông tin thanh toán" FontWeight="SemiBold" FontSize="14" Foreground="Black" Margin="0 0 0 12"/>
+                        </Border>
+                    </StackPanel>
                     
-                    <Border Background="#F5F5F5" CornerRadius="5" Padding="15" Margin="0 0 0 15">
-                        <StackPanel>
-                            <Grid Margin="0 0 0 10">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="Tổng tiền:" VerticalAlignment="Center" Foreground="Black"/>
-                                <TextBlock Grid.Column="1" Text="{Binding TongTienFormatted}" 
-                                          HorizontalAlignment="Right" FontWeight="SemiBold" FontSize="16" Foreground="Black"/>
-                            </Grid>
-                            
-                            <TextBox Text="{Binding GiamGia, UpdateSourceTrigger=PropertyChanged}"
-                                    PreviewTextInput="TextBox_PreviewTextInput"
-                                    Style="{DynamicResource MaterialDesignOutlinedTextBox}"
-                                    materialdesign:HintAssist.Hint="Giảm giá (VND)"
-                                    FontSize="15" Height="55" Margin="0 0 0 10"/>
-                            
-                            <Grid Margin="0 0 0 10">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="Thành tiền:" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="16" Foreground="Black"/>
-                                <TextBlock Grid.Column="1" Text="{Binding ThanhTienFormatted}" 
-                                          HorizontalAlignment="Right" FontWeight="Bold" FontSize="18" Foreground="#2E7D32"/>
-                            </Grid>
-                            
-                            <ComboBox ItemsSource="{Binding PhuongThucList}"
-                                     SelectedValue="{Binding PhuongThuc, Mode=TwoWay}"
-                                     Height="55" FontSize="15"
-                                     materialdesign:HintAssist.Hint="Phương thức thanh toán"
-                                     Style="{DynamicResource MaterialDesignOutlinedComboBox}" Margin="0 10 0 0"/>
-                            
-                            <TextBox Text="{Binding GhiChu}"
-                                    Style="{DynamicResource MaterialDesignOutlinedTextBox}"
-                                    materialdesign:HintAssist.Hint="Ghi chú"
-                                    FontSize="15" Height="80" Margin="0 10 0 0"
-                                    TextWrapping="Wrap" AcceptsReturn="True"/>
-                        </StackPanel>
-                    </Border>
-                </StackPanel>
-            </Grid>
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Text="Thông tin thanh toán" FontWeight="SemiBold" FontSize="14" Foreground="Black" Margin="0 0 0 12"/>
+                        
+                        <Border Background="#F5F5F5" CornerRadius="5" Padding="15" Margin="0 0 0 15">
+                            <StackPanel>
+                                <Grid Margin="0 0 0 10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="Tổng tiền:" VerticalAlignment="Center" Foreground="Black"/>
+                                    <TextBlock Grid.Column="1" Text="{Binding TongTienFormatted}" 
+                                              HorizontalAlignment="Right" FontWeight="SemiBold" FontSize="16" Foreground="Black"/>
+                                </Grid>
+                                
+                                <TextBox Text="{Binding GiamGia, UpdateSourceTrigger=PropertyChanged}"
+                                        PreviewTextInput="TextBox_PreviewTextInput"
+                                        Style="{DynamicResource MaterialDesignOutlinedTextBox}"
+                                        materialdesign:HintAssist.Hint="Giảm giá (VND)"
+                                        FontSize="15" Height="55" Margin="0 0 0 10"/>
+                                
+                                <Grid Margin="0 0 0 10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="Thành tiền:" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="16" Foreground="Black"/>
+                                    <TextBlock Grid.Column="1" Text="{Binding ThanhTienFormatted}" 
+                                              HorizontalAlignment="Right" FontWeight="Bold" FontSize="18" Foreground="#2E7D32"/>
+                                </Grid>
+                                
+                                <ComboBox ItemsSource="{Binding PhuongThucList}"
+                                         SelectedValue="{Binding PhuongThuc, Mode=TwoWay}"
+                                         Height="55" FontSize="15"
+                                         materialdesign:HintAssist.Hint="Phương thức thanh toán"
+                                         Style="{DynamicResource MaterialDesignOutlinedComboBox}" Margin="0 10 0 0"/>
+                                
+                                <TextBox Text="{Binding GhiChu}"
+                                        Style="{DynamicResource MaterialDesignOutlinedTextBox}"
+                                        materialdesign:HintAssist.Hint="Ghi chú"
+                                        FontSize="15" Height="80" Margin="0 10 0 0"
+                                        TextWrapping="Wrap" AcceptsReturn="True"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+            </ScrollViewer>
             
             <Border Grid.Row="4" BorderBrush="#E0E0E0" BorderThickness="0 1 0 0" Margin="30 0" Padding="0 15 0 0">
                 <TextBlock Text="* Tổng tiền được tính tự động từ giá dịch vụ và tổng giá trị thuốc trong đơn thuốc" 

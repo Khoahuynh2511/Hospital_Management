@@ -10,7 +10,7 @@
         WindowStartupLocation="CenterScreen"
         xmlns:materialdesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
-        Title="AddNurseAndDoctor" Height="430" Width="600"
+        Title="Sửa dịch vụ" Height="450" Width="700"
         Background="Transparent"
         WindowStyle="None"
         ResizeMode="NoResize">
@@ -29,9 +29,9 @@
         <Grid Margin="0,0,1,3">
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="*"/>
                 <RowDefinition Height="60"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="70"/>
             </Grid.RowDefinitions>
             <!--nút thu nhỏ và tắt màn-->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
@@ -54,74 +54,89 @@
                 <TextBlock
                         Margin="30 10 0 0 "
                         Text="Thông tin dịch vụ khám"
-                        FontSize="30"
+                        FontSize="32"
                         Foreground="{StaticResource btnActivedText}"
                         FontFamily="Poppins"
                         FontWeight="Medium"
                         />
             </Border>
             <!--các thông tin-->
-            <Grid Margin="40" Grid.Row="2">
+            <Grid Margin="50 40" Grid.Row="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="250"/>
                 </Grid.ColumnDefinitions>
-                <StackPanel HorizontalAlignment="Left">
+                <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center">
                     <!--tên dịch vụ-->
-                    <StackPanel>
+                    <StackPanel Margin="0 0 0 30">
                         <TextBlock Style="{StaticResource TitlePersonalInfo}"
-                                       Text="Tên:"
-                                       />
-                        <TextBox Style="{StaticResource TextPersonalInfo}"
-                                     Text="{Binding Dichvu.TENDICHVU}"
-                                     Width="200">
+                                   Text="Tên dịch vụ:"
+                                   FontSize="16"
+                                   Margin="0 0 0 8"
+                                   />
+                        <TextBox Text="{Binding Dichvu.TENDICHVU}"
+                                 Height="45"
+                                 FontSize="16"
+                                 Background="Transparent"
+                                 Foreground="{StaticResource infoText}"
+                                 CaretBrush="LightGray"
+                                 BorderThickness="0 0 0 2"
+                                 HorizontalAlignment="Stretch"
+                                 Padding="0 8 0 8"
+                                 VerticalContentAlignment="Center"
+                                 BorderBrush="{StaticResource btnActivedText}">
                         </TextBox>
                     </StackPanel>
                     <!--giá-->
-                    <StackPanel Margin="0 20 0 0">
+                    <StackPanel>
                         <TextBlock Style="{StaticResource TitlePersonalInfo}"
-                                       Text="Giá (VNĐ):"
-                                       />
-                        <TextBox Style="{StaticResource TextPersonalInfo}"
-                                     Text="{Binding Dichvu.GIATIEN, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource VndCurrencyConverter}}"
-                                     Width="200"
+                                   Text="Giá (VNĐ):"
+                                   FontSize="16"
+                                   Margin="0 0 0 8"
+                                   />
+                        <TextBox Text="{Binding Dichvu.GIATIEN, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource VndCurrencyConverter}}"
+                                 Height="45"
+                                 FontSize="16"
+                                 Background="Transparent"
+                                 Foreground="{StaticResource infoText}"
+                                 CaretBrush="LightGray"
+                                 BorderThickness="0 0 0 2"
+                                 HorizontalAlignment="Stretch"
+                                 Padding="0 8 0 8"
+                                 VerticalContentAlignment="Center"
+                                 BorderBrush="{StaticResource btnActivedText}"
                                  PreviewTextInput="TextBox_PreviewTextInput">
                         </TextBox>
                     </StackPanel>
-                    <Button Width="100"
-                            Command="{Binding AddImageCommand}"
-                            Margin="0 20 0 0"
-                            Background="{StaticResource btnActivedText}"
-                            Foreground="{StaticResource btnActivedGround}">
-                        <TextBlock Text="Chọn ảnh"
-                                   Foreground="{StaticResource btnActivedGround}"/>
-                    </Button>
-
                 </StackPanel>
-                <!--Hình ảnh-->
-                <DockPanel Grid.Column="1">
-                    <Image x:Name="Service_Image" Stretch="Uniform" Source="{Binding Image_url}"/>
-                </DockPanel>
+                <!--ảnh minh họa-->
+                <Image HorizontalAlignment="Center" 
+                       VerticalAlignment="Center"
+                       Stretch="Uniform" 
+                       Grid.Column="1" 
+                       Source="/Photo/health-check.png"
+                       Height="200"
+                       Margin="20 0 0 0"/>
             </Grid>
             <!--2 nút điều khiển-->
             <StackPanel Grid.Row="3" Orientation="Horizontal"
-                        VerticalAlignment="Top" HorizontalAlignment="Right">
+                        VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 40 0">
                 <Button
                     Command="{Binding ConfirmChangeCommand}"
-                    Width="100"
-                    Height="40"
+                    Width="130"
+                    Height="50"
                     Content="Xác nhận"
-                    FontSize="15"
-                    Foreground="#555"
+                    FontSize="18"
+                    Foreground="#f2f2f2"
                     Background="{StaticResource btnActivedText}"
                     Style="{StaticResource MaterialDesignFlatLightBgButton}"
-                    ToolTip="Lưu" />
-                <Button Margin="40 0"
+                    ToolTip="Lưu thông tin" />
+                <Button Margin="30 0 0 0"
                     Command="{Binding CancelCommand}"
-                    Width="100"
-                    Height="40"
+                    Width="130"
+                    Height="50"
                     Content="Hủy bỏ"
-                    FontSize="15"
+                    FontSize="18"
                     Foreground="#555"
                     Background="#fff"
                     Style="{StaticResource MaterialDesignFlatLightBgButton}"

@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LTTQ_DoAn.View"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         xmlns:materialdesign="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -84,12 +85,15 @@
                         <ComboBoxItem>Nam</ComboBoxItem>
                         <ComboBoxItem>Nữ</ComboBoxItem>
                     </ComboBox>
-                    <DatePicker Grid.Column="2"
+                    <DatePicker x:Name="NgaySinhDatePicker"
+                        Grid.Column="2"
                         Height="55" FontSize="15"
                         materialdesign:HintAssist.Hint="Ngày sinh"
                         SelectedDate="{Binding Ngaysinh, Mode=TwoWay}"
                         materialdesign:HintAssist.Background="White"
-                        Style="{StaticResource MaterialDesignFloatingHintDatePicker}"/>
+                        DisplayDateEnd="{x:Static sys:DateTime.Today}"
+                        Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
+                        Loaded="NgaySinhDatePicker_Loaded"/>
                 </Grid>
             </StackPanel>
 
@@ -105,14 +109,16 @@
             <!--Thông tin nhập viện-->
             <StackPanel Grid.Row="4" Margin="30 10 30 10">
                 <TextBlock Text="Thông tin khám" FontWeight="SemiBold" FontSize="14" Foreground="#424242" Margin="0 0 0 12"/>
-                <DatePicker
+                <DatePicker x:Name="NgayDangKyDatePicker"
                     Height="55" FontSize="15"
                     Width="300"
                     HorizontalAlignment="Left"
                     materialdesign:HintAssist.Hint="Ngày đăng ký"
                     materialdesign:HintAssist.Background="White"
+                    DisplayDateStart="{x:Static sys:DateTime.Today}"
                     Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
-                    SelectedDate="{Binding Ngaynhapvien, Mode=TwoWay}"/>
+                    SelectedDate="{Binding Ngaynhapvien, Mode=TwoWay}"
+                    Loaded="NgayDangKyDatePicker_Loaded"/>
             </StackPanel>
         
             <!--Thông tin liên lạc-->

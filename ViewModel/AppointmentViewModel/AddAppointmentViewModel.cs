@@ -25,19 +25,9 @@ namespace LTTQ_DoAn.ViewModel
                 OnPropertyChanged(nameof(Benhnhan));
             }
         }
-        public string Bacsi { get => bacsi; set
-            {
-                bacsi = value;
-                OnPropertyChanged(nameof(Bacsi));
-            }
-        }
         public string Dichvu { get => dichvu; set {
                 dichvu = value;
                 OnPropertyChanged(nameof(Dichvu));
-            } }
-        public string Phong { get => phong; set {
-                phong = value;
-                OnPropertyChanged(nameof(Phong));
             } }
         public string Ngaylenlich { get => ngaylenlich; set {
                 ngaylenlich = value;
@@ -48,59 +38,116 @@ namespace LTTQ_DoAn.ViewModel
                 OnPropertyChanged(nameof(Ngaykham));
             } }
 
-        public List<string> BacsiList { get => bacsiList; set => bacsiList = value; }
         public List<string> BenhnhanList { get => benhnhanList; set => benhnhanList = value; }
         public List<string> DichvuList { get => dichvuList; set => dichvuList = value; }
-        public List<string> PhongList { get => phongList; set => phongList = value; }
         public string Cakham
         {
             get => cakham; set
             {
                 cakham = value;
                 OnPropertyChanged(nameof(Cakham));
+                UpdateNgayKhamWithCaKham();
             }
         }
 
         private string benhnhan;
-        private string bacsi;
         private string dichvu;
-        private string phong;
         private string ngaylenlich;
         private string ngaykham;
         private string cakham;
         private List<String> benhnhanList;
         QUANLYBENHVIENEntities _db = new QUANLYBENHVIENEntities();
-        private List<string> bacsiList;
         private List<String> dichvuList;
-        private List<String> phongList;
+
+        public DateTime TodayDate
+        {
+            get => DateTime.Today;
+        }
+
+        private int GetHourByCaKham(int caKham)
+        {
+            // Ca 1: 7:00, Ca 2: 8:00, Ca 3: 9:00, ..., Ca 12: 18:00
+            return 6 + caKham;
+        }
+
+        private void UpdateNgayKhamWithCaKham()
+        {
+            // This method is called when Cakham changes
+            // The actual update will be handled in the code-behind when both date and ca are selected
+        }
 
         public void checkCaKham()
         {
-            int idBacSi = convertBacsiSub_ID(Bacsi);
-            YSI thisYsi = (from m in _db.YSI
-                                where m.MAYSI == idBacSi
-                                select m).FirstOrDefault();
-            if (thisYsi == null)
+            if (string.IsNullOrEmpty(Cakham))
             {
-                throw new Exception("Bác sĩ này không tồn tại!");
+                throw new Exception("Vui lòng chọn ca khám!");
             }
+            if (string.IsNullOrEmpty(Ngaykham))
+            {
+                throw new Exception("Vui lòng chọn ngày khám!");
+            }
+            if (string.IsNullOrEmpty(Ngaylenlich))
+            {
+                throw new Exception("Vui lòng chọn ngày lên lịch!");
+            }
+            
             int Ca = int.Parse(Cakham);
-            DateTime new_NgayKham = DateTime.ParseExact(Ngaykham, "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
-            LICHKHAM check_trung_lich_kham = thisYsi.LICHKHAM.Where(i => i.CAKHAM == Ca && i.NGAYKHAM == new_NgayKham).FirstOrDefault();
-            if (check_trung_lich_kham != null)
+            DateTime new_NgayKham;
+            DateTime new_NgayLenLich;
+            
+            try
             {
-                throw new Exception("Bác sĩ này đã có lịch khám vào ca " + Cakham + " rồi!");
+                new_NgayKham = DateTime.ParseExact(Ngaykham, "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
             }
-            int new_MaPhong = (int)convertPhongSUB_ID(Phong);
-            LICHKHAM check_trung_voi_bacsi_khac = _db.LICHKHAM.Where(k => k.CAKHAM == Ca &&
-                k.NGAYKHAM == new_NgayKham &&
-                k.MAPHONG == new_MaPhong &&
-                k.MABACSI != idBacSi).SingleOrDefault();
-            if (check_trung_voi_bacsi_khac != null)
+            catch
             {
-                throw new Exception("Ca khám vào phòng này đã được đặt trước cho bác sĩ khác");
+                DateTime ngayKhamDate = DateTime.Parse(Ngaykham);
+                int hour = GetHourByCaKham(Ca);
+                new_NgayKham = new DateTime(ngayKhamDate.Year, ngayKhamDate.Month, ngayKhamDate.Day, hour, 0, 0);
+            }
+            
+            try
+            {
+                new_NgayLenLich = DateTime.ParseExact(Ngaylenlich, "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
+            }
+            catch
+            {
+                new_NgayLenLich = DateTime.Parse(Ngaylenlich);
+            }
+            
+            DateTime today = DateTime.Today;
+            if (new_NgayKham.Date < today)
+            {
+                throw new Exception("Ngày khám không được là ngày trong quá khứ!");
+            }
+            if (new_NgayLenLich.Date < today)
+            {
+                throw new Exception("Ngày lên lịch không được là ngày trong quá khứ!");
             }
             return;
+        }
+
+        public void deleteExpiredAppointments()
+        {
+            try
+            {
+                DateTime today = DateTime.Today;
+                var expiredAppointments = _db.LICHKHAM.Where(l => l.NGAYKHAM < today).ToList();
+                
+                if (expiredAppointments.Count > 0)
+                {
+                    foreach (var appointment in expiredAppointments)
+                    {
+                        _db.LICHKHAM.DeleteObject(appointment);
+                    }
+                    _db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log error but don't throw to prevent blocking form opening
+                System.Diagnostics.Debug.WriteLine("Error deleting expired appointments: " + ex.Message);
+            }
         }
 
         public void loadBenhnhan()
@@ -114,33 +161,6 @@ namespace LTTQ_DoAn.ViewModel
                 this.BenhnhanList = subID;
             
         }
-        public void loadPhong()
-        {
-            List<PHONG> phong = _db.PHONG.ToList();
-            List<String> subID = new List<String>();
-            foreach (var item in phong)
-            {
-                subID.Add(item.SUB_ID + ": " + item.TENPHONG);
-            }
-            this.PhongList = subID;
-        }
-        public void loadBacsi()
-        {
-            List<YSI> bacsi = _db.YSI.ToList();
-            List<String> subID = new List<String>();
-            foreach (var item in bacsi)
-            {
-                if (string.IsNullOrEmpty(item.LOAIYSI))
-                {
-                    continue;
-                }
-                if (item.LOAIYSI.StartsWith("Bác sĩ"))
-                {
-                    subID.Add(item.HOTEN + ": " + item.SUB_ID);
-                }
-            }
-            this.BacsiList = subID;
-        }
 
         public void loadDichvu()
         {
@@ -151,26 +171,6 @@ namespace LTTQ_DoAn.ViewModel
                 subID.Add(item.SUB_ID + ": " + item.TENDICHVU);
             }
             this.DichvuList = subID;
-        }
-        public int? convertPhongSUB_ID(string Sub_id)
-        {
-            if (Sub_id == null)
-            {
-                return null;
-            }
-            // Chuỗi cần tách
-            string inputString = Sub_id;
-            string[] parts = inputString.Split(new[] { ':' }, 2);
-            // Tách các ký tự còn lại thành một chuỗi riêng
-            string remainingCharacters = parts[0].Substring(3);
-            return int.Parse(remainingCharacters);
-        }
-        public int convertBacsiSub_ID(string inputString)
-        {
-            // Tách chuỗi sử dụng phương thức Split
-            string[] parts = inputString.Split(new[] { ':' }, 2);
-            string k1 = parts[1].Substring(2);
-            return int.Parse(k1);
         }
         public int convertBenhnhanSub_ID(string inputString)
         {
@@ -190,14 +190,36 @@ namespace LTTQ_DoAn.ViewModel
         {
             int insert_Ca = int.Parse(Cakham);
             checkCaKham();
+            
+            DateTime ngayKhamDate;
+            DateTime ngayLenLichDate;
+            
+            try
+            {
+                ngayKhamDate = DateTime.ParseExact(Ngaykham, "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
+            }
+            catch
+            {
+                DateTime parsedDate = DateTime.Parse(Ngaykham);
+                int hour = GetHourByCaKham(insert_Ca);
+                ngayKhamDate = new DateTime(parsedDate.Year, parsedDate.Month, parsedDate.Day, hour, 0, 0);
+            }
+            
+            try
+            {
+                ngayLenLichDate = DateTime.ParseExact(Ngaylenlich, "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
+            }
+            catch
+            {
+                ngayLenLichDate = DateTime.Parse(Ngaylenlich);
+            }
+            
             LICHKHAM newLichkham = new LICHKHAM()
             {
-                MABACSI = convertBacsiSub_ID(Bacsi),
                 MABENHNHAN = convertBenhnhanSub_ID(Benhnhan),
                 MADICHVU = convertDichvuSub_ID(Dichvu),
-                NGAYKHAM = DateTime.ParseExact(Ngaykham, "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture),
-                MAPHONG = convertPhongSUB_ID(Phong),
-                NGAYLENLICH = DateTime.ParseExact(Ngaylenlich, "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture),
+                NGAYKHAM = ngayKhamDate,
+                NGAYLENLICH = ngayLenLichDate,
                 CAKHAM  = insert_Ca,
             };
             _db.LICHKHAM.AddObject(newLichkham);
@@ -205,10 +227,9 @@ namespace LTTQ_DoAn.ViewModel
         }
         public AddAppointmentViewModel()
         {
-            loadBacsi();
+            deleteExpiredAppointments();
             loadBenhnhan();
             loadDichvu();
-            loadPhong();
             CancelCommand = new ViewModelCommand(ExecuteCancelCommand, CanExecuteCancelCommand);
             ConfirmAddApointmentCommand = new ViewModelCommand(ExecuteAddCommand, CanExecuteAddCommand);
         }

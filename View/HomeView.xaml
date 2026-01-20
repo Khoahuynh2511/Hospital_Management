@@ -249,15 +249,16 @@
                                            FontWeight="Bold"
                                            FontSize="20"
                                            Foreground="{StaticResource btnActivedText}"
-                                           Margin="0 30 0 0"/>
+                                           Margin="0 30 0 10"/>
                                 <ScrollViewer VerticalScrollBarVisibility="Auto"
                                       HorizontalScrollBarVisibility="Disabled"
-                                      PreviewMouseWheel="ScrollViewer_PreviewMouseWheel"
-                                      CanContentScroll="True">
+                                      MaxHeight="450">
                                     <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                            ScrollViewer.VerticalScrollBarVisibility="Disabled"
                                             BorderBrush="Transparent" Background="White"
                                             HorizontalAlignment="Stretch"
-                                            VerticalAlignment="Stretch" ItemsSource="{Binding ListThuocBanChay}">
+                                            PreviewMouseWheel="ListView_PreviewMouseWheel"
+                                            ItemsSource="{Binding ListThuocBanChay}">
                                         <ListView.ItemsPanel>
                                             <ItemsPanelTemplate>
                                                 <WrapPanel IsItemsHost="True" Orientation="Vertical" />
@@ -361,17 +362,16 @@
                                            FontWeight="Bold"
                                            FontSize="20"
                                            Foreground="{StaticResource btnActivedText}"
-                                           Margin="0 30 0 0"/>
+                                           Margin="0 30 0 10"/>
                                 <ScrollViewer VerticalScrollBarVisibility="Auto"
                                       HorizontalScrollBarVisibility="Disabled"
-                                      PreviewMouseWheel="ScrollViewer_PreviewMouseWheel"
-                                      CanContentScroll="True">
+                                      MaxHeight="450">
                                     <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                            ScrollViewer.VerticalScrollBarVisibility="Disabled"
                                             BorderBrush="Transparent" Background="White"
                                             HorizontalAlignment="Stretch"
-                                            VerticalAlignment="Stretch" ItemsSource="{Binding ListDichVu}"
-                                            
-                                            >
+                                            PreviewMouseWheel="ListView_PreviewMouseWheel"
+                                            ItemsSource="{Binding ListDichVu}">
                                         <ListView.ItemsPanel>
                                             <ItemsPanelTemplate>
                                                 <WrapPanel IsItemsHost="True" Orientation="Vertical" />
@@ -386,8 +386,7 @@
                                             <DataTemplate>
                                                 <Border BorderBrush="{StaticResource btnActivedText}"
                                                     BorderThickness="2 0 0 0"
-                                                    Margin="0 20 0 0"
-                                                    >
+                                                    Margin="0 20 0 0">
                                                     <StackPanel Orientation="Vertical" HorizontalAlignment="Left"
                                                         Margin="10 0 0 0">
                                                         <!--tên dịch vụ-->

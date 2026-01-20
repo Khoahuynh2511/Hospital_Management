@@ -179,10 +179,39 @@ namespace LTTQ_DoAn.ViewModel
             
             try
             {
-                decimal? revenue = _db.BENHAN
+                decimal revenue = 0;
+                var benhAnToday = _db.BENHAN
                     .Where(b => b.NGAYKHAM >= today && b.NGAYKHAM < tomorrow)
-                    .Sum(b => b.THANHTIEN);
-                TodayTotal = revenue ?? 0;
+                    .ToList();
+                
+                foreach (var ba in benhAnToday)
+                {
+                    decimal dichVuTien = ba.DICHVU?.GIATIEN ?? 0;
+                    decimal thuocTien = 0;
+                    
+                    if (ba.DONTHUOC != null)
+                    {
+                        foreach (var dt in ba.DONTHUOC)
+                        {
+                            if (dt.CHITIETDONTHUOC != null)
+                            {
+                                foreach (var ctdt in dt.CHITIETDONTHUOC)
+                                {
+                                    if (ctdt.THUOC != null)
+                                    {
+                                        decimal donGia = ctdt.THUOC.GIATIEN ?? 0;
+                                        double soLuong = ctdt.SOLUONG ?? 0;
+                                        thuocTien += donGia * (decimal)soLuong;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    revenue += dichVuTien + thuocTien;
+                }
+                
+                TodayTotal = revenue;
             }
             catch
             {
@@ -276,7 +305,7 @@ namespace LTTQ_DoAn.ViewModel
                             MessageButtons.OK).ShowDialog();
                         
                         CalculateStats();
-                        OnPropertyChanged(nameof(InvoiceList));
+                        FilterInvoices();
                     }
                     catch (Exception ex)
                     {

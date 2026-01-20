@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -80,28 +80,8 @@ namespace LTTQ_DoAn.ViewModel
 
         void findKhoa()
         {
-            var BenhNhan_Lichkham_Ysi =
-                (from ys in _db.YSI
-                 from bn in _db.BENHNHAN
-                 join lk in _db.LICHKHAM on bn.MABENHNHAN equals lk.MABENHNHAN
-                 where ys.MAYSI == lk.MABACSI
-                 orderby lk.NGAYKHAM descending
-                 select new
-                 {
-                     MaBenhNhan = Benhnhan.MABENHNHAN,
-                     Khoa = ys.MAKHOA, 
-                 }).ToList();
-            int? maKhoa = (from m in BenhNhan_Lichkham_Ysi
-             where m.MaBenhNhan == Benhnhan.MABENHNHAN
-             select m).First().Khoa;
-            if (maKhoa == null)
-            {
-                return;
-            }
-            string? tenKhoa = (from k in _db.KHOA
-                              where k.MAKHOA == maKhoa
-                              select k.TENKHOA).Single();
-            Khoa = tenKhoa;
+            // Method removed - khoa (department) is no longer used
+            Khoa = "";
         }
 
         public ViewVictimViewModel()

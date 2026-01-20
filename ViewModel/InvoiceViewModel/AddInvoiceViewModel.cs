@@ -14,6 +14,7 @@ namespace LTTQ_DoAn.ViewModel
         public decimal DonGia { get; set; }
         public double SoLuong { get; set; }
         public decimal ThanhTien { get; set; }
+        public string GhiChu { get; set; }
     }
 
     public class AddInvoiceViewModel : BaseViewModel
@@ -28,6 +29,8 @@ namespace LTTQ_DoAn.ViewModel
         private string tenBenhNhan;
         private string dichVu;
         private decimal giaDichVu;
+        private string dichVuGhiChu = "";
+        private string donThuocGhiChu = "";
         private List<InvoiceDetailItem> thuocList;
         private decimal tongTien;
         private decimal giamGia;
@@ -87,6 +90,26 @@ namespace LTTQ_DoAn.ViewModel
                 giaDichVu = value;
                 OnPropertyChanged(nameof(GiaDichVu));
                 CalculateTotal();
+            }
+        }
+
+        public string DichVuGhiChu
+        {
+            get => dichVuGhiChu;
+            set
+            {
+                dichVuGhiChu = value;
+                OnPropertyChanged(nameof(DichVuGhiChu));
+            }
+        }
+
+        public string DonThuocGhiChu
+        {
+            get => donThuocGhiChu;
+            set
+            {
+                donThuocGhiChu = value;
+                OnPropertyChanged(nameof(DonThuocGhiChu));
             }
         }
 
@@ -195,11 +218,17 @@ namespace LTTQ_DoAn.ViewModel
         {
             try
             {
+                DateTime today = DateTime.Today;
+                DateTime tomorrow = today.AddDays(1);
+                
                 string query = "SELECT MABENHAN FROM HOADON WHERE MABENHAN IS NOT NULL";
                 var benhAnCoHoaDon = _db.ExecuteStoreQuery<int>(query).ToList();
                 
                 var benhAnChuaCoHoaDon = (from ba in _db.BENHAN
                                          where !benhAnCoHoaDon.Contains(ba.MABENHAN)
+                                         && ba.NGAYKHAM.HasValue
+                                         && ba.NGAYKHAM >= today
+                                         && ba.NGAYKHAM < tomorrow
                                          join bn in _db.BENHNHAN on ba.MABENHNHAN equals bn.MABENHNHAN
                                          orderby ba.NGAYKHAM descending
                                          select new { BenhAn = ba, BenhNhan = bn }).ToList();
@@ -224,7 +253,16 @@ namespace LTTQ_DoAn.ViewModel
         private void LoadBenhAnDetails()
         {
             if (string.IsNullOrEmpty(SelectedBenhAn))
+            {
+                TenBenhNhan = "";
+                DichVu = "";
+                GiaDichVu = 0;
+                DichVuGhiChu = "";
+                DonThuocGhiChu = "";
+                ThuocList = new List<InvoiceDetailItem>();
+                CalculateTotal();
                 return;
+            }
 
             try
             {
@@ -233,6 +271,28 @@ namespace LTTQ_DoAn.ViewModel
 
                 if (currentBenhAn != null)
                 {
+                    DateTime today = DateTime.Today;
+                    DateTime tomorrow = today.AddDays(1);
+                    
+                    if (!currentBenhAn.NGAYKHAM.HasValue || 
+                        currentBenhAn.NGAYKHAM < today || 
+                        currentBenhAn.NGAYKHAM >= tomorrow)
+                    {
+                        new MessageBoxCustom("Thông báo",
+                            "Chỉ được chọn bệnh án có ngày khám là hôm nay!",
+                            MessageType.Warning,
+                            MessageButtons.OK).ShowDialog();
+                        SelectedBenhAn = null;
+                        TenBenhNhan = "";
+                        DichVu = "";
+                        GiaDichVu = 0;
+                        DichVuGhiChu = "";
+                        DonThuocGhiChu = "";
+                        ThuocList = new List<InvoiceDetailItem>();
+                        CalculateTotal();
+                        return;
+                    }
+
                     benhNhan = currentBenhAn.BENHNHAN;
                     TenBenhNhan = benhNhan?.HOTEN ?? "";
 
@@ -247,6 +307,8 @@ namespace LTTQ_DoAn.ViewModel
                         GiaDichVu = 0;
                     }
 
+                    DichVuGhiChu = !string.IsNullOrEmpty(currentBenhAn.KETLUAN) ? currentBenhAn.KETLUAN : "";
+
                     LoadThuocList();
                     CalculateTotal();
                 }
@@ -259,11 +321,18 @@ namespace LTTQ_DoAn.ViewModel
         private void LoadThuocList()
         {
             ThuocList = new List<InvoiceDetailItem>();
+            List<string> allGhiChu = new List<string>();
 
             if (currentBenhAn?.DONTHUOC != null)
             {
                 foreach (var donThuoc in currentBenhAn.DONTHUOC)
                 {
+                    string ghiChuDonThuoc = donThuoc.GHICHU ?? "";
+                    if (!string.IsNullOrWhiteSpace(ghiChuDonThuoc))
+                    {
+                        allGhiChu.Add(ghiChuDonThuoc);
+                    }
+                    
                     if (donThuoc.CHITIETDONTHUOC != null)
                     {
                         foreach (var ct in donThuoc.CHITIETDONTHUOC)
@@ -279,13 +348,16 @@ namespace LTTQ_DoAn.ViewModel
                                     TenThuoc = ct.THUOC.TENTHUOC,
                                     DonGia = donGia,
                                     SoLuong = soLuong,
-                                    ThanhTien = thanhTien
+                                    ThanhTien = thanhTien,
+                                    GhiChu = ghiChuDonThuoc
                                 });
                             }
                         }
                     }
                 }
             }
+
+            DonThuocGhiChu = string.Join("\n\n", allGhiChu);
         }
 
         private void CalculateTotal()

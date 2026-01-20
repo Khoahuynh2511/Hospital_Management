@@ -1,4 +1,4 @@
-﻿<Window x:Class="LTTQ_DoAn.View.ViewAppointment"
+<Window x:Class="LTTQ_DoAn.View.ViewAppointment"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -69,18 +69,8 @@
                                        Text="Tên bệnh nhân:"
                                        />
                             <Border BorderThickness="0 0 0 1" BorderBrush="LightGray">
-                                <TextBlock Style="{StaticResource TextBlockPersonalInfo}" Width="200"
+                                <TextBlock Style="{StaticResource TextBlockPersonalInfo}" Width="250"
                                            Text="{Binding Benhnhan.HOTEN}"/>
-                            </Border>
-                        </StackPanel>
-                        <!--Tên y sĩ-->
-                        <StackPanel Margin="25 0 25 30">
-                            <TextBlock Style="{StaticResource TitlePersonalInfo}"
-                                       Text="Tên y sĩ:"
-                                       />
-                            <Border BorderThickness="0 0 0 1" BorderBrush="LightGray">
-                                <TextBlock Style="{StaticResource TextBlockPersonalInfo}" Width="200"
-                                           Text="{Binding Bacsi}"/>
                             </Border>
                         </StackPanel>
 
@@ -105,25 +95,16 @@
                             </StackPanel>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <!--chức vụ-->
+                            <!--Dịch vụ-->
                             <StackPanel Margin="0 0 25 30">
-                                <TextBlock Style="{StaticResource TitlePersonalInfo}"
-                                   Text="Phòng:"
-                                   />
-                                <Border BorderThickness="0 0 0 1" BorderBrush="LightGray">
-                                    <TextBlock Style="{StaticResource TextBlockPersonalInfo}" Width="130"
-                                               Text="{Binding Phong}"/>
-                                </Border>
-                            </StackPanel>
-                            <!--cấp trên-->
-                            <StackPanel Margin="25 0 25 30">
                                 <TextBlock Style="{StaticResource TitlePersonalInfo}"
                                     Text="Dịch vụ:"/>
                                 <Border BorderThickness="0 0 0 1" BorderBrush="LightGray">
-                                    <TextBlock Style="{StaticResource TextBlockPersonalInfo}" Width="200"
+                                    <TextBlock Style="{StaticResource TextBlockPersonalInfo}" Width="250"
                                                Text="{Binding Dichvu.TENDICHVU}"/>
                                 </Border>
                             </StackPanel>
+                            <!--Ca khám-->
                             <StackPanel Margin="25 0 25 30">
                                 <TextBlock Style="{StaticResource TitlePersonalInfo}"
                                     Text="Ca khám:"/>

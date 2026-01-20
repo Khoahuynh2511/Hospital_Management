@@ -154,6 +154,23 @@ namespace LTTQ_DoAn.ViewModel
             {
                 int patientId = viewModel.SelectedPatientId.Value;
 
+                DateTime today = DateTime.Today;
+                DateTime tomorrow = today.AddDays(1);
+                
+                bool hasAppointmentToday = _db.LICHKHAM
+                    .Any(l => l.MABENHNHAN == patientId && 
+                             l.NGAYKHAM >= today && 
+                             l.NGAYKHAM < tomorrow);
+                
+                if (!hasAppointmentToday)
+                {
+                    new MessageBoxCustom("Thông báo",
+                        "Bệnh nhân này không có lịch khám vào ngày hôm nay!\nChỉ những bệnh nhân có lịch khám hôm nay mới được thêm vào hàng đợi.",
+                        MessageType.Warning,
+                        MessageButtons.OK).ShowDialog();
+                    return;
+                }
+
                 if (_queueRepo.IsPatientInQueue(patientId))
                 {
                     new MessageBoxCustom("Thông báo",

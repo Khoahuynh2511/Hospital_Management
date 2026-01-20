@@ -195,22 +195,49 @@ namespace LTTQ_DoAn.ViewModel
             //câu lệnh thêm ở đây
             try
             {
+                DateTime today = DateTime.Today;
+                
+                if (!string.IsNullOrEmpty(Ngaysinh))
+                {
+                    DateTime ngaySinh = DateTime.ParseExact(Ngaysinh, "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
+                    if (ngaySinh.Date > today)
+                    {
+                        new MessageBoxCustom("Lỗi", 
+                            "Ngày sinh không được lớn hơn ngày hôm nay!",
+                            MessageType.Error,
+                            MessageButtons.OK)
+                            .ShowDialog();
+                        return;
+                    }
+                }
+                
+                if (!string.IsNullOrEmpty(Ngaynhapvien))
+                {
+                    DateTime ngayNhapVien = DateTime.ParseExact(Ngaynhapvien, "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
+                    if (ngayNhapVien.Date < today)
+                    {
+                        new MessageBoxCustom("Lỗi", 
+                            "Ngày đăng ký không được nhỏ hơn ngày hôm nay!",
+                            MessageType.Error,
+                            MessageButtons.OK)
+                            .ShowDialog();
+                        return;
+                    }
+                }
+                
                 insert();
-                //MessageBox.Show("Thêm bệnh nhân mới thành công!");
                 new MessageBoxCustom("Thông báo", "Thêm bệnh nhân mới thành công!", 
                     MessageType.Success, 
                     MessageButtons.OK)
                     .ShowDialog();
-                Application.Current.MainWindow.Close(); // sau khi thêm sẽ đóng cửa sổ
+                Application.Current.MainWindow.Close();
 
             } catch (Exception err)
             {
-                //MessageBox.Show(err.Message);
                 new MessageBoxCustom("Lỗi", err.Message,
                     MessageType.Error,
                     MessageButtons.OK)
                     .ShowDialog();
-                Application.Current.MainWindow.Close(); // sau khi thêm sẽ đóng cửa sổ
             }
         }
         //điều kiện để lệnh thêm được thực hiện: lich khám không có sẵn trong database

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -16,21 +16,11 @@ using System.Windows.Shapes;
 
 namespace LTTQ_DoAn.View
 {
-    /// <summary>
-    /// Interaction logic for Services.xaml
-    /// </summary>
     public partial class Services : UserControl
     {
         public Services()
         {
             InitializeComponent();
-        }
-
-        private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            ScrollViewer scv = (ScrollViewer)sender;
-            scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
-            e.Handled = true;
         }
     }
 }

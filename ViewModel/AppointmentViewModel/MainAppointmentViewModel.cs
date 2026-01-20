@@ -105,9 +105,32 @@ namespace LTTQ_DoAn.ViewModel
                 OnPropertyChanged(nameof(ChangeVisibility));
             }
         }
+        private void deleteExpiredAppointments()
+        {
+            try
+            {
+                DateTime today = DateTime.Today;
+                var expiredAppointments = _db.LICHKHAM.Where(l => l.NGAYKHAM < today).ToList();
+                
+                if (expiredAppointments.Count > 0)
+                {
+                    foreach (var appointment in expiredAppointments)
+                    {
+                        _db.LICHKHAM.DeleteObject(appointment);
+                    }
+                    _db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Error deleting expired appointments: " + ex.Message);
+            }
+        }
+
         private void Load()
         {
             _db = new QUANLYBENHVIENEntities();
+            deleteExpiredAppointments();
             var join_query =
 
             (from dv in _db.DICHVU

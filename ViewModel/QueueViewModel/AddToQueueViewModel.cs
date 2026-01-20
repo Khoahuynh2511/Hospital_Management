@@ -1,4 +1,6 @@
+using LTTQ_DoAn.Model;
 using LTTQ_DoAn.View;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -61,7 +63,19 @@ namespace LTTQ_DoAn.ViewModel
 
         private void LoadPatients()
         {
-            var patients = _db.BENHNHAN.ToList();
+            DateTime today = DateTime.Today;
+            DateTime tomorrow = today.AddDays(1);
+            
+            var patientsWithAppointmentToday = _db.LICHKHAM
+                .Where(l => l.NGAYKHAM >= today && l.NGAYKHAM < tomorrow)
+                .Select(l => l.MABENHNHAN)
+                .Distinct()
+                .ToList();
+            
+            var patients = _db.BENHNHAN
+                .Where(p => patientsWithAppointmentToday.Contains(p.MABENHNHAN))
+                .ToList();
+            
             PatientList = new ObservableCollection<PatientSelectItem>(
                 patients.Select(p => new PatientSelectItem
                 {

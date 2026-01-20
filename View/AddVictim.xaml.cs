@@ -1,4 +1,4 @@
-﻿using LTTQ_DoAn.ViewModel;
+using LTTQ_DoAn.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -38,6 +38,22 @@ namespace LTTQ_DoAn.View
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             WindowState = WindowState.Minimized;
+        }
+
+        private void NgaySinhDatePicker_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (sender is DatePicker datePicker)
+            {
+                datePicker.DisplayDateEnd = DateTime.Today;
+            }
+        }
+
+        private void NgayDangKyDatePicker_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (sender is DatePicker datePicker)
+            {
+                datePicker.DisplayDateStart = DateTime.Today;
+            }
         }
     }
 }

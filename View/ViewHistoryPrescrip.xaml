@@ -1,4 +1,4 @@
-﻿<Window x:Class="LTTQ_DoAn.View.ViewHistoryPrescrip"
+<Window x:Class="LTTQ_DoAn.View.ViewHistoryPrescrip"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -91,15 +91,7 @@
                                                                 Style="{StaticResource InfoText}"/>
                                                     <TextBlock Text="{Binding CHANGED_DATE}"
                                                             Style="{StaticResource InfoText}"
-                                                            Margin="0 0 30 0"
                                                             />
-
-                                                    <TextBlock Text="Khoa: "
-                                                                FontWeight="Bold"
-                                                                Style="{StaticResource InfoText}"/>
-                                                    <TextBlock Text="{Binding KHOA}"
-                                                                Style="{StaticResource InfoText}"
-                                                                />
                                                 </StackPanel>
                                                 <!--triệu chứng-->
                                                 <StackPanel Grid.Row="1" Orientation="Horizontal"

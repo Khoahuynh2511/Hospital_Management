@@ -17,7 +17,9 @@ namespace LTTQ_DoAn.ViewModel
         public bool changeVisibility = true;
         public bool addVisibility = true;
         private List<DICHVU> dichvu;
+        private List<DICHVU> allDichvu;
         private DICHVU selecteddichvu;
+        private string searchText = "";
         public ICommand ChangeServicesCommand { get; }
         public ICommand AddServicesCommand { get; }
         public ICommand DeleteServicesCommand { get; }
@@ -27,6 +29,35 @@ namespace LTTQ_DoAn.ViewModel
             {
                 dichvu = value;
                 OnPropertyChanged(nameof(Dichvu));
+            }
+        }
+
+        public string SearchText
+        {
+            get => searchText;
+            set
+            {
+                searchText = value;
+                OnPropertyChanged(nameof(SearchText));
+                FilterServices();
+            }
+        }
+
+        private void FilterServices()
+        {
+            if (allDichvu == null) return;
+
+            if (string.IsNullOrWhiteSpace(SearchText))
+            {
+                Dichvu = allDichvu.ToList();
+            }
+            else
+            {
+                string searchLower = SearchText.ToLower();
+                Dichvu = allDichvu.Where(d =>
+                    (d.SUB_ID.ToString().Contains(searchLower)) ||
+                    (d.TENDICHVU != null && d.TENDICHVU.ToLower().Contains(searchLower))
+                ).ToList();
             }
         }
         public DICHVU Selecteddichvu
@@ -64,7 +95,8 @@ namespace LTTQ_DoAn.ViewModel
         private void Load()
         {
             _db = new QUANLYBENHVIENEntities();
-            Dichvu = _db.DICHVU.ToList();
+            allDichvu = _db.DICHVU.ToList();
+            FilterServices();
         }
         public ServicesViewModel()
         {

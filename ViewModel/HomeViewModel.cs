@@ -335,11 +335,40 @@ namespace LTTQ_DoAn.ViewModel
             LowStockMedicineCount = _db.THUOC
                 .Count(t => t.SOLUONG < 10);
 
-            // Today revenue
-            decimal? revenue = _db.BENHAN
+            // Today revenue - including service and medicine
+            decimal revenue = 0;
+            var benhAnToday = _db.BENHAN
                 .Where(b => b.NGAYKHAM >= today && b.NGAYKHAM < tomorrow)
-                .Sum(b => b.THANHTIEN);
-            TodayRevenue = revenue ?? 0;
+                .ToList();
+            
+            foreach (var ba in benhAnToday)
+            {
+                decimal dichVuTien = ba.DICHVU?.GIATIEN ?? 0;
+                decimal thuocTien = 0;
+                
+                if (ba.DONTHUOC != null)
+                {
+                    foreach (var dt in ba.DONTHUOC)
+                    {
+                        if (dt.CHITIETDONTHUOC != null)
+                        {
+                            foreach (var ctdt in dt.CHITIETDONTHUOC)
+                            {
+                                if (ctdt.THUOC != null)
+                                {
+                                    decimal donGia = ctdt.THUOC.GIATIEN ?? 0;
+                                    double soLuong = ctdt.SOLUONG ?? 0;
+                                    thuocTien += donGia * (decimal)soLuong;
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                revenue += dichVuTien + thuocTien;
+            }
+            
+            TodayRevenue = revenue;
             OnPropertyChanged(nameof(TodayRevenueFormatted));
         }
 

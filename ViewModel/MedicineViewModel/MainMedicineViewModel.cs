@@ -21,7 +21,9 @@ namespace LTTQ_DoAn.ViewModel
         public bool changeVisibility = true;
         public bool addVisibility = true;
         private List<THUOC> medicine;
+        private List<THUOC> allMedicine;
         private THUOC selectedItem = null;
+        private string searchText = "";
         QUANLYBENHVIENEntities _db;
 
         public List<THUOC> Medicine
@@ -30,6 +32,36 @@ namespace LTTQ_DoAn.ViewModel
             {
                 medicine = value;
                 OnPropertyChanged(nameof(Medicine));
+            }
+        }
+
+        public string SearchText
+        {
+            get => searchText;
+            set
+            {
+                searchText = value;
+                OnPropertyChanged(nameof(SearchText));
+                FilterMedicine();
+            }
+        }
+
+        private void FilterMedicine()
+        {
+            if (allMedicine == null) return;
+
+            if (string.IsNullOrWhiteSpace(SearchText))
+            {
+                Medicine = allMedicine.ToList();
+            }
+            else
+            {
+                string searchLower = SearchText.ToLower();
+                Medicine = allMedicine.Where(m =>
+                    (m.SUB_ID.ToString().Contains(searchLower)) ||
+                    (m.TENTHUOC != null && m.TENTHUOC.ToLower().Contains(searchLower)) ||
+                    (m.DONVITINH != null && m.DONVITINH.ToLower().Contains(searchLower))
+                ).ToList();
             }
         }
         public THUOC SelectedItem
@@ -43,7 +75,8 @@ namespace LTTQ_DoAn.ViewModel
         private void Load()
         {
             _db = new QUANLYBENHVIENEntities();
-            Medicine = _db.THUOC.ToList();
+            allMedicine = _db.THUOC.ToList();
+            FilterMedicine();
         }
         public bool DeleteVisibility
         {
